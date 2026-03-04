@@ -1,0 +1,895 @@
+﻿using AutoMapper;
+using DB.EFModel;
+using DB.Entity;
+using DB.Helper;
+using DB.Model;
+using DB.Profiles;
+using DB.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+
+namespace DB.Repositories
+{
+    public class VendorRepository : RepositoryBase<Vendor, VendorProfileDto>, IVendorRepository
+    {
+
+        private readonly IConfiguration _configuration;
+        public VendorRepository(ProcuraDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration configuration) : base(context, mapper, httpContextAccessor)
+        {
+            _configuration = configuration;
+        }
+
+        /// <summary>
+        /// Unconditionally set current completed step for the vendor.
+        /// Use only when you want to force-set the step.
+        /// </summary>
+        public async Task UpdateStepAsync(int vendorId, VendorRegistrationStep step)
+        {
+            var vendor = await _context.Vendors.FindAsync(vendorId);
+
+            if (vendor == null)
+                throw new Exception("Vendor not found");
+
+            vendor.CurrentStep = step;
+
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Move to next step only when nextStep == current + 1.
+        /// Kept for strict flow enforcement if you need it.
+        /// </summary>
+        public async Task MoveToNextStepAsync(int vendorId, VendorRegistrationStep nextStep)
+        {
+            var vendor = await _context.Vendors.FindAsync(vendorId);
+
+            if (vendor == null)
+                throw new Exception("Vendor not found");
+
+            // Prevent skipping steps
+            if ((int)nextStep != (int)vendor.CurrentStep + 1)
+                throw new Exception("Invalid step flow.");
+
+            vendor.CurrentStep = nextStep;
+
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Advance the vendor's completed step to targetStep if it is a forward move.
+        /// This is idempotent: repeated saves for the same step will not error.
+        /// </summary>
+        private async Task AdvanceStepIfNeededAsync(int vendorId, VendorRegistrationStep targetStep)
+        {
+            var vendor = await _context.Vendors.FindAsync(vendorId);
+            if (vendor == null)
+                throw new Exception("Vendor not found");
+
+            if ((int)vendor.CurrentStep < (int)targetStep)
+            {
+                vendor.CurrentStep = targetStep;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        #region CREATE ACCOUNT
+
+        public async Task<int> CreateVendorAsync(Vendor vendor)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                vendor.CreatedDate = DateTime.UtcNow;
+               
+                vendor.VendorCodeStatus = VendorStatus.Draft.GetDisplayName();
+                vendor.CurrentStep = VendorRegistrationStep.CreateAccount;
+
+                await _context.Vendors.AddAsync(vendor);
+                await _context.SaveChangesAsync();
+
+                await tx.CommitAsync();
+                return vendor.Id;
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region UPDATE PROFILE
+
+        /// <summary>
+        /// Update vendor's scalar/profile fields without blindly replacing navigation collections.
+        /// Returns next step after completing Profile.
+        /// </summary>
+        public async Task<VendorRegistrationStep?> UpdateVendorAsync(Vendor vendor)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                if (!string.IsNullOrEmpty(vendor.Form24AttachmentPath))
+                {
+                    var uploadPath = _configuration["FileSettings:UploadPath"];
+                    string filepath = Path.Combine(uploadPath, $"vendor_{vendor.Id}_form24.pdf");
+                    if (File.Exists(filepath))
+                    {
+                        File.Delete(filepath);
+                    }
+                    SaveBase64ToFile(vendor.Form24AttachmentPath, filepath);
+                    vendor.Form24AttachmentPath = filepath;
+                }
+                var existing = await _context.Vendors.FindAsync(vendor.Id);
+                if (existing == null) throw new Exception("Vendor not found");
+
+                // Update scalar properties only to avoid accidental navigation replacement
+                _context.Entry(existing).CurrentValues.SetValues(new
+                {
+                    vendor.CompanyName,
+                    vendor.DateOfIncorporation,
+                    vendor.Address,
+                    vendor.Postcode,
+                    vendor.State,
+                    vendor.City,
+                    vendor.CountryId,
+                    vendor.OfficePhoneNo,
+                    vendor.FaxNo,
+                    vendor.Email,
+                    vendor.Website,
+                    vendor.IndustryType,
+                    vendor.BusinessCoverageArea,
+                    vendor.PicName,
+                    vendor.PicMobileNo,
+                    vendor.PicEmail,
+                    vendor.Form24AttachmentPath,
+                    vendor.Status,
+                    vendor.CreatedDate,
+                    vendor.PasswordHash,
+                    vendor.RocNumber,
+                    vendor.CompanyEntityType
+                });
+
+                await _context.SaveChangesAsync();
+
+                // mark Profile step completed
+                await AdvanceStepIfNeededAsync(vendor.Id, VendorRegistrationStep.Profile);
+
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+            return ComputeNextStep(VendorRegistrationStep.Profile);
+        }
+
+        #endregion
+        public void SaveBase64ToFile(string base64String, string filePath)
+        {
+            // Remove data:image/png;base64, if exists
+            if (base64String.Contains(","))
+                base64String = base64String.Substring(base64String.IndexOf(",") + 1);
+
+            byte[] fileBytes = Convert.FromBase64String(base64String);
+
+            File.WriteAllBytes(filePath, fileBytes);
+        }
+        #region DELETE
+
+        public async Task DeleteVendorAsync(int vendorId)
+        {
+            var vendor = await _context.Vendors.FindAsync(vendorId);
+            if (vendor == null) return;
+
+            _context.Vendors.Remove(vendor);
+            await _context.SaveChangesAsync();
+        }
+
+        #endregion
+
+        #region GET FULL DETAILS
+
+        public async Task<Vendor?> GetVendorFullDetailsAsync(int vendorId)
+        {
+            return await _context.Vendors
+                .Include(v => v.Shareholders)
+                .Include(v => v.Directors)
+                .Include(v => v.StaffDeclarations)
+                .Include(v => v.VendorFinancial)
+                .Include(v => v.VendorCategories)
+                .Include(v => v.VendorExperiences)
+                .Include(v => v.VendorDeclaration)
+                .Include(v => v.VendorPayment)
+                .FirstOrDefaultAsync(v => v.Id == vendorId);
+        }
+
+        public async Task<Vendor?> GetVendorByIdAsync(int vendorId)
+        {
+            return await _context.Vendors.FindAsync(vendorId);
+        }
+
+        #endregion
+
+        #region SAVE MEMBERS
+
+        /// <summary>
+        /// Upsert shareholders, directors and staff declarations; update or insert manpower.
+        /// Removes database items that are not present in incoming lists (synchronise).
+        /// Returns the next logical step (Members -> next).
+        /// </summary>
+        public async Task<VendorRegistrationStep?> SaveMembersAsync(
+    int vendorId,
+    List<VendorShareholder> shareholders,
+    List<VendorDirector> directors,
+    VendorManpower manpower,
+    List<VendorStaffDeclaration> staffDeclarations)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                // -------------------------
+                // 1️⃣ SHAREHOLDERS (sync)
+                // -------------------------
+                var existingShareholders = await _context.VendorShareholders
+                    .Where(x => x.VendorId == vendorId)
+                    .ToListAsync();
+
+                // update or insert incoming
+                foreach (var incoming in shareholders)
+                {
+                    incoming.VendorId = vendorId;
+                    if (incoming.Id > 0)
+                    {
+                        var exist = existingShareholders.FirstOrDefault(x => x.Id == incoming.Id);
+                        if (exist != null)
+                        {
+                            _context.Entry(exist).CurrentValues.SetValues(incoming);
+                        }
+                        else
+                        {
+                            // Id provided but not found -> treat as new
+                            await _context.VendorShareholders.AddAsync(incoming);
+                        }
+                    }
+                    else
+                    {
+                        await _context.VendorShareholders.AddAsync(incoming);
+                    }
+                }
+
+                // remove those not present in incoming (by Id)
+                var incomingShareholderIds = shareholders.Where(s => s.Id > 0).Select(s => s.Id).ToHashSet();
+                var toRemoveShareholders = existingShareholders.Where(e => !incomingShareholderIds.Contains(e.Id)).ToList();
+                if (toRemoveShareholders.Any())
+                    _context.VendorShareholders.RemoveRange(toRemoveShareholders);
+
+
+                // -------------------------
+                // 2️⃣ DIRECTORS (sync)
+                // -------------------------
+                var existingDirectors = await _context.VendorDirectors
+                    .Where(x => x.VendorId == vendorId)
+                    .ToListAsync();
+
+                foreach (var incoming in directors)
+                {
+                    incoming.VendorId = vendorId;
+                    if (incoming.Id > 0)
+                    {
+                        var exist = existingDirectors.FirstOrDefault(x => x.Id == incoming.Id);
+                        if (exist != null)
+                            _context.Entry(exist).CurrentValues.SetValues(incoming);
+                        else
+                            await _context.VendorDirectors.AddAsync(incoming);
+                    }
+                    else
+                    {
+                        await _context.VendorDirectors.AddAsync(incoming);
+                    }
+                }
+
+                var incomingDirectorIds = directors.Where(d => d.Id > 0).Select(d => d.Id).ToHashSet();
+                var toRemoveDirectors = existingDirectors.Where(e => !incomingDirectorIds.Contains(e.Id)).ToList();
+                if (toRemoveDirectors.Any())
+                    _context.VendorDirectors.RemoveRange(toRemoveDirectors);
+
+
+                // -------------------------
+                // 3️⃣ STAFF DECLARATIONS (sync)
+                // -------------------------
+                var existingStaff = await _context.VendorStaffDeclarations
+                    .Where(x => x.VendorId == vendorId)
+                    .ToListAsync();
+
+                foreach (var incoming in staffDeclarations)
+                {
+                    incoming.VendorId = vendorId;
+                    if (incoming.Id > 0)
+                    {
+                        var exist = existingStaff.FirstOrDefault(x => x.Id == incoming.Id);
+                        if (exist != null)
+                            _context.Entry(exist).CurrentValues.SetValues(incoming);
+                        else
+                            await _context.VendorStaffDeclarations.AddAsync(incoming);
+                    }
+                    else
+                    {
+                        await _context.VendorStaffDeclarations.AddAsync(incoming);
+                    }
+                }
+
+                var incomingStaffIds = staffDeclarations.Where(s => s.Id > 0).Select(s => s.Id).ToHashSet();
+                var toRemoveStaff = existingStaff.Where(e => !incomingStaffIds.Contains(e.Id)).ToList();
+                if (toRemoveStaff.Any())
+                    _context.VendorStaffDeclarations.RemoveRange(toRemoveStaff);
+
+
+                // -------------------------
+                // 4️⃣ MANPOWER (One-to-One upsert)
+                // -------------------------
+                var existingManpower = await _context.VendorManpowers
+                    .FirstOrDefaultAsync(x => x.VendorId == vendorId);
+
+                manpower.VendorId = vendorId;
+
+                if (existingManpower == null)
+                {
+                    await _context.VendorManpowers.AddAsync(manpower);
+                }
+                else
+                {
+                    _context.Entry(existingManpower).CurrentValues.SetValues(manpower);
+                }
+
+
+                // -------------------------
+                // SAVE ALL
+                // -------------------------
+                await _context.SaveChangesAsync();
+
+                // Advance step
+                await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Members);
+
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+            return ComputeNextStep(VendorRegistrationStep.Members);
+        }
+
+
+        #endregion
+
+        #region SAVE FINANCIAL
+
+        public async Task<VendorRegistrationStep?> SaveFinancialAsync(int vendorId, VendorFinancial financial)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                financial.VendorId = vendorId;
+
+                var existing = await _context.VendorFinancials
+                    .FirstOrDefaultAsync(x => x.VendorId == vendorId);
+
+                if (existing == null)
+                    await _context.VendorFinancials.AddAsync(financial);
+                else
+                    _context.Entry(existing).CurrentValues.SetValues(financial);
+
+                await _context.SaveChangesAsync();
+
+                // mark Financial step completed
+                await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Financial);
+
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+            return ComputeNextStep(VendorRegistrationStep.Financial);
+        }
+
+        #endregion
+
+        #region SAVE CATEGORIES (Validation Added)
+
+        public async Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, List<VendorCategory> categories)
+        {
+            if (categories.Count > 2)
+                throw new Exception("Maximum 2 main category codes allowed.");
+
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var existing = await _context.VendorCategories.Where(x => x.VendorId == vendorId).ToListAsync();
+
+                // upsert incoming categories
+                foreach (var incoming in categories)
+                {
+                    incoming.VendorId = vendorId;
+                    if (incoming.Id > 0)
+                    {
+                        var exist = existing.FirstOrDefault(x => x.Id == incoming.Id);
+                        if (exist != null)
+                            _context.Entry(exist).CurrentValues.SetValues(incoming);
+                        else
+                            await _context.VendorCategories.AddAsync(incoming);
+                    }
+                    else
+                    {
+                        await _context.VendorCategories.AddAsync(incoming);
+                    }
+                }
+
+                // remove categories not present in incoming (synchronise)
+                var incomingIds = categories.Where(c => c.Id > 0).Select(c => c.Id).ToHashSet();
+                var toRemove = existing.Where(e => !incomingIds.Contains(e.Id)).ToList();
+                if (toRemove.Any()) _context.VendorCategories.RemoveRange(toRemove);
+
+                await _context.SaveChangesAsync();
+
+                // mark Category step completed
+                await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Category);
+
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+            return ComputeNextStep(VendorRegistrationStep.Category);
+        }
+
+        #endregion
+
+        #region SAVE EXPERIENCE
+
+        public async Task<VendorRegistrationStep?> SaveExperiencesAsync(int vendorId, List<VendorExperience> experiences)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var existing = await _context.VendorExperiences.Where(x => x.VendorId == vendorId).ToListAsync();
+
+                foreach (var incoming in experiences)
+                {
+                    incoming.VendorId = vendorId;
+                    if (incoming.Id > 0)
+                    {
+                        var exist = existing.FirstOrDefault(x => x.Id == incoming.Id);
+                        if (exist != null)
+                            _context.Entry(exist).CurrentValues.SetValues(incoming);
+                        else
+                            await _context.VendorExperiences.AddAsync(incoming);
+                    }
+                    else
+                    {
+                        await _context.VendorExperiences.AddAsync(incoming);
+                    }
+                }
+
+                var incomingIds = experiences.Where(e => e.Id > 0).Select(e => e.Id).ToHashSet();
+                var toRemove = existing.Where(e => !incomingIds.Contains(e.Id)).ToList();
+                if (toRemove.Any()) _context.VendorExperiences.RemoveRange(toRemove);
+
+                await _context.SaveChangesAsync();
+
+                // mark Experience step completed
+                await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Experience);
+
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+            return ComputeNextStep(VendorRegistrationStep.Experience);
+        }
+
+        #endregion
+
+        #region SAVE DECLARATION
+
+        public async Task<VendorRegistrationStep?> SaveDeclarationAsync(int vendorId, VendorDeclaration declaration)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                declaration.VendorId = vendorId;
+
+                var existing = await _context.VendorDeclarations
+                    .FirstOrDefaultAsync(x => x.VendorId == vendorId);
+
+                if (existing == null)
+                    await _context.VendorDeclarations.AddAsync(declaration);
+                else
+                    _context.Entry(existing).CurrentValues.SetValues(declaration);
+
+                await _context.SaveChangesAsync();
+
+                // mark Declaration step completed
+                await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Declaration);
+
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+
+            return ComputeNextStep(VendorRegistrationStep.Declaration);
+        }
+
+        #endregion
+
+        #region SAVE PAYMENT
+
+        // Example payment save - enable if needed and advance step to Payment
+        //public async Task SavePaymentAsync(int vendorId, VendorPayment payment)
+        //{
+        //    using var tx = await _context.Database.BeginTransactionAsync();
+        //    try
+        //    {
+        //        payment.VendorId = vendorId;
+        //        payment.PaidDate = DateTime.UtcNow;
+        //        payment.PaymentStatus = "Paid";
+        //
+        //        await _context.VendorPayments.AddAsync(payment);
+        //        await _context.SaveChangesAsync();
+        //
+        //        await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Payment);
+        //
+        //        await tx.CommitAsync();
+        //    }
+        //    catch
+        //    {
+        //        await tx.RollbackAsync();
+        //        throw;
+        //    }
+        //}
+
+        #endregion
+
+
+        //    var vendor = await _context.Vendors
+        //.Include(v => v.Categories)
+        //    .ThenInclude(c => c.MasterCategory)
+        //        .ThenInclude(m => m.Parent)
+        //.FirstOrDefaultAsync(v => v.Id == vendorId);
+
+        public async Task<VendorRegistrationStep?> SaveVendorCategoryAsync(int vendorId, VendorCategory category)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                category.VendorId = vendorId;
+
+                var existing = await _context.VendorCategories
+                    .FirstOrDefaultAsync(x =>
+                        x.VendorId == vendorId
+                        //&& x.MasterCategoryId == category.MasterCategoryId
+                        );
+
+                if (existing == null)
+                {
+                    await _context.VendorCategories.AddAsync(category);
+                }
+                else
+                {
+                    // Update existing record
+                    _context.Entry(existing).CurrentValues.SetValues(category);
+                }
+
+                await _context.SaveChangesAsync();
+
+                // Mark Category step completed
+                await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Category);
+
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+            return ComputeNextStep(VendorRegistrationStep.Category);
+        }
+
+        public async Task<VendorRegistrationStep?> SaveVendorCategoriesAsync(int vendorId, List<VendorCategory> categories)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var existing = await _context.VendorCategories
+                    .Where(x => x.VendorId == vendorId).ToListAsync();
+
+                // upsert incoming
+                foreach (var incoming in categories)
+                {
+                    incoming.VendorId = vendorId;
+                    if (incoming.Id > 0)
+                    {
+                        var exist = existing.FirstOrDefault(x => x.Id == incoming.Id);
+                        if (exist != null)
+                            _context.Entry(exist).CurrentValues.SetValues(incoming);
+                        else
+                            await _context.VendorCategories.AddAsync(incoming);
+                    }
+                    else
+                    {
+                        await _context.VendorCategories.AddAsync(incoming);
+                    }
+                }
+
+                var incomingIds = categories.Where(c => c.Id > 0).Select(c => c.Id).ToHashSet();
+                var toRemove = existing.Where(e => !incomingIds.Contains(e.Id)).ToList();
+                if (toRemove.Any()) _context.VendorCategories.RemoveRange(toRemove);
+
+                await _context.SaveChangesAsync();
+
+                await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Category);
+
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+            return ComputeNextStep(VendorRegistrationStep.Category);
+        }
+
+        public async Task SaveSSMResponse(string input, string response)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+
+                SSMResponse res = new SSMResponse();
+                res.Input = input;
+                res.Response = response;
+                res.ResponseDateTime = DateTime.Now;
+                _context.SSMResponses.Add(res);
+                await _context.SaveChangesAsync();
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<VendorProfileDto> RegisterVendor(Vendor vendor)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // initialize vendor defaults for registration flow
+                vendor.CreatedDate = DateTime.UtcNow;
+               
+                vendor.VendorCodeStatus = VendorStatus.Draft.GetDisplayName();
+                vendor.CurrentStep = VendorRegistrationStep.CreateAccount;
+                _context.Vendors.Add(vendor);
+                await _context.SaveChangesAsync();
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw new Exception("Error while saving record");
+            }
+            return await GetVendorById(vendor.Id);
+        }
+
+
+        public async Task<VendorProfileDto> GetVendorById(int vendorId)
+        {
+            try
+            {
+                var vendor = await _context.Vendors
+                    .Include(v => v.VendorCategories)
+                        .ThenInclude(c => c.MasterCategory)
+                            .ThenInclude(m => m.Parent)
+                    .FirstOrDefaultAsync(v => v.Id == vendorId);
+                return _mapper.Map<VendorProfileDto>(vendor);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error while retrive record");
+            }
+        }
+
+        private VendorRegistrationStep? ComputeNextStep(VendorRegistrationStep? current)
+        {
+            if (current == null) return VendorRegistrationStep.Profile;
+
+            var values = Enum.GetValues(typeof(VendorRegistrationStep)).Cast<VendorRegistrationStep>().ToArray();
+            var idx = Array.IndexOf(values, current.Value);
+            if (idx >= 0 && idx < values.Length - 1)
+                return values[idx + 1];
+
+            return null; // no next step (already last)
+        }
+
+
+        public async Task<PaymentDetailsDTO> GetPaymentDetailsAsync(int vendorId)
+        {
+            var vendor = await _context.Vendors.FirstOrDefaultAsync(v => v.Id == vendorId);
+            if (vendor != null)
+            {
+                var paymentDetailsDTO = new PaymentDetailsDTO()
+                {
+                    PaymentDescription = vendor.RocNumber + vendor.CompanyName,
+                    Email = vendor.Email,
+                    Amount = 150.00
+                };
+                return paymentDetailsDTO;
+            }
+            return new PaymentDetailsDTO();
+
+
+        }
+
+
+        public async Task<IEnumerable<CompanyCategoryDto>> GetCompanyTypes()
+        {
+            var companyTypes = await _context.companyCategories.Include(x=>x.CompanyEntityType).ToListAsync();
+            return _mapper.Map<IEnumerable<CompanyCategoryDto>>(companyTypes);           
+
+        }
+
+        public async Task<IEnumerable<CompanyCategoryDto>> GetCompanyEntitiesByTypeIdAsync(int TypeId)
+        {
+            var companyTypes = await _context.companyCategories.Where(x=>x.Id== TypeId).Include(x => x.CompanyEntityType).ToListAsync();
+            return _mapper.Map<IEnumerable<CompanyCategoryDto>>(companyTypes);
+
+        }
+
+        public async Task<IEnumerable<VendorProfileDto>> GetVendorListAsync()
+        {
+            var companyTypes = await _context.Vendors.Include(x => x.CompanyEntityType).ToListAsync();
+            return _mapper.Map<IEnumerable<VendorProfileDto>>(companyTypes);
+
+        }
+
+
+        public async Task<VendorProfileDto> GetVendorByVendorIdAsync(int vendorId)
+        {
+            var vendor = await _context.Vendors.Where(x=>x.Id==vendorId).FirstOrDefaultAsync();
+            return _mapper.Map<VendorProfileDto>(vendor);
+
+        }
+
+        //csharp DB\Repositories\VendorRepository.cs
+        public async Task<Vendor?> GetSAPVendorByVendorIdAsync(int vendorId)
+        {
+            try
+            {
+                // Increase command timeout for this read if needed (seconds).
+                // Remove or lower in production if you don't want a longer DB timeout.
+                _context.Database.SetCommandTimeout(60);
+
+                // Return a no-tracking, eagerly loaded Vendor so caller can read nested props
+                // after this method returns without touching a disposed DbContext.
+                return await _context.Vendors
+                    .AsNoTracking()
+                    .Include(v => v.CompanyEntityType)
+                    .Include(v => v.IndustryType)
+                    .Include(v => v.VendorFinancial)
+                        .ThenInclude(f => f.Bank)
+                    .Include(v => v.VendorFinancial)
+                        .ThenInclude(f => f.Tax)
+                    .Include(v => v.VendorBanks)
+                    .Include(v => v.VendorTaxes)
+                    .FirstOrDefaultAsync(v => v.Id == vendorId);
+            }
+            catch (Exception ex)
+            {
+                // Re-throw with context (or log as needed). Avoid swallowing exceptions.
+                throw new Exception($"Error fetching vendor {vendorId} for SAP call: {ex.Message}", ex);
+            }
+        }
+
+        public  VendorProfileDto GetVendorByROCandPasswordAsync(string roc, string password)
+        {
+            var vendor =  _context.Vendors.Where(x => x.RocNumber == roc && x.PasswordHash==password).FirstOrDefault();
+            return _mapper.Map<VendorProfileDto>(vendor);
+
+        }
+
+        public async Task<VendorDashboardDto> GetVendorDashboardAsync()
+        {
+            var vendors = await _context.Vendors
+                .Include(x => x.CompanyEntityType)
+                .ToListAsync();
+
+            var mappedVendors = _mapper.Map<IEnumerable<VendorProfileDto>>(vendors);
+
+            var dashboard = new VendorDashboardDto
+            {
+                Total = vendors.Count,
+                Draft = vendors.Count(x => x.VendorCodeStatus == VendorStatus.Draft.GetDisplayName()),
+                PendingApproval = vendors.Count(x => x.VendorCodeStatus == VendorStatus.PendingApproval.GetDisplayName()),
+                Approved = vendors.Count(x => x.VendorCodeStatus == VendorStatus.Approved.GetDisplayName()),
+                Expired = vendors.Count(x => x.VendorCodeStatus == VendorStatus.Expired.GetDisplayName()),
+                Blacklisted = vendors.Count(x => x.VendorCodeStatus == VendorStatus.Blacklisted.GetDisplayName()),
+
+                Vendors = mappedVendors
+            };
+
+            return dashboard;
+        }
+
+        public async Task<IEnumerable<VendorProfileDto>> GetVendorListAsync(VendorSearchRequest? request)
+        {
+            var query = _context.Vendors
+                .Include(x => x.CompanyEntityType)
+                .AsQueryable();
+
+            if (request != null)
+            {
+                if (request.VendorTypeId.HasValue)
+                    query = query.Where(x => x.CompanyEntityTypeId == request.VendorTypeId.Value);
+
+                if (request.StateId.HasValue)
+                    query = query.Where(x => x.StateId == request.StateId);
+
+                if (request.VendorCodeStatusId.HasValue)
+                    query = query.Where(x => x.VendorCodeStatus == EnumExtensions.GetDisplayNameFromInt<VendorStatus>(request.VendorCodeStatusId.Value));
+
+                
+            }
+
+            var result = await query.ToListAsync();
+            return _mapper.Map<IEnumerable<VendorProfileDto>>(result);
+        }
+
+        public async Task SaveSAPRequestResponseAsync(int VendorId,string request,string response)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var sapRes = new Vendor_SAPRequestResponse
+                {
+                    VendorId= VendorId,
+                    Request = request,
+                    Response = response,
+                    ResponseDateTime = DateTime.UtcNow
+                };
+                await _context.Vendor_SAPRequestResponses.AddAsync(sapRes);
+                await _context.SaveChangesAsync();
+                await tx.CommitAsync();
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+        }
+
+    }
+
+}

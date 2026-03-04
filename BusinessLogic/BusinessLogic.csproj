@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Interfaces\ICardService.cs" />
+    <Compile Remove="Interfaces\ICommunityService.cs" />
+    <Compile Remove="Interfaces\IComplaintService.cs" />
+    <Compile Remove="Interfaces\IEventService.cs" />
+    <Compile Remove="Interfaces\IFacilityBookingService.cs" />
+    <Compile Remove="Interfaces\IFacilityService.cs" />
+    <Compile Remove="Interfaces\IMicrobitService.cs" />
+    <Compile Remove="Interfaces\IReportService.cs" />
+    <Compile Remove="Interfaces\IResidentAccessHistoryService.cs" />
+    <Compile Remove="Interfaces\IResidentService.cs" />
+    <Compile Remove="Interfaces\IResidentUploadHistoryService.cs" />
+    <Compile Remove="Interfaces\IVisitorService.cs" />
+    <Compile Remove="Services\CardService.cs" />
+    <Compile Remove="Services\CommunityService.cs" />
+    <Compile Remove="Services\ComplaintService.cs" />
+    <Compile Remove="Services\EventService.cs" />
+    <Compile Remove="Services\FacilityBookingService.cs" />
+    <Compile Remove="Services\FacilityService.cs" />
+    <Compile Remove="Services\MicrobitService.cs" />
+    <Compile Remove="Services\ReportService.cs" />
+    <Compile Remove="Services\ResidentAccessHistoryService.cs" />
+    <Compile Remove="Services\ResidentService.cs" />
+    <Compile Remove="Services\ResidentUploadHistoryService.cs" />
+    <Compile Remove="Services\VisitorService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DB\DB.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,101 @@
+//Intial Creation
+    //dotnet ef migrations add InitialCreate
+    //dotnet ef database update
+
+
+    //to add new migration
+    //dotnet ef migrations add AddCategoryProductRelation
+
+    //To update to database
+    //dotnet ef database update
+
+
+    //If EF Core doesn't detect the new table, force a migration:
+    //dotnet ef migrations add AddProductsTable --verbose
+
+    //If EF Core doesn't detect the new table, force a migration:
+    //dotnet ef migrations remove
+    //dotnet ef migrations add RefreshSchema
+    //dotnet ef database update
+
+
+
+   //Final Change
+
+    //If EF Core doesn't detect the new table, force a migration:
+    //dotnet ef migrations add AddProductsTable --verbose
+    //dotnet ef database update
+
+
+
+    MIGRATION="2025R1/08.ID-6459/" 
+    FROM_MIGRATION = "20250220050328_AddUsersUpdate_LoginhistoryTable1stoptest1"
+    TO_MIGRATION = "20250220103909_AddProductsTable2 
+
+    --sample with params
+    dotnet ef migrations script -i -o../../ReleaseScripts/$MIGRATION/release.sql $FROM_MIGRATION $TO_MIGRATION
+    dotnet ef migrations script -i -o../../ReleaseScripts/$MIGRATION/rollback.sql $TO_MIGRATION $FROM_MIGRATION
+
+
+
+    --become after formation
+    dotnet ef migrations script -i -o../../ReleaseScripts/2025R1/08.ID-6459/release.sql 20250220050328_AddUsersUpdate_LoginhistoryTable1stoptest1 20250220103909_AddProductsTable2
+    dotnet ef migrations script -i -o../../ReleaseScripts/2025R1/08.ID-6459/rollback.sql 20250220103909_AddProductsTable2 20250220050328_AddUsersUpdate_LoginhistoryTable1stoptest1
+
+    --with full path
+    dotnet ef migrations script -i -o "C:\Users\Srikanth\OneDrive\Documents\Visual Studio 2022\CSA_Core\CSAApi\WebAPI\DB\ReleaseScripts\2025R1\08. ID-6459\release.sql" 20250220103909_AddProductsTable2 20250220110114_AddProductsTable3
+
+    --if still not work use --verbose
+    dotnet ef migrations script -i -o "C:\Users\Srikanth\OneDrive\Documents\Visual Studio 2022\CSA_Core\CSAApi\WebAPI\DB\ReleaseScripts\2025R1\08. ID-6459\release.sql" 20250220103909_AddProductsTable2 20250220110114_AddProductsTable3 --verbose
+
+
+    MIGRATION' should be the next increment in the latest 'OneCard/ReleaseScripts/2024R1 directory.
+    (Or newer release if that is what is currently being prepared.) FROM MIGRATION' and 'TO MIGRATION' 
+    should be the last two migrations from dotnet ef migrations list.
+    The TO MIGRATION' should be your new
+
+
+
+    --OverAllProcess
+
+    For Data Scripts
+    1. Create Migrationhistory with Name of change(Ex: dotnet ef migrations add AddCategoryProductRelation)
+    2. It will create Migration history file with ID(Ex: 20250220050328_AddCategoryProductRelation.cs)
+    3. Then Add insert code in History file in up() method(Ex: migrationBuilder.Sql("INSERT INTO LoginHistory (date, UserName, ip,recaptchascore,response,jwttokenexpirydate,online)" +
+               " VALUES (getdate(), 'JohnDoe1','123','0','Ok' ,getdate(),1)");) Delete scripts need to add in Down() method
+          
+    4.Then run  dotnet ef database update command it will insert data to sql table
+    
+    --How to generate auto generate scripts in folder 
+    1. After above process done use below commands  'dotnet ef migrations list'
+    it will list all migration history take last 2 migration histories and prepare command like below
+
+    -- sample one
+    dotnet ef migrations script -i -o../../ReleaseScripts/$MIGRATION/release.sql $FROM_MIGRATION $TO_MIGRATION
+    dotnet ef migrations script -i -o../../ReleaseScripts/$MIGRATION/rollback.sql $TO_MIGRATION $FROM_MIGRATION
+
+    --using full path
+    dotnet ef migrations script -i -o "C:\Users\Srikanth\OneDrive\Documents\Visual Studio 2022\CSA_Core\CSAApi\WebAPI\DB\ReleaseScripts\2025R1\08. ID-6459\release.sql" 20250220110114_BeforeMigrationfile_From 20250220113532_Lastmigrationfile_To
+    dotnet ef migrations script -i -o "C:\Users\Srikanth\OneDrive\Documents\Visual Studio 2022\CSA_Core\CSAApi\WebAPI\DB\ReleaseScripts\2025R1\08. ID-6459\rollback.sql" 20250220113532_Lastmigrationfile_To 20250220110114_BeforeMigrationfile_From
+
+
+    --For Schema Changes (already have scripts in migration file no need to add like insert)
+
+     1. Create Migrationhistory with Name of change(Ex: dotnet ef migrations add AddCategoryProductRelation)
+     2. It will create Migration history file with ID(Ex: 20250220050328_AddCategoryProductRelation.cs)
+     3. Then run  'dotnet ef database update' command it will insert data to sql table
+
+      --How to generate auto generate scripts in folder 
+    1. After above process done use below commands  'dotnet ef migrations list'
+    it will list all migration history take last 2 migration histories and prepare command like below
+
+    -- sample one
+    dotnet ef migrations script -i -o../../ReleaseScripts/$MIGRATION/release.sql $FROM_MIGRATION $TO_MIGRATION
+    dotnet ef migrations script -i -o../../ReleaseScripts/$MIGRATION/rollback.sql $TO_MIGRATION $FROM_MIGRATION
+
+    --using full path
+    dotnet ef migrations script -i -o "C:\Users\Srikanth\OneDrive\Documents\Visual Studio 2022\CSA_Core\CSAApi\WebAPI\DB\ReleaseScripts\2025R1\08. ID-6459\release.sql" 20250220110114_BeforeMigrationfile_From 20250220113532_Lastmigrationfile_To
+    dotnet ef migrations script -i -o "C:\Users\Srikanth\OneDrive\Documents\Visual Studio 2022\CSA_Core\CSAApi\WebAPI\DB\ReleaseScripts\2025R1\08. ID-6459\rollback.sql" 20250220113532_Lastmigrationfile_To 20250220110114_BeforeMigrationfile_From
+    
+
+    Note: if script runs fine but not working use --verbose
