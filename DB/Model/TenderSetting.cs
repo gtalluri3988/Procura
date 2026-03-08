@@ -1,0 +1,18 @@
+﻿using DB.EFModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DB.EFModel
+{
+    public class TenderSetting:BaseEntity
+    {
+        public int Id { get; set; }
+
+        public int MinCapitalRequired { get; set; }
+
+        public int NegotiationLimit { get; set; }
+    }
+}

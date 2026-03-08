@@ -51,5 +51,7 @@ namespace DB.Repositories.Interfaces
 
         Task<Vendor?> GetSAPVendorByVendorIdAsync(int vendorId);
         Task SaveSAPRequestResponseAsync(int VendorId, string request, string response);
+
+        Task<IEnumerable<IndustryTypeDto>> BindIndustryTypeListAsync();
     }
 }

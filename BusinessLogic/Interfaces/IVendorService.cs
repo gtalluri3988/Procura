@@ -37,5 +37,7 @@ namespace BusinessLogic.Interfaces
         Task<VendorDashboardDto> GetVendorDashboardAsync();
 
         Task<IEnumerable<VendorProfileDto>> GetVendorListAsync(VendorSearchRequest? request);
+
+        Task<IEnumerable<IndustryTypeDto>> BindIndustryTypeListAsync();
     }
 }

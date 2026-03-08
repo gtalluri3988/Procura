@@ -33,6 +33,10 @@ namespace DB
             services.AddAutoMapper(typeof(PaymentResponseProfile));
             services.AddAutoMapper(typeof(VendorProfile));
             services.AddAutoMapper(typeof(CompanyCategoryProfile));
+            services.AddAutoMapper(typeof(IndustryProfile));
+            services.AddAutoMapper(typeof(MaterialBudgetProfile));
+            services.AddAutoMapper(typeof(MaterialBudgetUploadProfile));
+            services.AddAutoMapper(typeof(VendorManagementSettingProfile));
             services.AddScoped<IUserRepository, UserRepository>();      
             services.AddScoped<IDropdownRepository, DropdownRepository>();          
             services.AddScoped<IPasswordPolicyRepository, PasswordPolicyRepository>();
@@ -43,7 +47,7 @@ namespace DB
             services.AddScoped<IPaymentRepository, PaymentRepository>();          
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IVendorRepository, VendorRepository>();
-
+            services.AddScoped<IMasterDataRepository, MasterDataRepository>();
             return services;
         }
     }

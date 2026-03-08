@@ -419,5 +419,13 @@ namespace Procura.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetIndustryTypeList()
+        {
+            var result = await _vendorService.BindIndustryTypeListAsync();
+            return Ok(result);
+        }
+
     }
 }

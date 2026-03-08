@@ -42,7 +42,7 @@ namespace DB.Model
 
         public DbSet<ContentPicture> ContentPictures { get; set; }
 
-        public DbSet<TenderSettings> TenderSettings { get; set; }
+       
         public DbSet<TenderDocument> TenderDocuments { get; set; }
         public DbSet<TenderEvaluationCriteria> TenderEvaluationCriteria { get; set; }
         public DbSet<JobCategory> JobCategories { get; set; }
@@ -89,6 +89,26 @@ namespace DB.Model
         public DbSet<Vendor_SAPRequestResponse> Vendor_SAPRequestResponses { get; set; }
 
         public DbSet<PaymentChannel> PaymentChannel { get; set; }
+
+        public DbSet<TenderJobScope> TenderJobScopes { get; set; }
+        public DbSet<TenderRequiredDocument> TenderRequiredDocuments { get; set; }
+        public DbSet<TenderReview> TenderReviews { get; set; }
+        public DbSet<TenderApproval> TenderApprovals { get; set; }
+
+        public DbSet<TenderApplication> TenderApplications { get; set; }
+
+
+        public DbSet<CodeMaster> CodeMasters { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<TenderSetting> TenderSettings { get; set; }
+        public DbSet<MaterialBudget> MaterialBudgets { get; set; }
+        public DbSet<MaterialBudgetUpload> MaterialBudgetUploads { get; set; }
+
+        public DbSet<CategoryCodeSetting> CategoryCodeSetting { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

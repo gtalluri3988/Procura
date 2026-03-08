@@ -381,6 +381,20 @@ namespace DB.Repositories
             using var tx = await _context.Database.BeginTransactionAsync();
             try
             {
+
+                if (!string.IsNullOrEmpty(financial.LatestBankStatementPath))
+                {
+                    var uploadPath = _configuration["FileSettings:UploadPath"];
+                    string filepath = Path.Combine(uploadPath, $"vendor_{vendorId}_LatestBankStatement.pdf");
+                    if (File.Exists(filepath))
+                    {
+                        File.Delete(filepath);
+                    }
+                    SaveBase64ToFile(financial.LatestBankStatementPath, filepath);
+                    financial.LatestBankStatementPath = filepath;
+                }
+
+
                 financial.VendorId = vendorId;
 
                 var existing = await _context.VendorFinancials
@@ -888,6 +902,13 @@ namespace DB.Repositories
                 await tx.RollbackAsync();
                 throw;
             }
+        }
+
+        public async Task<IEnumerable<IndustryTypeDto>> BindIndustryTypeListAsync()
+        {
+            var companyTypes = await _context.IndustryTypes.ToListAsync();
+            return _mapper.Map<IEnumerable<IndustryTypeDto>>(companyTypes);
+
         }
 
     }

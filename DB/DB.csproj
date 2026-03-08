@@ -28,6 +28,7 @@
     <Compile Include="Repositories\Interfaces\IAdminRepository.cs" />
     <Compile Include="Repositories\Interfaces\IContentRespository.cs" />
     <Compile Include="Repositories\Interfaces\IDropdownRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IMasterDataRepository.cs" />
     <Compile Include="Repositories\Interfaces\IMenuRepository.cs" />
     <Compile Include="Repositories\Interfaces\INotificationRepository.cs" />
     <Compile Include="Repositories\Interfaces\IPasswordPolicyRepository.cs" />
@@ -37,6 +38,7 @@
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IVendorRepository.cs" />
     <Compile Include="Repositories\IRepositoryBase.cs" />
+    <Compile Include="Repositories\MasterDataRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
     <Compile Include="Repositories\NotificationRepository.cs" />
     <Compile Include="Repositories\PasswordPolicyRepository.cs" />

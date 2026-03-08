@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Interfaces;
+﻿using Azure.Core;
+using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using DB.EFModel;
 using DB.Entity;
@@ -435,6 +436,11 @@ namespace BusinessLogic.Services
         public async Task<IEnumerable<VendorProfileDto>> GetVendorListAsync(VendorSearchRequest? request)
         {
             return await _vendorRepository.GetVendorListAsync(request);
+        }
+
+        public async Task<IEnumerable<IndustryTypeDto>> BindIndustryTypeListAsync()
+        {
+            return await _vendorRepository.BindIndustryTypeListAsync();
         }
     }
 }

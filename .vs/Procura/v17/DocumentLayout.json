@@ -1,216 +1,324 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\",
+  "WorkspaceRootPath": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\businesslogic\\services\\realzbapi_createvendorclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\realzbapi_createvendorclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\masterdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\masterdatacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\businesslogic\\services\\sapservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\sapservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\services\\masterdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\masterdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\controllers\\vendorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\interfaces\\imasterdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\interfaces\\imasterdataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\repositories\\interfaces\\imasterdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\repositories\\interfaces\\imasterdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\repositories\\masterdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\repositories\\masterdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\vendorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\vendorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\repositories\\vendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\repositories\\vendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\repositories\\menurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\repositories\\menurepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\entity\\sap\\vendorcreaterequest_sap_dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\sap\\vendorcreaterequest_sap_dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\profiles\\roleprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\profiles\\roleprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\vendormanagementsettingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\vendormanagementsettingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\paymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\vendorfinancialdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\vendorfinancialdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\paymenthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymenthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\contentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\contentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\paymentchannel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymentchannel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\materialbudgetdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\materialbudgetdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\procuradbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\procuradbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\profiles\\materialbudgetuploadprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\profiles\\materialbudgetuploadprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\paymentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\profiles\\materialbudgetprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\profiles\\materialbudgetprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\repositories\\interfaces\\ivendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\materialbudgetuploaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\materialbudgetuploaddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\materialbudget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\materialbudget.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\communitydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\communitydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\tendersetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\tendersetting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\evaluationcriteriadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\evaluationcriteriadto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\jobcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\jobcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\activity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\activity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\codemasterhierarchydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\codemasterhierarchydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\codehierarchydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\codehierarchydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\codemaster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\codemaster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\tenderapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\tenderapplication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\repositories\\interfaces\\ivendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\repositories\\interfaces\\ivendorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\businesslogic\\services\\vendorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\vendorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\repositories\\dropdownrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\repositories\\dropdownrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\businesslogic\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\businesslogic\\interfaces\\ivendorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\interfaces\\ivendorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\controllers\\selectlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\selectlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\entity\\vendordashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\vendordashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\businesslogic\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\selectlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\selectlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\authorizedcsabaseapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\authorizedcsabaseapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\categorysettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\categorysettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\services\\vendorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\vendorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\tenderrequireddocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\tenderrequireddocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\tenderapproval.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\tenderapproval.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\tenderreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\tenderreview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\tenderjobscope.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\tenderjobscope.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\interfaces\\ivendorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\interfaces\\ivendorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\industrytypedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\industrytypedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\industrytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\industrytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\vendor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\vendor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\sap\\vendorcreaterequest_sap_dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\sap\\vendorcreaterequest_sap_dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\services\\sapservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\sapservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\services\\realzbapi_createvendorclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\realzbapi_createvendorclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\paymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\paymenthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymenthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\paymentchannel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymentchannel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\paymentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\paymentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\vendordashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\vendordashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\state.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\state.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\state.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\industrytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\industrytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Srikanth\\AppData\\Local\\SourceServer\\5c1f192c7432381068625494b9c69044c35944d70e32e0ea565eace15d479389\\src\\libraries\\System.Private.CoreLib\\src\\System\\Runtime\\CompilerServices\\TaskAwaiter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\companyentitytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\companyentitytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\companyentitytype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\companycategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\companycategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\companycategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\profiles\\companycategoryprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\profiles\\companycategoryprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\profiles\\companycategoryprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\profiles\\eventprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\profiles\\eventprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\entity\\companycategorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\companycategorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\companycategorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\vendorshareholder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\vendorshareholder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\vendorshareholder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\vendorcreditfacility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\vendorcreditfacility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\vendorcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\vendorcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\vendormanpower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\vendormanpower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\vendormanpower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\vendortax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\vendortax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\vendortax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\entity\\vendorexperiencedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\entity\\vendorexperiencedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\entity\\vendorexperiencedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\migrations\\20260214045545_fixselfreference888112.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\migrations\\20260214045545_fixselfreference888112.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\migrations\\20260214045545_fixselfreference888112.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\businesslogic\\services\\rolemenupermissionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\businesslogic\\services\\rolemenupermissionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C1F9D091-1C6F-4D59-AD94-E6A4FBA5F32A}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\rolemenupermissionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\sitelevel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\sitelevel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\sitelevel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\notificationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\controllers\\contentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\controllers\\contentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\procuradbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\procuradbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\procuradbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{60B24482-8A7C-63EC-C4FF-2A3D975B5E07}|Api\\Procura.csproj|solutionrelative:api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\migrationinfo.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\migrationinfo.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\migrationinfo.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\using.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\using.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\using.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\webhookresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\webhookresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\webhookresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\codehierarchy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\codehierarchy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\profiles\\userprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\profiles\\userprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\profiles\\userprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\visual studio 2022\\procura\\db\\model\\vendormember.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|c:\\users\\srikanth\\onedrive\\documents\\gitsolutions_gtalluri3988\\procura\\procura\\db\\model\\vendormember.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ADFA7CE7-AA7F-41E6-BEC3-D6EDD0EA6C74}|DB\\DB.csproj|solutionrelative:db\\model\\vendormember.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -221,67 +329,638 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RealZBAPI_CREATEVENDORClient.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\RealZBAPI_CREATEVENDORClient.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\Services\\RealZBAPI_CREATEVENDORClient.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\RealZBAPI_CREATEVENDORClient.cs",
-              "RelativeToolTip": "BusinessLogic\\Services\\RealZBAPI_CREATEVENDORClient.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBIAAAAqAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "IMasterDataService.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Interfaces\\IMasterDataService.cs",
+              "RelativeDocumentMoniker": "BusinessLogic\\Interfaces\\IMasterDataService.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Interfaces\\IMasterDataService.cs",
+              "RelativeToolTip": "BusinessLogic\\Interfaces\\IMasterDataService.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAAADwAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T06:37:46.751Z",
+              "WhenOpened": "2026-03-08T06:48:50.653Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "IMasterDataRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\Interfaces\\IMasterDataRepository.cs",
+              "RelativeDocumentMoniker": "DB\\Repositories\\Interfaces\\IMasterDataRepository.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\Interfaces\\IMasterDataRepository.cs",
+              "RelativeToolTip": "DB\\Repositories\\Interfaces\\IMasterDataRepository.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAAADgAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T06:48:33.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "VendorController.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\VendorController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\VendorController.cs",
               "RelativeDocumentMoniker": "Api\\Controllers\\VendorController.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\VendorController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\VendorController.cs",
               "RelativeToolTip": "Api\\Controllers\\VendorController.cs",
-              "ViewState": "AgIAAJABAAAAAAAAAAAAAKEBAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAJEBAAAAAAAAAAAAACwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-28T15:40:58.387Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SAPServices.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\SAPServices.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\Services\\SAPServices.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\SAPServices.cs",
-              "RelativeToolTip": "BusinessLogic\\Services\\SAPServices.cs",
-              "ViewState": "AgIAANoAAAAAAAAAAADwv+gAAAAsAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "MasterDataController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\MasterDataController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\MasterDataController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\MasterDataController.cs",
+              "RelativeToolTip": "Api\\Controllers\\MasterDataController.cs",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAANwAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T16:21:46.969Z",
+              "WhenOpened": "2026-03-07T05:17:45.855Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "MasterDataRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\MasterDataRepository.cs",
+              "RelativeDocumentMoniker": "DB\\Repositories\\MasterDataRepository.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\MasterDataRepository.cs",
+              "RelativeToolTip": "DB\\Repositories\\MasterDataRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T03:40:14.559Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MasterDataService.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\MasterDataService.cs",
+              "RelativeDocumentMoniker": "BusinessLogic\\Services\\MasterDataService.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\MasterDataService.cs",
+              "RelativeToolTip": "BusinessLogic\\Services\\MasterDataService.cs",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAAAJAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T04:36:41.962Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MenuRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\MenuRepository.cs",
+              "RelativeDocumentMoniker": "DB\\Repositories\\MenuRepository.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\MenuRepository.cs",
+              "RelativeToolTip": "DB\\Repositories\\MenuRepository.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAAwC0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T05:16:21.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "VendorManagementSettingDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\VendorManagementSettingDto.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\VendorManagementSettingDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\VendorManagementSettingDto.cs",
+              "RelativeToolTip": "DB\\Entity\\VendorManagementSettingDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T05:13:18.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "VendorFinancialDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\VendorFinancialDto.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\VendorFinancialDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\VendorFinancialDto.cs",
+              "RelativeToolTip": "DB\\Entity\\VendorFinancialDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T05:13:17.406Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RoleProfile.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\RoleProfile.cs",
+              "RelativeDocumentMoniker": "DB\\Profiles\\RoleProfile.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\RoleProfile.cs",
+              "RelativeToolTip": "DB\\Profiles\\RoleProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T03:53:40.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ContentController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\ContentController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\ContentController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\ContentController.cs",
+              "RelativeToolTip": "Api\\Controllers\\ContentController.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAAADkAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-11T17:30:01.857Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MaterialBudgetDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\MaterialBudgetDto.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\MaterialBudgetDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\MaterialBudgetDto.cs",
+              "RelativeToolTip": "DB\\Entity\\MaterialBudgetDto.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAADAAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T03:33:25.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Program.cs",
+              "RelativeDocumentMoniker": "Api\\Program.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Program.cs",
+              "RelativeToolTip": "Api\\Program.cs",
+              "ViewState": "AgIAAKYAAAAAAAAAAAAAALQAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T12:59:02.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MaterialBudgetUploadProfile.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\MaterialBudgetUploadProfile.cs",
+              "RelativeDocumentMoniker": "DB\\Profiles\\MaterialBudgetUploadProfile.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\MaterialBudgetUploadProfile.cs",
+              "RelativeToolTip": "DB\\Profiles\\MaterialBudgetUploadProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T03:54:44.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MaterialBudgetProfile.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\MaterialBudgetProfile.cs",
+              "RelativeDocumentMoniker": "DB\\Profiles\\MaterialBudgetProfile.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\MaterialBudgetProfile.cs",
+              "RelativeToolTip": "DB\\Profiles\\MaterialBudgetProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T03:53:33.715Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MaterialBudgetUploadDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\MaterialBudgetUploadDto.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\MaterialBudgetUploadDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\MaterialBudgetUploadDto.cs",
+              "RelativeToolTip": "DB\\Entity\\MaterialBudgetUploadDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T03:34:29.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "MaterialBudget.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\MaterialBudget.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\MaterialBudget.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\MaterialBudget.cs",
+              "RelativeToolTip": "DB\\Model\\MaterialBudget.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAAC4AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T03:17:35.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CommunityDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\CommunityDTO.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\CommunityDTO.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\CommunityDTO.cs",
+              "RelativeToolTip": "DB\\Entity\\CommunityDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-08T03:21:41.434Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "TenderSetting.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderSetting.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\TenderSetting.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderSetting.cs",
+              "RelativeToolTip": "DB\\Model\\TenderSetting.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T16:30:38.379Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "EvaluationCriteriaDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\EvaluationCriteriaDto.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\EvaluationCriteriaDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\EvaluationCriteriaDto.cs",
+              "RelativeToolTip": "DB\\Entity\\EvaluationCriteriaDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T16:22:26.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Activity.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\Activity.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\Activity.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\Activity.cs",
+              "RelativeToolTip": "DB\\Model\\Activity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:53:06.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "JobCategory.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\JobCategory.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\JobCategory.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\JobCategory.cs",
+              "RelativeToolTip": "DB\\Model\\JobCategory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:04:09.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CodeMasterHierarchyDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\CodeMasterHierarchyDto.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\CodeMasterHierarchyDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\CodeMasterHierarchyDto.cs",
+              "RelativeToolTip": "DB\\Entity\\CodeMasterHierarchyDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T14:08:47.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CodeMaster.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\CodeMaster.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\CodeMaster.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\CodeMaster.cs",
+              "RelativeToolTip": "DB\\Model\\CodeMaster.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T14:03:35.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\Product.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\Product.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\Product.cs",
+              "RelativeToolTip": "DB\\Model\\Product.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAhwBIAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:09:59.426Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "CodeHierarchyDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\CodeHierarchyDto.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\CodeHierarchyDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\CodeHierarchyDto.cs",
+              "RelativeToolTip": "DB\\Entity\\CodeHierarchyDto.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAAAoAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:21:00.215Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "TenderApplication.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderApplication.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\TenderApplication.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderApplication.cs",
+              "RelativeToolTip": "DB\\Model\\TenderApplication.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAAACoAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T04:59:50.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "IVendorRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\Interfaces\\IVendorRepository.cs",
+              "RelativeDocumentMoniker": "DB\\Repositories\\Interfaces\\IVendorRepository.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\Interfaces\\IVendorRepository.cs",
+              "RelativeToolTip": "DB\\Repositories\\Interfaces\\IVendorRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T15:57:35.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "DropdownRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\DropdownRepository.cs",
+              "RelativeDocumentMoniker": "DB\\Repositories\\DropdownRepository.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Repositories\\DropdownRepository.cs",
+              "RelativeToolTip": "DB\\Repositories\\DropdownRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:25:06.945Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "AuthorizedCSABaseAPIController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\AuthorizedCSABaseAPIController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\AuthorizedCSABaseAPIController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\AuthorizedCSABaseAPIController.cs",
+              "RelativeToolTip": "Api\\Controllers\\AuthorizedCSABaseAPIController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:15:46.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Api\\Controllers\\UserController.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAAEkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T12:19:20.716Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "SelectListController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\SelectListController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\SelectListController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\SelectListController.cs",
+              "RelativeToolTip": "Api\\Controllers\\SelectListController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAADAAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T06:35:20.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Api\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAALoAAAAAAAAAAAAAAG4AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T11:46:49.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "CategorySettings.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\CategorySettings.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\CategorySettings.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\CategorySettings.cs",
+              "RelativeToolTip": "DB\\Model\\CategorySettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:04:18.297Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "VendorService.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\VendorService.cs",
+              "RelativeDocumentMoniker": "BusinessLogic\\Services\\VendorService.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\VendorService.cs",
+              "RelativeToolTip": "BusinessLogic\\Services\\VendorService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T12:26:13.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Api\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Api\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAAIAAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T05:55:28.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "TenderRequiredDocument.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderRequiredDocument.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\TenderRequiredDocument.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderRequiredDocument.cs",
+              "RelativeToolTip": "DB\\Model\\TenderRequiredDocument.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:03:16.654Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "TenderApproval.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderApproval.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\TenderApproval.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderApproval.cs",
+              "RelativeToolTip": "DB\\Model\\TenderApproval.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:01:44.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "TenderReview.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderReview.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\TenderReview.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderReview.cs",
+              "RelativeToolTip": "DB\\Model\\TenderReview.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:01:07.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "TenderJobScope.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderJobScope.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\TenderJobScope.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\TenderJobScope.cs",
+              "RelativeToolTip": "DB\\Model\\TenderJobScope.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAAAcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T05:00:34.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "IndustryTypeDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\IndustryTypeDto.cs",
+              "RelativeDocumentMoniker": "DB\\Entity\\IndustryTypeDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\IndustryTypeDto.cs",
+              "RelativeToolTip": "DB\\Entity\\IndustryTypeDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T16:11:21.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "IndustryType.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\IndustryType.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\IndustryType.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\IndustryType.cs",
+              "RelativeToolTip": "DB\\Model\\IndustryType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T06:22:17.415Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "Vendor.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\Vendor.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\Vendor.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\Vendor.cs",
+              "RelativeToolTip": "DB\\Model\\Vendor.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAswEgAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-06T15:05:21.701Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "IVendorService.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Interfaces\\IVendorService.cs",
+              "RelativeDocumentMoniker": "BusinessLogic\\Interfaces\\IVendorService.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Interfaces\\IVendorService.cs",
+              "RelativeToolTip": "BusinessLogic\\Interfaces\\IVendorService.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAwwCgAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-15T04:49:50.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
               "Title": "VendorCreateRequest_SAP_Dto.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Entity\\SAP\\VendorCreateRequest_SAP_Dto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\SAP\\VendorCreateRequest_SAP_Dto.cs",
               "RelativeDocumentMoniker": "DB\\Entity\\SAP\\VendorCreateRequest_SAP_Dto.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Entity\\SAP\\VendorCreateRequest_SAP_Dto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\SAP\\VendorCreateRequest_SAP_Dto.cs",
               "RelativeToolTip": "DB\\Entity\\SAP\\VendorCreateRequest_SAP_Dto.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABMAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-01T05:16:29.104Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 45,
+              "Title": "SAPServices.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\SAPServices.cs",
+              "RelativeDocumentMoniker": "BusinessLogic\\Services\\SAPServices.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\SAPServices.cs",
+              "RelativeToolTip": "BusinessLogic\\Services\\SAPServices.cs",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAmwLcAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T16:21:46.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "RealZBAPI_CREATEVENDORClient.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\RealZBAPI_CREATEVENDORClient.cs",
+              "RelativeDocumentMoniker": "BusinessLogic\\Services\\RealZBAPI_CREATEVENDORClient.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\RealZBAPI_CREATEVENDORClient.cs",
+              "RelativeToolTip": "BusinessLogic\\Services\\RealZBAPI_CREATEVENDORClient.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAswBUAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-28T06:37:46.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "PaymentChannel.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentChannel.cs",
+              "RelativeDocumentMoniker": "DB\\Model\\PaymentChannel.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentChannel.cs",
+              "RelativeToolTip": "DB\\Model\\PaymentChannel.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAwAYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-01T04:13:02.836Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
               "Title": "PaymentController.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\PaymentController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\PaymentController.cs",
               "RelativeDocumentMoniker": "Api\\Controllers\\PaymentController.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\PaymentController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\PaymentController.cs",
               "RelativeToolTip": "Api\\Controllers\\PaymentController.cs",
               "ViewState": "AgIAAOkAAAAAAAAAAAAmwP0AAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -290,179 +969,71 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "PaymentChannel.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentChannel.cs",
-              "RelativeDocumentMoniker": "DB\\Model\\PaymentChannel.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentChannel.cs",
-              "RelativeToolTip": "DB\\Model\\PaymentChannel.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAAwAYAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-01T04:13:02.836Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "VendorRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Repositories\\VendorRepository.cs",
-              "RelativeDocumentMoniker": "DB\\Repositories\\VendorRepository.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Repositories\\VendorRepository.cs",
-              "RelativeToolTip": "DB\\Repositories\\VendorRepository.cs",
-              "ViewState": "AgIAAAMDAAAAAAAAAAAgwBMDAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T15:52:01.09Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 49,
               "Title": "PaymentMethod.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentMethod.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentMethod.cs",
               "RelativeDocumentMoniker": "DB\\Model\\PaymentMethod.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentMethod.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentMethod.cs",
               "RelativeToolTip": "DB\\Model\\PaymentMethod.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T12:44:27.162Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T12:44:27.162Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ProcuraDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\ProcuraDbContext.cs",
-              "RelativeDocumentMoniker": "DB\\Model\\ProcuraDbContext.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\ProcuraDbContext.cs",
-              "RelativeToolTip": "DB\\Model\\ProcuraDbContext.cs",
-              "ViewState": "AgIAAEoAAAAAAAAAAAAAAFoAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T12:36:53.766Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 48,
               "Title": "PaymentRequest.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentRequest.cs",
               "RelativeDocumentMoniker": "DB\\Model\\PaymentRequest.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentRequest.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentRequest.cs",
               "RelativeToolTip": "DB\\Model\\PaymentRequest.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAAAB8AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-01T04:15:59.091Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-01T04:15:59.091Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 50,
               "Title": "PaymentHistory.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentHistory.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentHistory.cs",
               "RelativeDocumentMoniker": "DB\\Model\\PaymentHistory.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentHistory.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentHistory.cs",
               "RelativeToolTip": "DB\\Model\\PaymentHistory.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-01T04:21:59.896Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-01T04:21:59.896Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 52,
               "Title": "PaymentStatus.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentStatus.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentStatus.cs",
               "RelativeDocumentMoniker": "DB\\Model\\PaymentStatus.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\PaymentStatus.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\PaymentStatus.cs",
               "RelativeToolTip": "DB\\Model\\PaymentStatus.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-01T04:16:01.191Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-01T04:16:01.191Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "IVendorRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Repositories\\Interfaces\\IVendorRepository.cs",
-              "RelativeDocumentMoniker": "DB\\Repositories\\Interfaces\\IVendorRepository.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Repositories\\Interfaces\\IVendorRepository.cs",
-              "RelativeToolTip": "DB\\Repositories\\Interfaces\\IVendorRepository.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAA/wDMAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T15:57:35.449Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "IVendorService.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Interfaces\\IVendorService.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\Interfaces\\IVendorService.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Interfaces\\IVendorService.cs",
-              "RelativeToolTip": "BusinessLogic\\Interfaces\\IVendorService.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAADwvyYAAABdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-15T04:49:50.758Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "VendorService.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\VendorService.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\Services\\VendorService.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\VendorService.cs",
-              "RelativeToolTip": "BusinessLogic\\Services\\VendorService.cs",
-              "ViewState": "AgIAAJoBAAAAAAAAAAAYwKoBAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T12:26:13.876Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 54,
               "Title": "BaseEntity.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\BaseEntity.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\BaseEntity.cs",
               "RelativeDocumentMoniker": "DB\\Model\\BaseEntity.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\BaseEntity.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\BaseEntity.cs",
               "RelativeToolTip": "DB\\Model\\BaseEntity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-28T12:39:41.455Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-28T12:39:41.455Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\appsettings.json",
-              "RelativeDocumentMoniker": "DB\\appsettings.json",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\appsettings.json",
-              "RelativeToolTip": "DB\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-23T16:51:26.39Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Api\\Controllers\\UserController.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Api\\Controllers\\UserController.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAYwEkAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T12:19:20.716Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 53,
               "Title": "UserService.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\UserService.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "BusinessLogic\\Services\\UserService.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\UserService.cs",
               "RelativeToolTip": "BusinessLogic\\Services\\UserService.cs",
               "ViewState": "AgIAAKYAAAAAAAAAAAAowLkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -471,11 +1042,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 55,
               "Title": "VendorDashboardDto.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Entity\\VendorDashboardDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\VendorDashboardDto.cs",
               "RelativeDocumentMoniker": "DB\\Entity\\VendorDashboardDto.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Entity\\VendorDashboardDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\VendorDashboardDto.cs",
               "RelativeToolTip": "DB\\Entity\\VendorDashboardDto.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAA4wBEAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -483,23 +1054,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "SelectListController.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\SelectListController.cs",
-              "RelativeDocumentMoniker": "Api\\Controllers\\SelectListController.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\SelectListController.cs",
-              "RelativeToolTip": "Api\\Controllers\\SelectListController.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAuwCsAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T06:35:20.009Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 58,
               "Title": "State.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\State.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\State.cs",
               "RelativeDocumentMoniker": "DB\\Model\\State.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\State.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\State.cs",
               "RelativeToolTip": "DB\\Model\\State.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -507,11 +1066,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 56,
               "Title": "IUserService.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Interfaces\\IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Interfaces\\IUserService.cs",
               "RelativeDocumentMoniker": "BusinessLogic\\Interfaces\\IUserService.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Interfaces\\IUserService.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Interfaces\\IUserService.cs",
               "RelativeToolTip": "BusinessLogic\\Interfaces\\IUserService.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAIA5wBoAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -519,36 +1078,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Api\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Api\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAwwG4AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-13T11:46:49.15Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "IndustryType.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\IndustryType.cs",
-              "RelativeDocumentMoniker": "DB\\Model\\IndustryType.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\IndustryType.cs",
-              "RelativeToolTip": "DB\\Model\\IndustryType.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T06:22:17.415Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 57,
               "Title": "Country.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\Country.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\Country.cs",
               "RelativeDocumentMoniker": "DB\\Model\\Country.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\Country.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\Country.cs",
               "RelativeToolTip": "DB\\Model\\Country.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -556,11 +1090,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 63,
               "Title": "CompanyCategoryDto.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Entity\\CompanyCategoryDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\CompanyCategoryDto.cs",
               "RelativeDocumentMoniker": "DB\\Entity\\CompanyCategoryDto.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Entity\\CompanyCategoryDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\CompanyCategoryDto.cs",
               "RelativeToolTip": "DB\\Entity\\CompanyCategoryDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -568,23 +1102,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "EventProfile.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Profiles\\EventProfile.cs",
-              "RelativeDocumentMoniker": "DB\\Profiles\\EventProfile.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Profiles\\EventProfile.cs",
-              "RelativeToolTip": "DB\\Profiles\\EventProfile.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T04:06:23.684Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 61,
               "Title": "CompanyCategory.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\CompanyCategory.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\CompanyCategory.cs",
               "RelativeDocumentMoniker": "DB\\Model\\CompanyCategory.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\CompanyCategory.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\CompanyCategory.cs",
               "RelativeToolTip": "DB\\Model\\CompanyCategory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -592,23 +1114,23 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 59,
               "Title": "TaskAwaiter.cs",
               "DocumentMoniker": "C:\\Users\\Srikanth\\AppData\\Local\\SourceServer\\5c1f192c7432381068625494b9c69044c35944d70e32e0ea565eace15d479389\\src\\libraries\\System.Private.CoreLib\\src\\System\\Runtime\\CompilerServices\\TaskAwaiter.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\AppData\\Local\\SourceServer\\5c1f192c7432381068625494b9c69044c35944d70e32e0ea565eace15d479389\\src\\libraries\\System.Private.CoreLib\\src\\System\\Runtime\\CompilerServices\\TaskAwaiter.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\AppData\\Local\\SourceServer\\5c1f192c7432381068625494b9c69044c35944d70e32e0ea565eace15d479389\\src\\libraries\\System.Private.CoreLib\\src\\System\\Runtime\\CompilerServices\\TaskAwaiter.cs",
               "ToolTip": "C:\\Users\\Srikanth\\AppData\\Local\\SourceServer\\5c1f192c7432381068625494b9c69044c35944d70e32e0ea565eace15d479389\\src\\libraries\\System.Private.CoreLib\\src\\System\\Runtime\\CompilerServices\\TaskAwaiter.cs",
-              "RelativeToolTip": "..\\..\\..\\..\\AppData\\Local\\SourceServer\\5c1f192c7432381068625494b9c69044c35944d70e32e0ea565eace15d479389\\src\\libraries\\System.Private.CoreLib\\src\\System\\Runtime\\CompilerServices\\TaskAwaiter.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\AppData\\Local\\SourceServer\\5c1f192c7432381068625494b9c69044c35944d70e32e0ea565eace15d479389\\src\\libraries\\System.Private.CoreLib\\src\\System\\Runtime\\CompilerServices\\TaskAwaiter.cs",
               "ViewState": "AgIAAFgBAAAAAAAAAAAhwGkBAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-14T05:04:01.692Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 60,
               "Title": "CompanyEntityType.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\CompanyEntityType.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\CompanyEntityType.cs",
               "RelativeDocumentMoniker": "DB\\Model\\CompanyEntityType.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\CompanyEntityType.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\CompanyEntityType.cs",
               "RelativeToolTip": "DB\\Model\\CompanyEntityType.cs",
               "ViewState": "AgIAAAcAAAAAAAAAAAAkwA8AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -616,11 +1138,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 62,
               "Title": "CompanyCategoryProfile.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Profiles\\CompanyCategoryProfile.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\CompanyCategoryProfile.cs",
               "RelativeDocumentMoniker": "DB\\Profiles\\CompanyCategoryProfile.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Profiles\\CompanyCategoryProfile.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\CompanyCategoryProfile.cs",
               "RelativeToolTip": "DB\\Profiles\\CompanyCategoryProfile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -628,11 +1150,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 66,
               "Title": "VendorTax.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorTax.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\VendorTax.cs",
               "RelativeDocumentMoniker": "DB\\Model\\VendorTax.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorTax.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\VendorTax.cs",
               "RelativeToolTip": "DB\\Model\\VendorTax.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -640,11 +1162,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 64,
               "Title": "VendorShareholder.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorShareholder.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\VendorShareholder.cs",
               "RelativeDocumentMoniker": "DB\\Model\\VendorShareholder.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorShareholder.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\VendorShareholder.cs",
               "RelativeToolTip": "DB\\Model\\VendorShareholder.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAA5wBAAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -652,23 +1174,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "VendorCreditFacility.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorCreditFacility.cs",
-              "RelativeDocumentMoniker": "DB\\Model\\VendorCreditFacility.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorCreditFacility.cs",
-              "RelativeToolTip": "DB\\Model\\VendorCreditFacility.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAuwBAAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T15:24:15.731Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 65,
               "Title": "VendorManpower.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorManpower.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\VendorManpower.cs",
               "RelativeDocumentMoniker": "DB\\Model\\VendorManpower.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorManpower.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\VendorManpower.cs",
               "RelativeToolTip": "DB\\Model\\VendorManpower.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -676,23 +1186,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "VendorCategory.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorCategory.cs",
-              "RelativeDocumentMoniker": "DB\\Model\\VendorCategory.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorCategory.cs",
-              "RelativeToolTip": "DB\\Model\\VendorCategory.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAqwBoAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-15T03:03:43.187Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 67,
               "Title": "VendorExperienceDto.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Entity\\VendorExperienceDto.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\VendorExperienceDto.cs",
               "RelativeDocumentMoniker": "DB\\Entity\\VendorExperienceDto.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Entity\\VendorExperienceDto.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Entity\\VendorExperienceDto.cs",
               "RelativeToolTip": "DB\\Entity\\VendorExperienceDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -700,11 +1198,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 68,
               "Title": "20260214045545_FixSelfReference888112.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Migrations\\20260214045545_FixSelfReference888112.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Migrations\\20260214045545_FixSelfReference888112.cs",
               "RelativeDocumentMoniker": "DB\\Migrations\\20260214045545_FixSelfReference888112.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Migrations\\20260214045545_FixSelfReference888112.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Migrations\\20260214045545_FixSelfReference888112.cs",
               "RelativeToolTip": "DB\\Migrations\\20260214045545_FixSelfReference888112.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -712,23 +1210,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
-              "Title": "AdminController.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\AdminController.cs",
-              "RelativeDocumentMoniker": "Api\\Controllers\\AdminController.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\AdminController.cs",
-              "RelativeToolTip": "Api\\Controllers\\AdminController.cs",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAUwIAAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-14T05:55:28.444Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 69,
               "Title": "RoleMenuPermissionService.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\RoleMenuPermissionService.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\RoleMenuPermissionService.cs",
               "RelativeDocumentMoniker": "BusinessLogic\\Services\\RoleMenuPermissionService.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\BusinessLogic\\Services\\RoleMenuPermissionService.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\BusinessLogic\\Services\\RoleMenuPermissionService.cs",
               "RelativeToolTip": "BusinessLogic\\Services\\RoleMenuPermissionService.cs",
               "ViewState": "AgIAABwAAAAAAAAAAAAswC0AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -736,11 +1222,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 71,
               "Title": "NotificationController.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\NotificationController.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\NotificationController.cs",
               "RelativeDocumentMoniker": "Api\\Controllers\\NotificationController.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\NotificationController.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\Controllers\\NotificationController.cs",
               "RelativeToolTip": "Api\\Controllers\\NotificationController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -748,23 +1234,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
-              "Title": "ContentController.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\ContentController.cs",
-              "RelativeDocumentMoniker": "Api\\Controllers\\ContentController.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\Controllers\\ContentController.cs",
-              "RelativeToolTip": "Api\\Controllers\\ContentController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAACAAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T17:30:01.857Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 70,
               "Title": "SiteLevel.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\SiteLevel.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\SiteLevel.cs",
               "RelativeDocumentMoniker": "DB\\Model\\SiteLevel.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\SiteLevel.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\SiteLevel.cs",
               "RelativeToolTip": "DB\\Model\\SiteLevel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -772,11 +1246,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 73,
               "Title": "appsettings.Development.json",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\appsettings.Development.json",
               "RelativeDocumentMoniker": "Api\\appsettings.Development.json",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\appsettings.Development.json",
               "RelativeToolTip": "Api\\appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -784,11 +1258,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 72,
               "Title": "ProcuraDbContextFactory.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\ProcuraDbContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\ProcuraDbContextFactory.cs",
               "RelativeDocumentMoniker": "DB\\Model\\ProcuraDbContextFactory.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\ProcuraDbContextFactory.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\ProcuraDbContextFactory.cs",
               "RelativeToolTip": "DB\\Model\\ProcuraDbContextFactory.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAMwBkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -796,11 +1270,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 76,
               "Title": "using.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\using.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\using.cs",
               "RelativeDocumentMoniker": "DB\\using.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\using.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\using.cs",
               "RelativeToolTip": "DB\\using.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -808,11 +1282,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 75,
               "Title": "MigrationInfo.txt",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\MigrationInfo.txt",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\MigrationInfo.txt",
               "RelativeDocumentMoniker": "DB\\MigrationInfo.txt",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\MigrationInfo.txt",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\MigrationInfo.txt",
               "RelativeToolTip": "DB\\MigrationInfo.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
@@ -820,11 +1294,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 74,
               "Title": "WeatherForecast.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\WeatherForecast.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\WeatherForecast.cs",
               "RelativeDocumentMoniker": "Api\\WeatherForecast.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\Api\\WeatherForecast.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\Api\\WeatherForecast.cs",
               "RelativeToolTip": "Api\\WeatherForecast.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -832,11 +1306,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 77,
               "Title": "WebHookResponse.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\WebHookResponse.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\WebHookResponse.cs",
               "RelativeDocumentMoniker": "DB\\Model\\WebHookResponse.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\WebHookResponse.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\WebHookResponse.cs",
               "RelativeToolTip": "DB\\Model\\WebHookResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -844,23 +1318,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
-              "Title": "CodeHierarchy.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\CodeHierarchy.cs",
-              "RelativeDocumentMoniker": "DB\\Model\\CodeHierarchy.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\CodeHierarchy.cs",
-              "RelativeToolTip": "DB\\Model\\CodeHierarchy.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAuwBoAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T17:06:03.679Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 78,
               "Title": "UserProfile.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Profiles\\UserProfile.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\UserProfile.cs",
               "RelativeDocumentMoniker": "DB\\Profiles\\UserProfile.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Profiles\\UserProfile.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Profiles\\UserProfile.cs",
               "RelativeToolTip": "DB\\Profiles\\UserProfile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -868,11 +1330,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 79,
               "Title": "VendorMember.cs",
-              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorMember.cs",
+              "DocumentMoniker": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\VendorMember.cs",
               "RelativeDocumentMoniker": "DB\\Model\\VendorMember.cs",
-              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\Visual Studio 2022\\Procura\\DB\\Model\\VendorMember.cs",
+              "ToolTip": "C:\\Users\\Srikanth\\OneDrive\\Documents\\GitSolutions_gtalluri3988\\Procura\\Procura\\DB\\Model\\VendorMember.cs",
               "RelativeToolTip": "DB\\Model\\VendorMember.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

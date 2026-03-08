@@ -81,7 +81,7 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IVendorService, VendorService>();
 
 builder.Services.AddScoped<ISAPServices, SAPServices>();
-
+builder.Services.AddScoped<IMasterDataService, MasterDataService>();
 
 
 bool useSimulator = true;
@@ -177,8 +177,8 @@ if (app.Environment.IsProduction() || app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(@"C:\Uploads\ResidentVehicles"),
-    RequestPath = "/uploads/ResidentVehicles"
+    FileProvider = new PhysicalFileProvider(@"C:\VendorUploads"),
+    RequestPath = "/VendorUploads"
 });
 app.UseCors("AllowAll");
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

@@ -29,3 +29,10 @@ DB/bin/Debug/net7.0/DB.pdb
 /.vs/Api
 /BusinessLogic/bin
 /DB/obj
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log

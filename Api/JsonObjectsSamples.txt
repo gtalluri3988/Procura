@@ -1,0 +1,124 @@
+[
+  {
+    "id": 0,
+    "codeMasterId": 1,
+    "categoryCode": "02",
+    "categoryName": "PERTANIAN",
+    "subCategories": [
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 1,
+        "subCategoryCode": "01",
+        "subCategoryName": "Integrasi Sawit",
+        "activities": [
+          {
+            "id": 0,
+            "subCategoryId": 0,
+            "codeId": 1,
+            "activityCode": "01",
+            "activityName": "Mencuci rumput, Membaja, Menuai, Mengangkut BTB"
+          },
+          {
+            "id": 0,
+            "subCategoryId": 0,
+            "codeId": 1,
+            "activityCode": "02",
+            "activityName": "Memotong Pelepah"
+          }
+        ]
+      },
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 1,
+        "subCategoryCode": "03",
+        "subCategoryName": "Pengeluaran Hasil Pertanian",
+        "activities": []
+      },
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 1,
+        "subCategoryCode": "04",
+        "subCategoryName": "Pembersihan & Penjagaan Ladang",
+        "activities": []
+      }
+    ]
+  },
+  {
+    "id": 0,
+    "codeMasterId": 1,
+    "categoryCode": "03",
+    "categoryName": "PERLADANGAN",
+    "subCategories": []
+  },
+  {
+    "id": 0,
+    "codeMasterId": 1,
+    "categoryCode": "04",
+    "categoryName": "PERIKANAN",
+    "subCategories": []
+  },
+  {
+    "id": 0,
+    "codeMasterId": 2,
+    "categoryCode": "01",
+    "categoryName": "BEKALAN DAN ALAT TULIS",
+    "subCategories": [
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 2,
+        "subCategoryCode": "01",
+        "subCategoryName": "Integrasi Sawit",
+        "activities": [
+          {
+            "id": 0,
+            "subCategoryId": 0,
+            "codeId": 2,
+            "activityCode": "01",
+            "activityName": "Mencuci rumput, Membaja, Menuai, Mengangkut BTB"
+          },
+          {
+            "id": 0,
+            "subCategoryId": 0,
+            "codeId": 2,
+            "activityCode": "02",
+            "activityName": "Memotong Pelepah"
+          }
+        ]
+      },
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 2,
+        "subCategoryCode": "02",
+        "subCategoryName": "Peneluran Hasil Pertanian",
+        "activities": []
+      },
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 2,
+        "subCategoryCode": "03",
+        "subCategoryName": "Pembersihan & Penjagaan Ladang",
+        "activities": []
+      }
+    ]
+  },
+  {
+    "id": 0,
+    "codeMasterId": 2,
+    "categoryCode": "02",
+    "categoryName": "PERTANIAN PERHUTANAN DAN TERNAKAN",
+    "subCategories": []
+  },
+  {
+    "id": 0,
+    "codeMasterId": 2,
+    "categoryCode": "03",
+    "categoryName": "SISTEM MAKLUMAT",
+    "subCategories": []
+  }
+]
