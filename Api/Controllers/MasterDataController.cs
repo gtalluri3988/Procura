@@ -26,6 +26,7 @@ namespace Procura.Controllers
         private static readonly HttpClient client = new HttpClient();
 
 
+
         public MasterDataController(IContentService contentService,
             ICurrentUserService currentUserService,
             IUserService userService, IVendorService vendorService, ISAPServices sapServices,
