@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DB.EFModel
@@ -18,7 +19,7 @@ namespace DB.EFModel
         public int CompletionYear { get; set; }
 
         public string AttachmentPath { get; set; }
-
+        [JsonIgnore]
         public Vendor? Vendor { get; set; }
     }
 

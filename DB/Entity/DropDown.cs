@@ -20,6 +20,14 @@ namespace DB.Entity
         Country,
         RegistrationStatus,
         PaymentChannel,
-        
+        TenderApplicationStatus,
+        TenderCategory,
+        JobCategory,
+        ApplicationLevel,
+        Questionaire,
+        SiteLevel,
+        Designation
+
+
     }
 }

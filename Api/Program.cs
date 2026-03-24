@@ -82,6 +82,8 @@ builder.Services.AddScoped<IVendorService, VendorService>();
 
 builder.Services.AddScoped<ISAPServices, SAPServices>();
 builder.Services.AddScoped<IMasterDataService, MasterDataService>();
+builder.Services.AddScoped<ITenderService, TenderService>();
+builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 
 bool useSimulator = true;

@@ -7,6 +7,8 @@ namespace Api.Models
         public string RedirectTo { get; set; }
 
         public bool? FirstTimeLogin { get; set; }
+        public bool IsRegistrationComplete { get;  set; }
+        public string NextStep { get; set; }
     }
     public class AuthenticationModel
     {

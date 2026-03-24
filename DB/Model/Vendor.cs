@@ -39,9 +39,11 @@ namespace DB.EFModel
         public string? PicEmail { get; set; }
 
         public string? Form24AttachmentPath { get; set; }
-
+        public string? FileName { get; set; }
         public string? VendorCodeStatus { get; set; }
         public string? VendorCode { get; set; }
+
+        public bool? IsRegistrationComplete { get; set; }
 
         public int? RoleId { get; set; }
         public DateTime? RequestDatetime { get; set; }
@@ -63,9 +65,11 @@ namespace DB.EFModel
 
         public ICollection<VendorBank>? VendorBanks { get; set; } = new List<VendorBank>();
 
-        public ICollection<VendorCategory>? VendorCategories { get; set; } = new List<VendorCategory>();
+        public ICollection<VendorCategory> VendorCategories { get; set; } = new List<VendorCategory>();
 
         public ICollection<VendorExperience>? VendorExperiences { get; set; } = new List<VendorExperience>();
+
+        public ICollection<VendorCategoryCertificate>? VendorCategoryCertificates { get; set; } = new List<VendorCategoryCertificate>();
 
         public VendorDeclaration? VendorDeclaration { get; set; }
 

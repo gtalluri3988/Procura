@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -87,7 +88,7 @@ namespace DB.Repositories
             try
             {
                 vendor.CreatedDate = DateTime.UtcNow;
-               
+
                 vendor.VendorCodeStatus = VendorStatus.Draft.GetDisplayName();
                 vendor.CurrentStep = VendorRegistrationStep.CreateAccount;
 
@@ -119,14 +120,59 @@ namespace DB.Repositories
             {
                 if (!string.IsNullOrEmpty(vendor.Form24AttachmentPath))
                 {
-                    var uploadPath = _configuration["FileSettings:UploadPath"];
-                    string filepath = Path.Combine(uploadPath, $"vendor_{vendor.Id}_form24.pdf");
-                    if (File.Exists(filepath))
+                    //var uploadPath = _configuration["FileSettings:UploadPath"];
+                    //string filepath = Path.Combine(uploadPath, $"vendor_{vendor.Id}_form24.pdf");
+                    //if (File.Exists(filepath))
+                    //{
+                    //    File.Delete(filepath);
+                    //}
+                    //SaveBase64ToFile(vendor.Form24AttachmentPath, filepath);
+                    //vendor.Form24AttachmentPath = filepath;
+
+
+
+
+
+                    var uploadRoot = _configuration["FileSettings:UploadPath"];
+                    if (string.IsNullOrWhiteSpace(uploadRoot))
                     {
-                        File.Delete(filepath);
+                        uploadRoot = Path.Combine(Directory.GetCurrentDirectory(), "VendorUploads");
                     }
-                    SaveBase64ToFile(vendor.Form24AttachmentPath, filepath);
-                    vendor.Form24AttachmentPath = filepath;
+                    var certFolder = Path.Combine(uploadRoot, "Vendor");
+                    if (!Directory.Exists(certFolder))
+                        Directory.CreateDirectory(certFolder);
+
+
+
+                    // Heuristic: if contains ',' (data URI) or is long (likely base64), attempt to save.
+                    if (vendor.Form24AttachmentPath.Contains(",") || vendor.Form24AttachmentPath.Length > 200)
+                    {
+                        var safeFileName = $"vendor_{vendor.Id}_vendor_{Guid.NewGuid():N}.pdf";
+                        var fullPath = Path.Combine(certFolder, safeFileName);
+
+                        // overwrite if same file exists is unlikely due to GUID, but remove if present
+                        if (File.Exists(fullPath))
+                            File.Delete(fullPath);
+
+                        SaveBase64ToFile(vendor.Form24AttachmentPath, fullPath);
+
+                        // save relative path for DB
+                        vendor.Form24AttachmentPath = Path.GetRelativePath(uploadRoot, fullPath).Replace("\\", "/");
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
                 var existing = await _context.Vendors.FindAsync(vendor.Id);
                 if (existing == null) throw new Exception("Vendor not found");
@@ -155,7 +201,9 @@ namespace DB.Repositories
                     vendor.CreatedDate,
                     vendor.PasswordHash,
                     vendor.RocNumber,
-                    vendor.CompanyEntityType
+                    vendor.CompanyEntityType,
+                    vendor.IsRegistrationComplete,
+                    vendor.FileName
                 });
 
                 await _context.SaveChangesAsync();
@@ -206,10 +254,22 @@ namespace DB.Repositories
                 .Include(v => v.Directors)
                 .Include(v => v.StaffDeclarations)
                 .Include(v => v.VendorFinancial)
+                .ThenInclude(v => v.Bank)
+                .Include(v => v.VendorFinancial)
+                .ThenInclude(v => v.Tax)
+                .Include(v => v.VendorFinancial)
+                .ThenInclude(v => v.CreditFacilities)
                 .Include(v => v.VendorCategories)
+                .ThenInclude(vc => vc.Category)
+                .Include(v => v.VendorCategories)
+                .ThenInclude(vc => vc.SubCategory)
+                .Include(v => v.VendorCategories)
+                .ThenInclude(vc => vc.Activity)
+                .Include(v => v.VendorCategoryCertificates)
                 .Include(v => v.VendorExperiences)
                 .Include(v => v.VendorDeclaration)
                 .Include(v => v.VendorPayment)
+                .Include(v => v.VendorManpower)
                 .FirstOrDefaultAsync(v => v.Id == vendorId);
         }
 
@@ -241,7 +301,7 @@ namespace DB.Repositories
                 // -------------------------
                 // 1️⃣ SHAREHOLDERS (sync)
                 // -------------------------
-                var existingShareholders = await _context.VendorShareholders
+                var existingShareholders = await _context.VendorShareholder
                     .Where(x => x.VendorId == vendorId)
                     .ToListAsync();
 
@@ -259,12 +319,12 @@ namespace DB.Repositories
                         else
                         {
                             // Id provided but not found -> treat as new
-                            await _context.VendorShareholders.AddAsync(incoming);
+                            await _context.VendorShareholder.AddAsync(incoming);
                         }
                     }
                     else
                     {
-                        await _context.VendorShareholders.AddAsync(incoming);
+                        await _context.VendorShareholder.AddAsync(incoming);
                     }
                 }
 
@@ -272,7 +332,7 @@ namespace DB.Repositories
                 var incomingShareholderIds = shareholders.Where(s => s.Id > 0).Select(s => s.Id).ToHashSet();
                 var toRemoveShareholders = existingShareholders.Where(e => !incomingShareholderIds.Contains(e.Id)).ToList();
                 if (toRemoveShareholders.Any())
-                    _context.VendorShareholders.RemoveRange(toRemoveShareholders);
+                    _context.VendorShareholder.RemoveRange(toRemoveShareholders);
 
 
                 // -------------------------
@@ -308,7 +368,7 @@ namespace DB.Repositories
                 // -------------------------
                 // 3️⃣ STAFF DECLARATIONS (sync)
                 // -------------------------
-                var existingStaff = await _context.VendorStaffDeclarations
+                var existingStaff = await _context.VendorStaffDeclaration
                     .Where(x => x.VendorId == vendorId)
                     .ToListAsync();
 
@@ -321,35 +381,54 @@ namespace DB.Repositories
                         if (exist != null)
                             _context.Entry(exist).CurrentValues.SetValues(incoming);
                         else
-                            await _context.VendorStaffDeclarations.AddAsync(incoming);
+                            await _context.VendorStaffDeclaration.AddAsync(incoming);
                     }
                     else
                     {
-                        await _context.VendorStaffDeclarations.AddAsync(incoming);
+                        await _context.VendorStaffDeclaration.AddAsync(incoming);
                     }
                 }
 
                 var incomingStaffIds = staffDeclarations.Where(s => s.Id > 0).Select(s => s.Id).ToHashSet();
                 var toRemoveStaff = existingStaff.Where(e => !incomingStaffIds.Contains(e.Id)).ToList();
                 if (toRemoveStaff.Any())
-                    _context.VendorStaffDeclarations.RemoveRange(toRemoveStaff);
+                    _context.VendorStaffDeclaration.RemoveRange(toRemoveStaff);
 
 
                 // -------------------------
                 // 4️⃣ MANPOWER (One-to-One upsert)
                 // -------------------------
-                var existingManpower = await _context.VendorManpowers
-                    .FirstOrDefaultAsync(x => x.VendorId == vendorId);
+                //var existingManpower = await _context.VendorManpowers
+                //    .FirstOrDefaultAsync(x => x.VendorId == vendorId);
 
-                manpower.VendorId = vendorId;
+                //manpower.VendorId = vendorId;
+
+                //if (existingManpower == null)
+                //{
+                //    await _context.VendorManpowers.AddAsync(manpower);
+                //}
+                //else
+                //{
+                //    _context.Entry(existingManpower).CurrentValues.SetValues(manpower);
+                //}
+
+                var existingManpower = await _context.VendorManpowers
+    .FirstOrDefaultAsync(x => x.VendorId == vendorId);
 
                 if (existingManpower == null)
                 {
+                    manpower.VendorId = vendorId;
                     await _context.VendorManpowers.AddAsync(manpower);
                 }
                 else
                 {
-                    _context.Entry(existingManpower).CurrentValues.SetValues(manpower);
+                    existingManpower.NoOfBumiputera = manpower.NoOfBumiputera;
+                    existingManpower.NoOfNonBumiputera = manpower.NoOfNonBumiputera;
+                    existingManpower.BumiputeraPercentage = manpower.BumiputeraPercentage;
+                    existingManpower.NonBumiputeraPercentage = manpower.NonBumiputeraPercentage;
+                    existingManpower.TotalManpower = manpower.TotalManpower;
+                    existingManpower.UpdatedBy = manpower.UpdatedBy;
+                    existingManpower.UpdatedDate = DateTime.Now;
                 }
 
 
@@ -376,6 +455,51 @@ namespace DB.Repositories
 
         #region SAVE FINANCIAL
 
+        //public async Task<VendorRegistrationStep?> SaveFinancialAsync(int vendorId, VendorFinancial financial)
+        //{
+        //    using var tx = await _context.Database.BeginTransactionAsync();
+        //    try
+        //    {
+
+        //        if (!string.IsNullOrEmpty(financial.LatestBankStatementPath))
+        //        {
+        //            var uploadPath = _configuration["FileSettings:UploadPath"];
+        //            string filepath = Path.Combine(uploadPath, $"vendor_{vendorId}_LatestBankStatement.pdf");
+        //            if (File.Exists(filepath))
+        //            {
+        //                File.Delete(filepath);
+        //            }
+        //            SaveBase64ToFile(financial.LatestBankStatementPath, filepath);
+        //            financial.LatestBankStatementPath = filepath;
+        //        }
+
+
+        //        financial.VendorId = vendorId;
+
+        //        var existing = await _context.VendorFinancials
+        //            .FirstOrDefaultAsync(x => x.VendorId == vendorId);
+
+        //        if (existing == null)
+        //            await _context.VendorFinancials.AddAsync(financial);
+        //        else
+        //            _context.Entry(existing).CurrentValues.SetValues(financial);
+
+        //        await _context.SaveChangesAsync();
+
+        //        // mark Financial step completed
+        //        await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Financial);
+
+        //        await tx.CommitAsync();
+        //    }
+        //    catch
+        //    {
+        //        await tx.RollbackAsync();
+        //        throw;
+        //    }
+        //    return ComputeNextStep(VendorRegistrationStep.Financial);
+        //}
+
+
         public async Task<VendorRegistrationStep?> SaveFinancialAsync(int vendorId, VendorFinancial financial)
         {
             using var tx = await _context.Database.BeginTransactionAsync();
@@ -401,10 +525,90 @@ namespace DB.Repositories
                     .FirstOrDefaultAsync(x => x.VendorId == vendorId);
 
                 if (existing == null)
+                {
                     await _context.VendorFinancials.AddAsync(financial);
+                }
                 else
+                {
+                    financial.Id = existing.Id; // Ensure we keep the same PK for related entities
                     _context.Entry(existing).CurrentValues.SetValues(financial);
+                }
 
+                // ----- VendorCreditFacility (upsert + sync) -----
+                var creditSet = _context.Set<VendorCreditFacility>();
+                var existingCredits = await creditSet.Where(x => x.VendorId == vendorId).ToListAsync();
+
+                var incomingCredits = financial.CreditFacilities ?? Enumerable.Empty<VendorCreditFacility>();
+                foreach (var incoming in incomingCredits)
+                {
+                    incoming.VendorId = vendorId;
+                    if (incoming.Id > 0)
+                    {
+                        var exist = existingCredits.FirstOrDefault(x => x.Id == incoming.Id);
+                        if (exist != null)
+                            _context.Entry(exist).CurrentValues.SetValues(incoming);
+                        else
+                            await creditSet.AddAsync(incoming);
+                    }
+                    else
+                    {
+                        await creditSet.AddAsync(incoming);
+                    }
+                }
+
+                var incomingCreditIds = incomingCredits.Where(c => c.Id > 0).Select(c => c.Id).ToHashSet();
+                var toRemoveCredits = existingCredits.Where(e => !incomingCreditIds.Contains(e.Id)).ToList();
+                if (toRemoveCredits.Any()) creditSet.RemoveRange(toRemoveCredits);
+
+                // ----- VendorTax (single upsert or remove) -----
+                var taxSet = _context.Set<VendorTax>();
+                var existingTax = await taxSet.FirstOrDefaultAsync(x => x.VendorId == vendorId);
+
+                if (financial.Tax != null)
+                {
+                    financial.Tax.VendorId = vendorId;
+                    if (existingTax == null)
+                    {
+                        await taxSet.AddAsync(financial.Tax);
+                    }
+                    else
+                    {
+                        financial.Tax.Id = existingTax.Id;
+                        _context.Entry(existingTax).CurrentValues.SetValues(financial.Tax);
+                    }
+                }
+                else
+                {
+                    // If incoming tax is null, remove existing tax (synchronise)
+                    if (existingTax != null)
+                        taxSet.Remove(existingTax);
+                }
+
+                // ----- VendorBank (single upsert or remove) -----
+                var bankSet = _context.Set<VendorBank>();
+                var existingBank = await bankSet.FirstOrDefaultAsync(x => x.VendorId == vendorId);
+
+                if (financial.Bank != null)
+                {
+                    financial.Bank.VendorId = vendorId;
+                    if (existingBank == null)
+                    {
+                        await bankSet.AddAsync(financial.Bank);
+                    }
+                    else
+                    {
+                        financial.Bank.Id = existingBank.Id;
+                        _context.Entry(existingBank).CurrentValues.SetValues(financial.Bank);
+                    }
+                }
+                else
+                {
+                    // If incoming bank is null, remove existing bank (synchronise)
+                    if (existingBank != null)
+                        bankSet.Remove(existingBank);
+                }
+
+                // Persist all changes in one Save
                 await _context.SaveChangesAsync();
 
                 // mark Financial step completed
@@ -424,19 +628,116 @@ namespace DB.Repositories
 
         #region SAVE CATEGORIES (Validation Added)
 
-        public async Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, List<VendorCategory> categories)
+        //public async Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, List<VendorCategory> categories,List<VendorCategoryCertificate> VendorCategoryCertificate)
+        //{
+        //    if (categories.Count > 2)
+        //        throw new Exception("Maximum 2 main category codes allowed.");
+
+        //    using var tx = await _context.Database.BeginTransactionAsync();
+        //    try
+        //    {
+        //        var existing = await _context.VendorCategories.Where(x => x.VendorId == vendorId).ToListAsync();
+
+        //        // upsert incoming categories
+        //        foreach (var incoming in categories)
+        //        {
+        //            incoming.VendorId = vendorId;
+        //            if (incoming.Id > 0)
+        //            {
+        //                var exist = existing.FirstOrDefault(x => x.Id == incoming.Id);
+        //                if (exist != null)
+        //                    _context.Entry(exist).CurrentValues.SetValues(incoming);
+        //                else
+        //                    await _context.VendorCategories.AddAsync(incoming);
+        //            }
+        //            else
+        //            {
+
+
+        //                //if (!string.IsNullOrEmpty(incoming.CertificatePath))
+        //                //{
+        //                //    var uploadRoot = _configuration["FileSettings:UploadPath"];
+
+        //                //    var folderPath = Path.Combine(uploadRoot, "CategoryCodeCertificate");
+
+        //                //    // Create directory if not exists
+        //                //    if (!Directory.Exists(folderPath))
+        //                //    {
+        //                //        Directory.CreateDirectory(folderPath);
+        //                //    }
+
+        //                //    var filePath = Path.Combine(folderPath, $"vendor_{vendorId}_Certificate.pdf");
+
+        //                //    if (File.Exists(filePath))
+        //                //    {
+        //                //        File.Delete(filePath);
+        //                //    }
+
+        //                //    SaveBase64ToFile(incoming.CertificatePath, filePath);
+
+        //                //    // Save relative path instead of full path
+        //                //    incoming.CertificatePath = Path
+        //                //        .GetRelativePath(uploadRoot, filePath)
+        //                //        .Replace("\\", "/");
+        //                //}
+
+
+        //                await _context.VendorCategories.AddAsync(incoming);
+        //            }
+        //        }
+
+        //        // remove categories not present in incoming (synchronise)
+        //        var incomingIds = categories.Where(c => c.Id > 0).Select(c => c.Id).ToHashSet();
+        //        var toRemove = existing.Where(e => !incomingIds.Contains(e.Id)).ToList();
+        //        if (toRemove.Any()) _context.VendorCategories.RemoveRange(toRemove);
+
+        //        await _context.SaveChangesAsync();
+
+        //        // mark Category step completed
+        //        await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Category);
+
+        //        await tx.CommitAsync();
+        //    }
+        //    catch
+        //    {
+        //        await tx.RollbackAsync();
+        //        throw;
+        //    }
+        //    return ComputeNextStep(VendorRegistrationStep.Category);
+        //}
+
+
+
+        public async Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, List<VendorCategory> categories, List<VendorCategoryCertificate> vendorCategoryCertificates)
         {
+            categories ??= new List<VendorCategory>();
+            vendorCategoryCertificates ??= new List<VendorCategoryCertificate>();
+
             if (categories.Count > 2)
                 throw new Exception("Maximum 2 main category codes allowed.");
+
+            var subCategoryValidation = categories
+                                .GroupBy(x => x.CategoryId)
+                                .Where(g => g.Select(x => x.SubCategoryId)
+                                .Distinct()
+                                .Count() > 3)
+                                .ToList();
+
+            if (subCategoryValidation.Any())
+            {
+                throw new Exception("Maximum three (3) SubCategoryId allowed per CategoryId.");
+            }
 
             using var tx = await _context.Database.BeginTransactionAsync();
             try
             {
+                // ----- CATEGORIES (upsert + sync) -----
                 var existing = await _context.VendorCategories.Where(x => x.VendorId == vendorId).ToListAsync();
 
                 // upsert incoming categories
                 foreach (var incoming in categories)
                 {
+
                     incoming.VendorId = vendorId;
                     if (incoming.Id > 0)
                     {
@@ -457,6 +758,64 @@ namespace DB.Repositories
                 var toRemove = existing.Where(e => !incomingIds.Contains(e.Id)).ToList();
                 if (toRemove.Any()) _context.VendorCategories.RemoveRange(toRemove);
 
+                // ----- CERTIFICATES (upsert + sync) -----
+                var certSet = _context.Set<VendorCategoryCertificate>();
+                var existingCerts = await certSet.Where(x => x.VendorId == vendorId).ToListAsync();
+
+                // prepare upload folder
+                var uploadRoot = _configuration["FileSettings:UploadPath"];
+                if (string.IsNullOrWhiteSpace(uploadRoot))
+                {
+                    uploadRoot = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+                }
+                var certFolder = Path.Combine(uploadRoot, "CategoryCodeCertificate");
+                if (!Directory.Exists(certFolder))
+                    Directory.CreateDirectory(certFolder);
+
+                foreach (var incomingCert in vendorCategoryCertificates)
+                {
+                    incomingCert.VendorId = vendorId;
+
+                    // If certificate path is non-empty and looks like base64, save to disk and store relative path
+                    if (!string.IsNullOrEmpty(incomingCert.CertificatePath))
+                    {
+                        // Heuristic: if contains ',' (data URI) or is long (likely base64), attempt to save.
+                        if (incomingCert.CertificatePath.Contains(",") || incomingCert.CertificatePath.Length > 200)
+                        {
+                            var safeFileName = $"vendor_{vendorId}_codemaster_{incomingCert.CodeMasterId}_{Guid.NewGuid():N}.pdf";
+                            var fullPath = Path.Combine(certFolder, safeFileName);
+
+                            // overwrite if same file exists is unlikely due to GUID, but remove if present
+                            if (File.Exists(fullPath))
+                                File.Delete(fullPath);
+
+                            SaveBase64ToFile(incomingCert.CertificatePath, fullPath);
+
+                            // save relative path for DB
+                            incomingCert.CertificatePath = Path.GetRelativePath(uploadRoot, fullPath).Replace("\\", "/");
+                        }
+                        // else assume it's already a stored relative path or URL and keep as-is
+                    }
+
+                    if (incomingCert.Id > 0)
+                    {
+                        var exist = existingCerts.FirstOrDefault(x => x.Id == incomingCert.Id);
+                        if (exist != null)
+                            _context.Entry(exist).CurrentValues.SetValues(incomingCert);
+                        else
+                            await certSet.AddAsync(incomingCert);
+                    }
+                    else
+                    {
+                        await certSet.AddAsync(incomingCert);
+                    }
+                }
+
+                var incomingCertIds = vendorCategoryCertificates.Where(c => c.Id > 0).Select(c => c.Id).ToHashSet();
+                var toRemoveCerts = existingCerts.Where(e => !incomingCertIds.Contains(e.Id)).ToList();
+                if (toRemoveCerts.Any()) certSet.RemoveRange(toRemoveCerts);
+
+                // Persist all changes
                 await _context.SaveChangesAsync();
 
                 // mark Category step completed
@@ -472,6 +831,13 @@ namespace DB.Repositories
             return ComputeNextStep(VendorRegistrationStep.Category);
         }
 
+
+
+
+
+
+
+
         #endregion
 
         #region SAVE EXPERIENCE
@@ -485,14 +851,53 @@ namespace DB.Repositories
 
                 foreach (var incoming in experiences)
                 {
+
+                    if (!string.IsNullOrEmpty(incoming.AttachmentPath))
+                    {
+
+                        var uploadRoot = _configuration["FileSettings:UploadPath"];
+                        if (string.IsNullOrWhiteSpace(uploadRoot))
+                        {
+                            uploadRoot = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
+                        }
+                        var certFolder = Path.Combine(uploadRoot, "Experience");
+                        if (!Directory.Exists(certFolder))
+                            Directory.CreateDirectory(certFolder);
+
+
+
+                        // Heuristic: if contains ',' (data URI) or is long (likely base64), attempt to save.
+                        if (incoming.AttachmentPath.Contains(",") || incoming.AttachmentPath.Length > 200)
+                        {
+                            var safeFileName = $"vendor_{vendorId}_Experience_{Guid.NewGuid():N}.pdf";
+                            var fullPath = Path.Combine(certFolder, safeFileName);
+
+                            // overwrite if same file exists is unlikely due to GUID, but remove if present
+                            if (File.Exists(fullPath))
+                                File.Delete(fullPath);
+
+                            SaveBase64ToFile(incoming.AttachmentPath, fullPath);
+
+                            // save relative path for DB
+                            incoming.AttachmentPath = Path.GetRelativePath(uploadRoot, fullPath).Replace("\\", "/");
+                        }
+                        // else assume it's already a stored relative path or URL and keep as-is
+                    }
+
+
                     incoming.VendorId = vendorId;
                     if (incoming.Id > 0)
                     {
                         var exist = existing.FirstOrDefault(x => x.Id == incoming.Id);
                         if (exist != null)
+                        {
+                            incoming.Id = exist.Id; // Ensure we keep the same PK for related entities
                             _context.Entry(exist).CurrentValues.SetValues(incoming);
+                        }
                         else
+                        {
                             await _context.VendorExperiences.AddAsync(incoming);
+                        }
                     }
                     else
                     {
@@ -703,7 +1108,7 @@ namespace DB.Repositories
             {
                 // initialize vendor defaults for registration flow
                 vendor.CreatedDate = DateTime.UtcNow;
-               
+
                 vendor.VendorCodeStatus = VendorStatus.Draft.GetDisplayName();
                 vendor.CurrentStep = VendorRegistrationStep.CreateAccount;
                 _context.Vendors.Add(vendor);
@@ -725,8 +1130,8 @@ namespace DB.Repositories
             {
                 var vendor = await _context.Vendors
                     .Include(v => v.VendorCategories)
-                        .ThenInclude(c => c.MasterCategory)
-                            .ThenInclude(m => m.Parent)
+                        .ThenInclude(c => c.Category)
+                            .ThenInclude(m => m.SubCategories).ThenInclude(x => x.Activities)
                     .FirstOrDefaultAsync(v => v.Id == vendorId);
                 return _mapper.Map<VendorProfileDto>(vendor);
             }
@@ -770,14 +1175,14 @@ namespace DB.Repositories
 
         public async Task<IEnumerable<CompanyCategoryDto>> GetCompanyTypes()
         {
-            var companyTypes = await _context.companyCategories.Include(x=>x.CompanyEntityType).ToListAsync();
-            return _mapper.Map<IEnumerable<CompanyCategoryDto>>(companyTypes);           
+            var companyTypes = await _context.companyCategories.Include(x => x.CompanyEntityType).ToListAsync();
+            return _mapper.Map<IEnumerable<CompanyCategoryDto>>(companyTypes);
 
         }
 
         public async Task<IEnumerable<CompanyCategoryDto>> GetCompanyEntitiesByTypeIdAsync(int TypeId)
         {
-            var companyTypes = await _context.companyCategories.Where(x=>x.Id== TypeId).Include(x => x.CompanyEntityType).ToListAsync();
+            var companyTypes = await _context.companyCategories.Where(x => x.Id == TypeId).Include(x => x.CompanyEntityType).ToListAsync();
             return _mapper.Map<IEnumerable<CompanyCategoryDto>>(companyTypes);
 
         }
@@ -792,7 +1197,7 @@ namespace DB.Repositories
 
         public async Task<VendorProfileDto> GetVendorByVendorIdAsync(int vendorId)
         {
-            var vendor = await _context.Vendors.Where(x=>x.Id==vendorId).FirstOrDefaultAsync();
+            var vendor = await _context.Vendors.Where(x => x.Id == vendorId).FirstOrDefaultAsync();
             return _mapper.Map<VendorProfileDto>(vendor);
 
         }
@@ -827,9 +1232,9 @@ namespace DB.Repositories
             }
         }
 
-        public  VendorProfileDto GetVendorByROCandPasswordAsync(string roc, string password)
+        public VendorProfileDto GetVendorByROCandPasswordAsync(string roc, string password)
         {
-            var vendor =  _context.Vendors.Where(x => x.RocNumber == roc && x.PasswordHash==password).FirstOrDefault();
+            var vendor = _context.Vendors.Where(x => x.RocNumber == roc && x.PasswordHash == password).FirstOrDefault();
             return _mapper.Map<VendorProfileDto>(vendor);
 
         }
@@ -874,21 +1279,21 @@ namespace DB.Repositories
                 if (request.VendorCodeStatusId.HasValue)
                     query = query.Where(x => x.VendorCodeStatus == EnumExtensions.GetDisplayNameFromInt<VendorStatus>(request.VendorCodeStatusId.Value));
 
-                
+
             }
 
             var result = await query.ToListAsync();
             return _mapper.Map<IEnumerable<VendorProfileDto>>(result);
         }
 
-        public async Task SaveSAPRequestResponseAsync(int VendorId,string request,string response)
+        public async Task SaveSAPRequestResponseAsync(int VendorId, string request, string response)
         {
             using var tx = await _context.Database.BeginTransactionAsync();
             try
             {
                 var sapRes = new Vendor_SAPRequestResponse
                 {
-                    VendorId= VendorId,
+                    VendorId = VendorId,
                     Request = request,
                     Response = response,
                     ResponseDateTime = DateTime.UtcNow
@@ -910,6 +1315,46 @@ namespace DB.Repositories
             return _mapper.Map<IEnumerable<IndustryTypeDto>>(companyTypes);
 
         }
+
+        public async Task SaveQuestionAnswers(int vendorId, List<QuestionAnswerDto> answers)
+        {
+            foreach (var item in answers)
+            {
+                var entity = new QuestionAnswer
+                {
+                    VendorId = vendorId,
+                    QuestionId = item.QuestionId,
+                    Answer = item.Answer,
+                    AnswerDate = DateTime.UtcNow
+                };
+
+                _context.QuestionAnswers.Add(entity);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<QuestionAnswerDto>> GetQuestionAnswersByQuestionnaireId(int questionnaireId, int vendorId)
+        {
+            var result = await _context.Questions
+                .Where(q => q.QuestionnaireId == questionnaireId)
+                .Select(q => new QuestionAnswerDto
+                {
+                    QuestionId = q.Id,
+                    QuestionText = q.QuestionText,
+                    QuestionType=q.QuestionType,
+                    Answer = _context.QuestionAnswers
+                        .Where(a => a.QuestionId == q.Id && a.VendorId == vendorId)
+                        .Select(a => a.Answer)
+                        .FirstOrDefault()
+                })
+                .OrderBy(q => q.QuestionId)
+                .ToListAsync();
+
+            return result;
+        }
+
+        
 
     }
 

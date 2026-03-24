@@ -13,18 +13,21 @@ namespace DB.EFModel
         public int Id { get; set; }
         public int VendorId { get; set; }
 
-        public CategoryType CategoryType { get; set; } // FPMSB / MOF
+        public int CodeMasterId { get; set; }
+        public CodeMaster? CodeMaster { get; set; }
 
-       // Link to master category
-        public int MasterCategoryId { get; set; }
-        public CodeHierarchy MasterCategory { get; set; }
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
 
-        public string CertificatePath { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public int? SubCategoryId { get; set; }
+        public SubCategory? SubCategory { get; set; }
 
-        public int CodeSystemId { get; set; }  // FPMSB / MOF / CIDB
-        //public Vendor? Vendor { get; set; }
+        public int? ActivityId { get; set; }
+        public Activity? Activity { get; set; }
+
+       
+
+       
     }
 
 }

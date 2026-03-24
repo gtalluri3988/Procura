@@ -34,12 +34,12 @@ namespace DB.Entity
         public string PicEmail { get; set; }
         public string? VendorCodeStatus { get; set; }
         public string? VendorCode { get; set; }
-
+        public bool? IsRegistrationComplete { get; set; }
         public bool Status { get; set; }
         public DateTime? RequestDatetime { get; set; }
         public DateTime? ApprovalDatetime { get; set; }
-        public string Form24AttachmentPath { get; set; }
-
+        public string? Form24AttachmentPath { get; set; }
+        public string? FileName { get; set; }
         public int RoleId { get; set; }
         public VendorRegistrationStep? CurrentStep { get; set; }
 

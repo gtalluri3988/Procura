@@ -173,26 +173,26 @@ namespace DB.Migrations.Helpers
                                 <body>
                                   <div class='email-container'>
                                     <div class='header'>
-                                      Community Smart Access
+                                      Procura
                                     </div>
                                     <div class='content'>
                                       <h2>Hello {0},</h2>
-                                      <p>Welcome to Community Smart Access <strong>{1}</strong>. Here are the details for you to login to the Resident portal.</p>
+                                      <p>Welcome to Procura <strong>{1}</strong>. Here are the details for you to login to the Procura portal.</p>
                                       <div class='notification-box'>
                                         <strong>Username:</strong>
                                         <p class='blue-text'>{2}</p>
                                         <strong>Temporary Password:</strong>
                                         <p class='blue-text'>{3}</p>
                                       </div>
-                                      <p>Please click the 'Go to Resident Portal' button and enter your username and temporary password as provided.</p>
+                                      <p>Please click the 'Go to Procura Porta' button and enter your username and temporary password as provided.</p>
                                       <p>For security reasons, you will be prompted to change the password upon your first login.</p>
                                       <div class='button-container'>
-                                        <a href='{4}' class='button' style='color:white;'>Go to Resident Portal</a>
+                                        <a href='{4}' class='button' style='color:white;'>Go to Procura Portal</a>
                                       </div>
                                       <div class='footer'>
                                         <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
                                         <strong>Best regards,</strong>
-                                        <p>The Team at Community Smart Access</p>
+                                        <p>The Team at Procura</p>
                                       </div>
                                     </div>
                                   </div>

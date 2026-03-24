@@ -182,20 +182,41 @@ namespace BusinessLogic.Services
                 case VendorRegistrationStep.Category:
                     {
                         var categories = new List<VendorCategory>();
+                        var categoriesCertificates = new List<VendorCategoryCertificate>();
 
-                        foreach (var dto in request.Categories)
+                        if (request.Categories != null && request.Categories.Count > 0)
                         {
-                            categories.Add(new VendorCategory
+                            foreach (var dto in request.Categories)
                             {
-                                VendorId = vendorId,
-                                MasterCategoryId = dto.MasterCategoryId,
-                                CertificatePath = dto.CertificatePath,
-                                StartDate = dto.StartDate,
-                                EndDate = dto.EndDate
-                            });
+                                categories.Add(new VendorCategory
+                                {
+                                    VendorId = vendorId,
+                                    CodeMasterId = dto.CodeMasterId,
+                                    CategoryId = dto.CategoryId,
+                                    SubCategoryId = dto.SubCategoryId,
+                                    ActivityId = dto.ActivityId,
+                                    //CertificatePath = dto.CertificatePath,
+                                    //StartDate = dto.StartDate,
+                                    //EndDate = dto.EndDate
+                                });
+                            }
+                        }
+                        if (request.VendorCategoryCertificate != null && request.VendorCategoryCertificate.Count > 0)
+                        {
+                            foreach (var dto in request.VendorCategoryCertificate)
+                            {
+                                categoriesCertificates.Add(new VendorCategoryCertificate
+                                {
+                                    VendorId = vendorId,
+                                    CodeMasterId = dto.CodeMasterId,
+                                    CertificatePath = dto.CertificatePath,
+                                    StartDate = dto.StartDate,
+                                    EndDate = dto.EndDate
+                                });
+                            }
                         }
 
-                        await _vendorRepository.SaveCategoriesAsync(vendorId, categories);
+                        await _vendorRepository.SaveCategoriesAsync(vendorId, categories, categoriesCertificates);
                         break;
                     }
 
@@ -260,7 +281,8 @@ namespace BusinessLogic.Services
                 CompanyEntityTypeId = request.CompanyEntityTypeId,
                 RocNumber = request.RocNumber,
                 PasswordHash = request.PasswordHash,
-                RoleId = (int)Roles.Vendor
+                RoleId = (int)Roles.Vendor,
+                
             };
 
             // repository returns the persisted profile DTO (including CurrentStep)
@@ -300,7 +322,16 @@ namespace BusinessLogic.Services
             vendor.Website = request.Website;
             vendor.PicName = request.PicName;
             vendor.PicMobileNo = request.PicMobileNo;
+            vendor.Postcode= request.Postcode;
+            vendor.OfficePhoneNo = request.OfficePhoneNo;
+            vendor.FaxNo = request.FaxNo;
+            vendor.IndustryTypeId = request.IndustryTypeId;
+            vendor.PicEmail = request.PicEmail;
+            vendor.BusinessCoverageArea = request.BusinessCoverageArea;
+            vendor.DateOfIncorporation= request.DateOfIncorporation;
             vendor.Form24AttachmentPath = request.Form24AttachmentPath;
+            vendor.FileName = request.FileName;
+            vendor.IsRegistrationComplete = request.IsRegistrationComplete;
             return await _vendorRepository.UpdateVendorAsync(vendor);
 
         }
@@ -330,6 +361,7 @@ namespace BusinessLogic.Services
             var financial = new VendorFinancial
             {
                 VendorId = vendorId,
+                Id=request.Id,
                 PaidUpCapital = dto.PaidUpCapital,
                 AuthorizedCapital = dto.AuthorizedCapital,
                 WorkingCapital = dto.WorkingCapital,
@@ -341,29 +373,54 @@ namespace BusinessLogic.Services
                 NonBumiputeraEquityPercentage = dto.NonBumiputeraEquityPercentage,
                 RollingCapital = dto.RollingCapital,
                 TotalOverdraft = dto.TotalOverdraft,
-                OthersCredit = dto.OthersCredit
+                OthersCredit = dto.OthersCredit,
+                CreditFacilities=dto.CreditFacilities,
+                LatestBankStatementPath= dto.LatestBankStatementPath,
+                Tax =dto.Tax,
+                Bank=dto.Bank
+                
             };
 
             return await _vendorRepository.SaveFinancialAsync(vendorId, financial);
         }
 
-        public async Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, List<VendorCategoryDto> request)
+        public async Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, VendorCategoryRequest request)
         {
             var categories = new List<VendorCategory>();
+            var categoriesCertificate = new List<VendorCategoryCertificate>();
 
-            foreach (var dto in request)
+            if (request.VendorCategoryDto != null && request.VendorCategoryDto.Count>0)
             {
-                categories.Add(new VendorCategory
+                foreach (var dto in request.VendorCategoryDto)
                 {
-                    VendorId = vendorId,
-                    MasterCategoryId = dto.MasterCategoryId,
-                    CertificatePath = dto.CertificatePath,
-                    StartDate = dto.StartDate,
-                    EndDate = dto.EndDate
-                });
+                    categories.Add(new VendorCategory
+                    {
+                        VendorId = vendorId,
+                        CodeMasterId = dto.CodeMasterId,
+                        CategoryId = dto.CategoryId,
+                        SubCategoryId = dto.SubCategoryId,
+                        ActivityId = dto.ActivityId,
+
+                    });
+                }
             }
 
-            return await _vendorRepository.SaveCategoriesAsync(vendorId, categories);
+            if (request.VendorCategoryCertificateDto != null && request.VendorCategoryCertificateDto.Count > 0)
+            {
+                foreach (var dto in request.VendorCategoryCertificateDto)
+                {
+                    categoriesCertificate.Add(new VendorCategoryCertificate
+                    {
+                        VendorId = vendorId,
+                        CodeMasterId = dto.CodeMasterId,
+                        CertificatePath = dto.CertificatePath,
+                        StartDate = dto.StartDate,
+                        EndDate = dto.EndDate
+                    });
+                }
+            }
+
+            return await _vendorRepository.SaveCategoriesAsync(vendorId, categories, categoriesCertificate);
         }
 
         public async Task<VendorRegistrationStep?> SaveExperiencesAsync(int vendorId, List<VendorExperienceDto> request)
@@ -441,6 +498,21 @@ namespace BusinessLogic.Services
         public async Task<IEnumerable<IndustryTypeDto>> BindIndustryTypeListAsync()
         {
             return await _vendorRepository.BindIndustryTypeListAsync();
+        }
+
+        public async Task<Vendor?> GetVendorFullDetailsAsync(int vendorId)
+        {
+            return await _vendorRepository.GetVendorFullDetailsAsync(vendorId);
+        }
+
+        public async Task SaveQuestionAnswers(int vendorId, List<QuestionAnswerDto> answers)
+        {
+            await _vendorRepository.SaveQuestionAnswers(vendorId, answers);
+        }
+
+        public async Task<List<QuestionAnswerDto>> GetQuestionAnswersByQuestionnaireId(int questionnaireId, int vendorId)
+        {
+             return await _vendorRepository.GetQuestionAnswersByQuestionnaireId(questionnaireId, vendorId);
         }
     }
 }

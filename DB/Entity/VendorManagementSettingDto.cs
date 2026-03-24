@@ -14,6 +14,8 @@ namespace DB.Entity
         public decimal? RegistrationFee { get; set; }          // RM
         public int RegistrationValidityYears { get; set; }    // Years
 
+        public decimal? PurchaseFee { get; set; }
+
         // Renewal
         public decimal? RenewalFee { get; set; }
         public decimal? LateRenewalFee { get; set; }

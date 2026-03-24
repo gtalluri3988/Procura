@@ -62,9 +62,9 @@ namespace DB.Model
         public DbSet<VendorExperience> VendorExperiences { get; set; }
         public DbSet<VendorDeclaration> VendorDeclarations { get; set; }
 
-        public DbSet<VendorShareholder> VendorShareholders { get; set; }
+        public DbSet<VendorShareholder> VendorShareholder { get; set; }
         public DbSet<VendorManpower> VendorManpower { get; set; }
-        public DbSet<VendorStaffDeclaration> VendorStaffDeclarations { get; set; }
+        public DbSet<VendorStaffDeclaration> VendorStaffDeclaration { get; set; }
 
         public DbSet<VendorDirector> VendorDirectors { get; set; }
         
@@ -109,6 +109,39 @@ namespace DB.Model
 
         public DbSet<CategoryCodeSetting> CategoryCodeSetting { get; set; }
 
+        public DbSet<VendorCategoryCertificate> VendorCategoryCertificates { get; set; }
+
+        public DbSet<TenderCategoryCode> TenderCategoryCodes { get; set; }
+        public DbSet<TenderSiteVisit> TenderSiteVisits { get; set; }
+
+        public DbSet<TenderCategory> TenderCategories { get; set; }
+
+        public DbSet<TenderApplicationStatus> TenderApplicationStatus { get; set; }
+
+     
+
+        public DbSet<Announcement> Announcements { get; set; }
+
+        public DbSet<Questionnaire> Questionnaires { get; set; }
+
+        public DbSet<Question> Questions { get; set; }
+
+        public DbSet<Designation> Designations { get; set; }
+
+        public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
+
+        public DbSet<TenderAdvertisementSetting> TenderAdvertisementSettings { get; set; }
+
+        public DbSet<TenderOpeningCommittee> TenderOpeningCommittee { get; set; }
+
+        public DbSet<TenderEvaluationCommittee> TenderEvaluationCommittee { get; set; }
+
+        public DbSet<EvaluationCriteria> EvaluationCriteria { get; set; }
+        public DbSet<TenderEvaluationSpecification> TenderEvaluationSpecifications { get; set; }
+        public DbSet<TenderIssuenceApproval> TenderIssuenceApprovals { get; set; }
+
+
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -146,6 +179,8 @@ namespace DB.Model
         .HasForeignKey(c => c.ParentId)
         .OnDelete(DeleteBehavior.Restrict); // ✅ important
 
+
+
             //modelBuilder.Entity<VendorCategory>()
             //    .HasOne(vc => vc.MasterCategory)
             //    .WithMany(m => m.VendorCategories)
@@ -163,11 +198,23 @@ namespace DB.Model
             //    entity.SetUseSqlOutputClause(false);
             //}
 
-           
-      
+
+            //        modelBuilder.Entity<TenderApproval>()
+            //.HasOne(x => x.ApprovedByUser)
+            //.WithMany()
+            //.HasForeignKey(x => x.ApprovedByUserId)
+            //.OnDelete(DeleteBehavior.NoAction);
+
+            //        modelBuilder.Entity<TenderReview>()
+            //            .HasOne(x => x.ReviewedByUser)
+            //            .WithMany()
+            //            .HasForeignKey(x => x.ReviewedByUserId)
+            //            .OnDelete(DeleteBehavior.NoAction);
 
             // Vendor Entity Types
-            
+
+           
+
         }
     }
 

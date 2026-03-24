@@ -227,7 +227,7 @@ namespace DB.Repositories
                     {
                         Id = c.Id,
                         CodeMasterId = c.CodeMasterId,
-                        CategoryCode = c.CategoryCode,
+                       
                         CategoryName = c.CategoryName,
 
                         SubCategories = c.SubCategories.Select(sc => new SubCategoryDto
@@ -235,7 +235,7 @@ namespace DB.Repositories
                             Id = sc.Id,
                             CategoryId = sc.CategoryId,
 
-                            SubCategoryCode = sc.SubCategoryCode,
+                           
                             SubCategoryName = sc.SubCategoryName,
 
                             Activities = sc.Activities.Select(a => new ActivityDto
@@ -243,7 +243,7 @@ namespace DB.Repositories
                                 Id = a.Id,
                                 SubCategoryId = a.SubCategoryId,
 
-                                ActivityCode = a.ActivityCode,
+                              
                                 ActivityName = a.ActivityName
                             }).ToList()
 
@@ -267,7 +267,7 @@ namespace DB.Repositories
                     {
                         Id = c.Id,
                         CodeMasterId = c.CodeMasterId,
-                        CategoryCode = c.CategoryCode,
+                       
                         CategoryName = c.CategoryName,
 
                         SubCategories = c.SubCategories.Select(sc => new SubCategoryDto
@@ -275,7 +275,7 @@ namespace DB.Repositories
                             Id = sc.Id,
                             CategoryId = sc.CategoryId,
 
-                            SubCategoryCode = sc.SubCategoryCode,
+                           
                             SubCategoryName = sc.SubCategoryName,
 
                             Activities = sc.Activities.Select(a => new ActivityDto
@@ -283,7 +283,7 @@ namespace DB.Repositories
                                 Id = a.Id,
                                 SubCategoryId = a.SubCategoryId,
 
-                                ActivityCode = a.ActivityCode,
+                               
                                 ActivityName = a.ActivityName
                             }).ToList()
 
@@ -294,83 +294,170 @@ namespace DB.Repositories
                 .ToListAsync();
         }
 
+        //public async Task SaveHierarchyAsync(int monthSetting, int YearSetting, List<CategoryDto> categories)
+        //{
+        //    try
+        //    {
+        //        var categorycodesetting = await _context.CategoryCodeSetting.FirstOrDefaultAsync();
+        //        if (categorycodesetting == null)
+        //        {
+        //            var codesetting = new CategoryCodeSetting()
+        //            {
+
+        //                EditCategoryCodeAfterMonth = monthSetting,
+        //                EditCategoryCodeLimitAfterYear = YearSetting
+        //            };
+        //            _context.CategoryCodeSetting.Add(codesetting);
+
+        //        }
+        //        else
+        //        {
+        //            categorycodesetting.EditCategoryCodeAfterMonth = monthSetting;
+        //            categorycodesetting.EditCategoryCodeLimitAfterYear = YearSetting;
+
+        //        }
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch(Exception ex)
+        //    {
+
+        //    }
+
+
+
+        //    foreach (var cat in categories)
+        //        {
+        //            var category = new Category
+        //            {
+        //                CodeMasterId = cat.CodeMasterId,
+
+        //                CategoryName = cat.CategoryName,
+
+        //            };
+
+        //            _context.Categories.Add(category);
+        //            await _context.SaveChangesAsync();
+
+        //            if (cat.SubCategories != null)
+        //            {
+        //                foreach (var sub in cat.SubCategories)
+        //                {
+        //                    var subCategory = new SubCategory
+        //                    {
+        //                        CategoryId = category.Id,
+
+
+        //                        SubCategoryName = sub.SubCategoryName
+        //                    };
+
+        //                    _context.SubCategories.Add(subCategory);
+        //                    await _context.SaveChangesAsync();
+
+        //                    if (sub.Activities != null)
+        //                    {
+        //                        foreach (var act in sub.Activities)
+        //                        {
+        //                            var activity = new Activity
+        //                            {
+        //                                SubCategoryId = subCategory.Id,
+
+
+        //                                ActivityName = act.ActivityName
+        //                            };
+
+        //                            _context.Activities.Add(activity);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //    await _context.SaveChangesAsync();
+        //}
+
+
         public async Task SaveHierarchyAsync(int monthSetting, int YearSetting, List<CategoryDto> categories)
         {
             try
             {
                 var categorycodesetting = await _context.CategoryCodeSetting.FirstOrDefaultAsync();
+
                 if (categorycodesetting == null)
                 {
                     var codesetting = new CategoryCodeSetting()
                     {
-
                         EditCategoryCodeAfterMonth = monthSetting,
                         EditCategoryCodeLimitAfterYear = YearSetting
                     };
-                    _context.CategoryCodeSetting.Add(codesetting);
 
+                    _context.CategoryCodeSetting.Add(codesetting);
                 }
                 else
                 {
                     categorycodesetting.EditCategoryCodeAfterMonth = monthSetting;
                     categorycodesetting.EditCategoryCodeLimitAfterYear = YearSetting;
-
                 }
+
                 await _context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch
             {
-
             }
 
+            // ✅ Remove existing hierarchy
+            var activities = await _context.Activities.ToListAsync();
+            _context.Activities.RemoveRange(activities);
+
+            var subCategories = await _context.SubCategories.ToListAsync();
+            _context.SubCategories.RemoveRange(subCategories);
+
+            var categoriesExisting = await _context.Categories.ToListAsync();
+            _context.Categories.RemoveRange(categoriesExisting);
+
+            await _context.SaveChangesAsync();
 
 
+            // ✅ Insert new hierarchy
             foreach (var cat in categories)
+            {
+                var category = new Category
                 {
-                    var category = new Category
+                    CodeMasterId = cat.CodeMasterId,
+                    CategoryName = cat.CategoryName
+                };
+
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+
+                if (cat.SubCategories != null)
+                {
+                    foreach (var sub in cat.SubCategories)
                     {
-                        CodeMasterId = cat.CodeMasterId,
-                        CategoryCode = cat.CategoryCode,
-                        CategoryName = cat.CategoryName,
-
-                    };
-
-                    _context.Categories.Add(category);
-                    await _context.SaveChangesAsync();
-
-                    if (cat.SubCategories != null)
-                    {
-                        foreach (var sub in cat.SubCategories)
+                        var subCategory = new SubCategory
                         {
-                            var subCategory = new SubCategory
+                            CategoryId = category.Id,
+                            SubCategoryName = sub.SubCategoryName
+                        };
+
+                        _context.SubCategories.Add(subCategory);
+                        await _context.SaveChangesAsync();
+
+                        if (sub.Activities != null)
+                        {
+                            foreach (var act in sub.Activities)
                             {
-                                CategoryId = category.Id,
-
-                                SubCategoryCode = sub.SubCategoryCode,
-                                SubCategoryName = sub.SubCategoryName
-                            };
-
-                            _context.SubCategories.Add(subCategory);
-                            await _context.SaveChangesAsync();
-
-                            if (sub.Activities != null)
-                            {
-                                foreach (var act in sub.Activities)
+                                var activity = new Activity
                                 {
-                                    var activity = new Activity
-                                    {
-                                        SubCategoryId = subCategory.Id,
+                                    SubCategoryId = subCategory.Id,
+                                    ActivityName = act.ActivityName
+                                };
 
-                                        ActivityCode = act.ActivityCode,
-                                        ActivityName = act.ActivityName
-                                    };
-
-                                    _context.Activities.Add(activity);
-                                }
+                                _context.Activities.Add(activity);
                             }
                         }
                     }
                 }
+            }
 
             await _context.SaveChangesAsync();
         }
@@ -417,17 +504,17 @@ namespace DB.Repositories
                 await _context.TenderDocuments.AddRangeAsync(documents);
 
                 // Clear existing evaluation criteria
-                _context.TenderEvaluationCriteria.RemoveRange(_context.TenderEvaluationCriteria);
+                _context.EvaluationCriteria.RemoveRange(_context.EvaluationCriteria);
 
                 // Add new criteria
-                var criterias = request.EvaluationCriterias.Select(x => new TenderEvaluationCriteria
+                var criterias = request.EvaluationCriterias.Select(x => new EvaluationCriteria
                 {
                     JobCategoryId = x.JobCategoryId,
                     Specification = x.Specification,
                     WeightagePercent = x.Weightage
                 });
 
-                await _context.TenderEvaluationCriteria.AddRangeAsync(criterias);
+                await _context.EvaluationCriteria.AddRangeAsync(criterias);
 
                 await _context.SaveChangesAsync();
 
@@ -460,7 +547,7 @@ namespace DB.Repositories
                 })
                 .ToListAsync();
 
-            var criterias = await _context.TenderEvaluationCriteria.Include(x => x.JobCategory)
+            var criterias = await _context.EvaluationCriteria.Include(x => x.JobCategory)
                 .Select(x => new EvaluationCriteriaDto
                 {
                     JobCategory = x.JobCategory,
@@ -687,6 +774,7 @@ namespace DB.Repositories
                 existing.RenewalFee = model.RenewalFee;
                 existing.LateRenewalFee = model.LateRenewalFee;
                 existing.UpdatedDate = DateTime.UtcNow;
+                existing.PurchaseFee= model.PurchaseFee;
             }
 
             await _context.SaveChangesAsync();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DB.EFModel
 {
+   
     public class VendorDirector
     {
         public int Id { get; set; }

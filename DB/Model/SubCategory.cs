@@ -15,7 +15,7 @@ namespace DB.EFModel
         public int CategoryId { get; set; }
 
       
-        public string? SubCategoryCode { get; set; }
+     
 
         public string SubCategoryName { get; set; }
 

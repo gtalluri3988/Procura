@@ -13,6 +13,8 @@ namespace DB.EFModel
 
         // Registration
         public decimal? RegistrationFee { get; set; }          // RM
+
+        public decimal? PurchaseFee { get; set; }
         public int RegistrationValidityYears { get; set; }    // Years
 
         // Renewal

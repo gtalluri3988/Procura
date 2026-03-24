@@ -23,9 +23,11 @@
 
   <ItemGroup>
     <Compile Include="Repositories\AdminRepository.cs" />
+    <Compile Include="Repositories\AnnouncementRepository.cs" />
     <Compile Include="Repositories\ContentRespository.cs" />
     <Compile Include="Repositories\DropdownRepository.cs" />
     <Compile Include="Repositories\Interfaces\IAdminRepository.cs" />
+    <Compile Include="Repositories\Interfaces\IAnnouncementRepository.cs" />
     <Compile Include="Repositories\Interfaces\IContentRespository.cs" />
     <Compile Include="Repositories\Interfaces\IDropdownRepository.cs" />
     <Compile Include="Repositories\Interfaces\IMasterDataRepository.cs" />
@@ -35,6 +37,7 @@
     <Compile Include="Repositories\Interfaces\IPaymentRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRolePermissionRepository.cs" />
     <Compile Include="Repositories\Interfaces\IRoleRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITenderRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IVendorRepository.cs" />
     <Compile Include="Repositories\IRepositoryBase.cs" />
@@ -46,6 +49,7 @@
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\RolePermissionRepository.cs" />
     <Compile Include="Repositories\RoleRepository.cs" />
+    <Compile Include="Repositories\TenderRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VendorRepository.cs" />
   </ItemGroup>

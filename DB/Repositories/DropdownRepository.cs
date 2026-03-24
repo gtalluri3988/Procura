@@ -83,7 +83,31 @@ namespace DB.Repositories
                     Name = item.Name ?? string.Empty,
                 }).ToList() ?? new List<DropdownItem>();
             }
-            
+            if (inputType.ToLower() == DropDown.Questionaire.ToString().ToLower())
+            {
+                return _context.Questionnaires.Select(item => new DropdownItem
+                {
+                    Id = item.Id,
+                    Name = item.Name ?? string.Empty,
+                }).ToList() ?? new List<DropdownItem>();
+            }
+            if (inputType.ToLower() == DropDown.SiteLevel.ToString().ToLower())
+            {
+                return _context.SiteLevel.Select(item => new DropdownItem
+                {
+                    Id = item.Id,
+                    Name = item.Name ?? string.Empty,
+                }).ToList() ?? new List<DropdownItem>();
+            }
+            if (inputType.ToLower() == DropDown.Designation.ToString().ToLower())
+            {
+                return _context.Designations.Select(item => new DropdownItem
+                {
+                    Id = item.Id,
+                    Name = item.Name ?? string.Empty,
+                }).ToList() ?? new List<DropdownItem>();
+            }
+
             return new List<DropdownItem>();
 
         }

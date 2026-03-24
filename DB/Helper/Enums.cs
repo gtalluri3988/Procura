@@ -60,4 +60,21 @@ namespace DB.Helper
         Declaration,
         Payment
     }
+
+    public enum TenderApplicationStatusEnum
+    {
+        New = 1,
+        Approved = 2,
+        Advertised = 3,
+        Opening = 4,
+        Evaluation = 5,
+        Award = 6
+    }
+
+    public enum AnnouncementType
+    {
+        News = 1,
+        Advertisement = 2,
+        AwardResult = 3
+    }
 }

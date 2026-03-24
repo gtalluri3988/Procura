@@ -270,17 +270,17 @@ namespace Api.Controllers
         }
 
 
-
+        [AllowAnonymous]
         // POST api/payments/request
         [HttpPost]
         public async Task<IActionResult> RequestTransaction(PaymentRequestDTO req)
         {
-             var paymentRequest = _paymentService.SavePaymentRequestAsync(req);
+             var paymentRequest =await _paymentService.SavePaymentRequestAsync(req);
             // Ensure merchantId is set from config
             req.merchantId = _opts.MerchantId;
 
             // Save incoming order to store (demo)
-            _orderStore.Save(req.orderId, new { status = "INIT", request = req });
+            _orderStore.Save(paymentRequest.orderId, new { status = "INIT", request = req });
 
             // Call Ampersand /tx/request
             var response = await _ampClient.PostAsync<PaymentRequestDTO, JsonElement>("/tx/request", req);

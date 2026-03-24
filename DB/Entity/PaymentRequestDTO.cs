@@ -11,7 +11,8 @@ namespace DB.Entity
         {
         public long Id { get; set; }
         public string? merchantId { get; set; }
-            public string txType { get; set; } = "SALE";
+        public string? ROCNumber { get; set; }
+        public string txType { get; set; } = "SALE";
             public string txAmount { get; set; } // "15.00"
             public string txCurrency { get; set; } = "MYR";
             public string txChannel { get; set; } // "CC", "EW", "DD"

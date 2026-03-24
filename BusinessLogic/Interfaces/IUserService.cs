@@ -31,6 +31,9 @@ namespace BusinessLogic.Interfaces
         //Task<string> CheckResidentUserByEmail(string userName);
         //Task UpdateResidentPsswordAsync(int residentId, string currentPassword, string newPassword);
         //Task<RoleDTO> RoleIdUser(int userId);
+
+        Task<IEnumerable<UserDTO>> GetUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status);
+        Task<IEnumerable<UserDTO>> GetBidderUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status);
     }
     public enum AuthenticationErrorReason
     {

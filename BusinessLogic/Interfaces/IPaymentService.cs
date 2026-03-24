@@ -15,8 +15,8 @@ namespace BusinessLogic.Interfaces
         //Task UpdatePaymentAsync(int id, PaymentDTO dto);
         //Task<double> GetTotalMaintanence(int paymentTypeId, int communityId);
 
-       // Task<double> GetMaintanenceFeeTotalByCommunity(int communityId, int paymentTypeId, bool includeCommunityId = false);
-        Task<long> SavePaymentRequestAsync(PaymentRequestDTO dto);
+        // Task<double> GetMaintanenceFeeTotalByCommunity(int communityId, int paymentTypeId, bool includeCommunityId = false);
+        Task<PaymentRequestDTO> SavePaymentRequestAsync(PaymentRequestDTO dto);
         Task SaveWebhookResponseAsync(string response);
         Task<PaymentRequestDTO> GetPaymentByOrderIdAsync(string orderId);
 

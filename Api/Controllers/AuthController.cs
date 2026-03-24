@@ -5,6 +5,7 @@ using BusinessLogic.Interfaces;
 using BusinessLogic.Interfaces.Entities;
 using BusinessLogic.Models;
 using DB.EFModel;
+using DB.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,10 +25,12 @@ public class AuthController : AuthorizedCSABaseAPIController
 {
     
     private readonly IConfiguration _configuration;
-    public AuthController(IUserService userService,ILogger<AuthController> logger,IConfiguration configuration)
+    private readonly IVendorService _vendorService;
+    public AuthController(IUserService userService,ILogger<AuthController> logger,IConfiguration configuration,IVendorService vendorService)
         :base(userService,logger)
     {
         _configuration = configuration;
+        _vendorService = vendorService;
     }
 
 
@@ -130,12 +133,14 @@ public class AuthController : AuthorizedCSABaseAPIController
             string tokenString = GenerateJwtToken(user, clientIp);
 
             var redirectUrl = user.Details.IsFirstTimeLogin == true ? "/update-password" : "/dashboard";
-
+            var vendorDetails = await _vendorService.GetVendorFullDetailsAsync(user.Id);
             var authResponse = new AuthenticationResponse
             {
                 Token = tokenString,
-                RedirectTo = redirectUrl,
+                NextStep = ComputeNextStep(vendorDetails?.CurrentStep).ToString()??"dashboard",
                 FirstTimeLogin=user.Details.IsFirstTimeLogin,
+                IsRegistrationComplete= vendorDetails?.IsRegistrationComplete ?? false,
+
             };
             return new CSAResponseModel<AuthenticationResponse>(authResponse);
         }
@@ -145,7 +150,17 @@ public class AuthController : AuthorizedCSABaseAPIController
             return BadRequest(ex.Message);
         }
     }
+    private VendorRegistrationStep? ComputeNextStep(VendorRegistrationStep? current)
+    {
+        if (current == null) return VendorRegistrationStep.Profile;
 
+        var values = Enum.GetValues(typeof(VendorRegistrationStep)).Cast<VendorRegistrationStep>().ToArray();
+        var idx = Array.IndexOf(values, current.Value);
+        if (idx >= 0 && idx < values.Length - 1)
+            return values[idx + 1];
+
+        return null; // no next step (already last)
+    }
 
 
     //[AllowAnonymous]
@@ -154,12 +169,12 @@ public class AuthController : AuthorizedCSABaseAPIController
     //{
     //    try
     //    {
-            
+
     //        var user =await _userService.CheckResidentUserByEmail(email);
     //        return Ok(new
     //        {
     //            result = user,
-               
+
     //        });
     //    }
     //    catch (Exception ex)

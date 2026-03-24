@@ -44,7 +44,7 @@ namespace BusinessLogic.Services
         //    await _paymentRepository.UpdatePaymentAsync(id,dto);
         //}
 
-        public async Task<long> SavePaymentRequestAsync(PaymentRequestDTO dto)
+        public async Task<PaymentRequestDTO> SavePaymentRequestAsync(PaymentRequestDTO dto)
         {
             return await _paymentRepository.SavePaymentRequestAsync(dto);
         }

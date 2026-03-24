@@ -25,7 +25,7 @@ namespace DB.Repositories.Interfaces
     VendorManpower manpower,
     List<VendorStaffDeclaration> staffDeclarations);
         Task<VendorRegistrationStep?> SaveFinancialAsync(int vendorId, VendorFinancial financial);
-        Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, List<VendorCategory> categories);
+        Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, List<VendorCategory> categories, List<VendorCategoryCertificate> VendorCategoryCertificate);
         Task<VendorRegistrationStep?> SaveExperiencesAsync(int vendorId, List<VendorExperience> experiences);
         Task<VendorRegistrationStep?> SaveDeclarationAsync(int vendorId, VendorDeclaration declaration);
         // Task SavePaymentAsync(int vendorId, VendorPayment payment);
@@ -53,5 +53,8 @@ namespace DB.Repositories.Interfaces
         Task SaveSAPRequestResponseAsync(int VendorId, string request, string response);
 
         Task<IEnumerable<IndustryTypeDto>> BindIndustryTypeListAsync();
+
+        Task SaveQuestionAnswers(int vendorId, List<QuestionAnswerDto> answers);
+        Task<List<QuestionAnswerDto>> GetQuestionAnswersByQuestionnaireId(int questionnaireId, int vendorId);
     }
 }

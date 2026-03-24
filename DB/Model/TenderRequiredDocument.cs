@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DB.EFModel
@@ -20,7 +21,7 @@ namespace DB.EFModel
         public string Submission { get; set; }
 
         public DateTime CreatedDate { get; set; }
-
-        public TenderApplication TenderApplication { get; set; }
+        [JsonIgnore]
+        public TenderApplication? TenderApplication { get; set; }
     }
 }

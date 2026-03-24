@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DB.EFModel
 {
+    [Table("VendorManpowers")]
     public class VendorManpower :BaseEntity
     {
         public int Id { get; set; }
@@ -16,6 +17,8 @@ namespace DB.EFModel
 
         public decimal BumiputeraPercentage { get; set; }
         public decimal NonBumiputeraPercentage { get; set; }
+
+        public int TotalManpower { get; set; }
 
         //public Vendor? Vendor { get; set; }
     }

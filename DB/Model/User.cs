@@ -36,7 +36,7 @@ namespace DB.EFModel
         public int SiteOffice { get; set; }  // e.g. Kuala Lumpur
 
         [MaxLength(150)]
-        public string Designation { get; set; }
+        public int? DesignationId { get; set; }
 
 
         [Required]
@@ -61,6 +61,7 @@ namespace DB.EFModel
         public Role? Role { get; set; }
         public State? State { get; set; }
         public SiteLevel? SiteLevel { get; set; }
+        public Designation? Designation { get; set; }
 
     }
 }

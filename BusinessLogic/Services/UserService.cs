@@ -186,6 +186,16 @@ namespace BusinessLogic.Services
             return await _userRepository.GetByIdAsync(id);
         }
 
+        public async Task<IEnumerable<UserDTO>> GetUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status)
+        {
+            return await _userRepository.GetUserListAsync(siteLevelId, siteOfficeId, status);
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetBidderUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status)
+        {
+            return await _userRepository.GetBidderUserListAsync(siteLevelId, siteOfficeId, status);
+        }
+
         //public async Task<string> CheckResidentUserByEmail(string userName)
         //{
         //    return await _userRepository.CheckResidentUserByEmail(userName);

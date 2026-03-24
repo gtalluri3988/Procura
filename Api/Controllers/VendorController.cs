@@ -33,8 +33,8 @@ namespace Procura.Controllers
 
         public VendorController(IContentService contentService,
             ICurrentUserService currentUserService,
-            IUserService userService, IVendorService vendorService,ISAPServices sapServices,
-            ILogger<ContentController> logger, IConfiguration configuration )
+            IUserService userService, IVendorService vendorService, ISAPServices sapServices,
+            ILogger<ContentController> logger, IConfiguration configuration)
             : base(userService, logger)
         {
             _currentUserService = currentUserService;
@@ -65,12 +65,12 @@ namespace Procura.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterVendor(CreateVendorRequest request)
         {
-            var vendor=await _vendorService.RegisterVendor(request);
+            var vendor = await _vendorService.RegisterVendor(request);
             var result = await SearchSSM(request.RocNumber, "get-company-profile-document");
             if (!result.Success)
                 return BadRequest(result.Error);
-            return Ok(new {Id=vendor.Id,CurrentStep=vendor.CurrentStep.ToString(), RocNumber = vendor.RocNumber,NextStep=vendor.NextStep.ToString(),ProfileResponse= result.Data });
-            
+            return Ok(new { Id = vendor.Id, CurrentStep = vendor.CurrentStep.ToString(), RocNumber = vendor.RocNumber, NextStep = vendor.NextStep.ToString(), ProfileResponse = result.Data });
+
         }
 
         // Compact endpoint — Swagger shows a small JSON body (generic object)
@@ -155,7 +155,7 @@ namespace Procura.Controllers
             if (string.IsNullOrWhiteSpace(apiKey) || string.IsNullOrWhiteSpace(apiSecret) || string.IsNullOrWhiteSpace(baseUrl))
                 return StatusCode(StatusCodes.Status500InternalServerError, "SSM API configuration missing.");
 
-            var url = $"{baseUrl.TrimEnd('/')}/get-company-profile-document";
+            var url = $"{baseUrl.TrimEnd('/')}/get-status-entity";
             var clientRefNo = "REF001";
 
             var requestBody = new
@@ -254,15 +254,15 @@ namespace Procura.Controllers
         [HttpPost]
         public async Task<IActionResult> Profile(int vendorId, VendorProfileDto request)
         {
-           var profile= await _vendorService.SaveProfileAsync(vendorId, request);
-            return Ok(new {NextStep=profile.ToString() });
+            var profile = await _vendorService.SaveProfileAsync(vendorId, request);
+            return Ok(new { NextStep = profile.ToString() });
         }
 
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Members(int vendorId, VendorMemberDto request)
         {
-            var member=await _vendorService.SaveMembersAsync(vendorId, request);
+            var member = await _vendorService.SaveMembersAsync(vendorId, request);
             return Ok(new { NextStep = member.ToString() });
         }
 
@@ -270,23 +270,30 @@ namespace Procura.Controllers
         [HttpPost]
         public async Task<IActionResult> Financial(int vendorId, VendorFinancialDto request)
         {
-            var financial=await _vendorService.SaveFinancialAsync(vendorId, request);
+            var financial = await _vendorService.SaveFinancialAsync(vendorId, request);
             return Ok(new { NextStep = financial.ToString() });
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Categories(int vendorId, List<VendorCategoryDto> request)
+        public async Task<IActionResult> Categories(int vendorId, VendorCategoryRequest request)
         {
-            var categories=await _vendorService.SaveCategoriesAsync(vendorId, request);
-            return Ok(new { NextStep = categories.ToString() });
+            try
+            {
+                var categories = await _vendorService.SaveCategoriesAsync(vendorId, request);
+                return Ok(new { NextStep = categories.ToString() });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Experiences(int vendorId, List<VendorExperienceDto> request)
         {
-            var experience=await _vendorService.SaveExperiencesAsync(vendorId, request);
+            var experience = await _vendorService.SaveExperiencesAsync(vendorId, request);
             return Ok(new { NextStep = experience.ToString() });
         }
 
@@ -294,7 +301,7 @@ namespace Procura.Controllers
         [HttpPost]
         public async Task<IActionResult> Declaration(int vendorId, VendorDeclarationDto request)
         {
-            var declaration=await _vendorService.SaveDeclarationAsync(vendorId, request);
+            var declaration = await _vendorService.SaveDeclarationAsync(vendorId, request);
             return Ok(new { NextStep = declaration.ToString() });
         }
 
@@ -328,7 +335,7 @@ namespace Procura.Controllers
         }
 
 
-        
+
         [HttpGet]
         public async Task<IActionResult> GetVendorList()
         {
@@ -425,6 +432,28 @@ namespace Procura.Controllers
         {
             var result = await _vendorService.BindIndustryTypeListAsync();
             return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetVendorDetilsById(int vendorId)
+        {
+            var result = await _vendorService.GetVendorFullDetailsAsync(vendorId);
+            return Ok(result);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> SaveQuestionAnswers(int vendorId, List<QuestionAnswerDto> answers)
+        {
+            await _vendorService.SaveQuestionAnswers(vendorId, answers);
+            return Ok(new { message = "Question answers saved successfully." });
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetQuestionAnswers(int questionnaireId, int vendorId)
+        {
+            var answers = await _vendorService.GetQuestionAnswersByQuestionnaireId(questionnaireId, vendorId);
+            return Ok(answers);
         }
 
     }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DB.EFModel
@@ -23,7 +24,7 @@ namespace DB.EFModel
         public decimal Quantity { get; set; }
         public decimal PricePerUnit { get; set; }
         public decimal SubTotal { get; set; }
-
-        public TenderApplication TenderApplication { get; set; }
+        [JsonIgnore]
+        public TenderApplication? TenderApplication { get; set; }
     }
 }

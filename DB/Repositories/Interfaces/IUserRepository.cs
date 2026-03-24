@@ -19,9 +19,13 @@ namespace DB.Repositories.Interfaces
 
         Task UpdateAsync(int id, UserDTO dto);
         //Task<RoleDTO?> GetRoleAsync(int userId);
-       
 
-        
+        Task<IEnumerable<UserDTO>> GetUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status);
+        Task<IEnumerable<UserDTO>> GetBidderUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status);
+
+
+
+
 
         Task<bool> IsPasswordReusedAsync(int userId, string newHash, int historyCount);
         Task SaveHistoryAsync(int userId, string passwordHash, int historyCount);

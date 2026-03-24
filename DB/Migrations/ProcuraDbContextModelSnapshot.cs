@@ -30,9 +30,6 @@ namespace DB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ActivityCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ActivityName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -59,7 +56,7 @@ namespace DB.Migrations
                     b.ToTable("Activities");
                 });
 
-            modelBuilder.Entity("DB.EFModel.Category", b =>
+            modelBuilder.Entity("DB.EFModel.Announcement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,9 +64,57 @@ namespace DB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CategoryCode")
+                    b.Property<DateTime?>("ClosingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("VendorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("Announcements");
+                });
+
+            modelBuilder.Entity("DB.EFModel.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -322,6 +367,63 @@ namespace DB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("DB.EFModel.Designation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Designations");
+                });
+
+            modelBuilder.Entity("DB.EFModel.EvaluationCriteria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("JobCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Specification")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WeightagePercent")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobCategoryId");
+
+                    b.ToTable("EvaluationCriteria");
                 });
 
             modelBuilder.Entity("DB.EFModel.IndustryType", b =>
@@ -815,6 +917,9 @@ namespace DB.Migrations
                     b.Property<int?>("PaymentTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ROCNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TID")
                         .HasColumnType("nvarchar(max)");
 
@@ -824,7 +929,7 @@ namespace DB.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VendorId")
+                    b.Property<int?>("VendorId")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -834,7 +939,8 @@ namespace DB.Migrations
                     b.HasIndex("PaymentHistoryPaymentID");
 
                     b.HasIndex("VendorId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[VendorId] IS NOT NULL");
 
                     b.ToTable("PaymentRequest");
                 });
@@ -963,6 +1069,105 @@ namespace DB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PaymentType");
+                });
+
+            modelBuilder.Entity("DB.EFModel.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("OrderNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("QuestionnaireId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionnaireId");
+
+                    b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("DB.EFModel.QuestionAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Answer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("AnswerDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VendorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("QuestionAnswers");
+                });
+
+            modelBuilder.Entity("DB.EFModel.Questionnaire", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Questionnaires");
                 });
 
             modelBuilder.Entity("DB.EFModel.Role", b =>
@@ -1101,9 +1306,6 @@ namespace DB.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("SubCategoryCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SubCategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1121,6 +1323,48 @@ namespace DB.Migrations
                     b.ToTable("SubCategories");
                 });
 
+            modelBuilder.Entity("DB.EFModel.TenderAdvertisementSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AdvertisementEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("AdvertisementStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("time");
+
+                    b.Property<string>("TenderDocumentPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenderId");
+
+                    b.ToTable("TenderAdvertisementSettings");
+                });
+
             modelBuilder.Entity("DB.EFModel.TenderApplication", b =>
                 {
                     b.Property<int>("Id")
@@ -1129,13 +1373,8 @@ namespace DB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicationLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CategoryCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ApplicationLevelId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -1143,7 +1382,7 @@ namespace DB.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("DepositAmount")
+                    b.Property<decimal?>("DepositAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("DepositRequired")
@@ -1152,58 +1391,70 @@ namespace DB.Migrations
                     b.Property<DateTime?>("EstimatedJobStartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("EstimatedPrices")
+                    b.Property<decimal?>("EstimatedPrices")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("JobCategory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("JobCategoryId")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("MinCapitalAmount")
+                    b.Property<decimal?>("MinCapitalAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("MinCapitalPercent")
+                    b.Property<int?>("MinCapitalPercent")
                         .HasColumnType("int");
 
                     b.Property<string>("ProjectName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Remarks")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SiteVisitAttendance")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("SiteVisitDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SiteVisitForm")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SiteVisitRemarks")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("SiteVisitRequired")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SiteVisitTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SiteVisitVenue")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TenderCategory")
+                    b.Property<int?>("TenderApplicationStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TenderCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TenderCreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobCategoryId");
+
+                    b.HasIndex("TenderApplicationStatusId");
+
+                    b.HasIndex("TenderCategoryId");
+
+                    b.HasIndex("TenderCreatedBy");
+
+                    b.ToTable("TenderApplications");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderApplicationStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -1215,7 +1466,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TenderApplications");
+                    b.ToTable("TenderApplicationStatus");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderApproval", b =>
@@ -1229,30 +1480,16 @@ namespace DB.Migrations
                     b.Property<int>("ApprovalLevel")
                         .HasColumnType("int");
 
+                    b.Property<int>("ApprovedByUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Designation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MobileNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PicName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Remarks")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReviewDate")
@@ -1265,6 +1502,9 @@ namespace DB.Migrations
                     b.Property<int>("TenderApplicationId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TenderApplicationStatusId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -1273,9 +1513,81 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApprovedByUserId");
+
                     b.HasIndex("TenderApplicationId");
 
+                    b.HasIndex("TenderApplicationStatusId");
+
                     b.ToTable("TenderApprovals");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TenderCategories");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderCategoryCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ActivityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CodeMasterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("SubCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CodeMasterId");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.HasIndex("TenderId")
+                        .IsUnique();
+
+                    b.ToTable("TenderCategoryCodes");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderDocument", b =>
@@ -1319,6 +1631,41 @@ namespace DB.Migrations
                     b.ToTable("TenderDocuments");
                 });
 
+            modelBuilder.Entity("DB.EFModel.TenderEvaluationCommittee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TenderEvaluationCommittee");
+                });
+
             modelBuilder.Entity("DB.EFModel.TenderEvaluationCriteria", b =>
                 {
                     b.Property<int>("Id")
@@ -1339,8 +1686,45 @@ namespace DB.Migrations
                     b.Property<int>("JobCategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("PassingMarks")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobCategoryId");
+
+                    b.HasIndex("TenderId");
+
+                    b.ToTable("TenderEvaluationCriteria");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderEvaluationSpecification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CriteriaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Specification")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
@@ -1349,14 +1733,63 @@ namespace DB.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WeightagePercent")
+                    b.Property<int>("Weightage")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JobCategoryId");
+                    b.HasIndex("CriteriaId");
 
-                    b.ToTable("TenderEvaluationCriteria");
+                    b.ToTable("TenderEvaluationSpecifications");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderIssuenceApproval", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReviewDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ReviewLevel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReviewerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TenderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TenderStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReviewerId");
+
+                    b.HasIndex("TenderId");
+
+                    b.HasIndex("TenderStatusId");
+
+                    b.ToTable("TenderIssuenceApprovals");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderJobScope", b =>
@@ -1425,6 +1858,41 @@ namespace DB.Migrations
                     b.ToTable("TenderJobScopes");
                 });
 
+            modelBuilder.Entity("DB.EFModel.TenderOpeningCommittee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TenderOpeningCommittee");
+                });
+
             modelBuilder.Entity("DB.EFModel.TenderRequiredDocument", b =>
                 {
                     b.Property<int>("Id")
@@ -1481,24 +1949,7 @@ namespace DB.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Designation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MobileNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PicName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Remarks")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReviewDate")
@@ -1507,11 +1958,13 @@ namespace DB.Migrations
                     b.Property<int>("ReviewLevel")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ReviewedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("TenderApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TenderApplicationStatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
@@ -1522,7 +1975,11 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ReviewedByUserId");
+
                     b.HasIndex("TenderApplicationId");
+
+                    b.HasIndex("TenderApplicationStatusId");
 
                     b.ToTable("TenderReviews");
                 });
@@ -1558,6 +2015,59 @@ namespace DB.Migrations
                     b.ToTable("TenderSettings");
                 });
 
+            modelBuilder.Entity("DB.EFModel.TenderSiteVisit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Attendance")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FormFile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("SiteVisitRequired")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Venue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("VisitDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenderId")
+                        .IsUnique();
+
+                    b.ToTable("TenderSiteVisits");
+                });
+
             modelBuilder.Entity("DB.EFModel.User", b =>
                 {
                     b.Property<int>("Id")
@@ -1572,10 +2082,9 @@ namespace DB.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Designation")
-                        .IsRequired()
+                    b.Property<int?>("DesignationId")
                         .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("int");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -1635,6 +2144,8 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DesignationId");
 
                     b.HasIndex("RoleId");
 
@@ -1720,11 +2231,17 @@ namespace DB.Migrations
                     b.Property<string>("FaxNo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Form24AttachmentPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("IndustryTypeId")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("IsRegistrationComplete")
+                        .HasColumnType("bit");
 
                     b.Property<string>("OfficePhoneNo")
                         .HasColumnType("nvarchar(max)");
@@ -1821,23 +2338,71 @@ namespace DB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryType")
+                    b.Property<int?>("ActivityId")
                         .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CodeHierarchyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CodeMasterId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VendorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CodeHierarchyId");
+
+                    b.HasIndex("CodeMasterId");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("VendorCategories");
+                });
+
+            modelBuilder.Entity("DB.EFModel.VendorCategoryCertificate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CertificatePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CodeSystemId")
+                    b.Property<int>("CodeMasterId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MasterCategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("VendorId")
@@ -1845,11 +2410,11 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MasterCategoryId");
+                    b.HasIndex("CodeMasterId");
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorCategories");
+                    b.ToTable("VendorCategoryCertificates");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorCreditFacility", b =>
@@ -2113,6 +2678,9 @@ namespace DB.Migrations
                     b.Property<decimal?>("LateRenewalFee")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal?>("PurchaseFee")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal?>("RegistrationFee")
                         .HasColumnType("decimal(18,2)");
 
@@ -2159,6 +2727,9 @@ namespace DB.Migrations
                     b.Property<decimal>("NonBumiputeraPercentage")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("TotalManpower")
+                        .HasColumnType("int");
+
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -2173,7 +2744,7 @@ namespace DB.Migrations
                     b.HasIndex("VendorId")
                         .IsUnique();
 
-                    b.ToTable("VendorManpower");
+                    b.ToTable("VendorManpowers");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorMember", b =>
@@ -2327,7 +2898,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorShareholders");
+                    b.ToTable("VendorShareholder");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorStaffDeclaration", b =>
@@ -2374,7 +2945,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorStaffDeclarations");
+                    b.ToTable("VendorStaffDeclaration");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorTax", b =>
@@ -2660,6 +3231,15 @@ namespace DB.Migrations
                     b.Navigation("SubCategory");
                 });
 
+            modelBuilder.Entity("DB.EFModel.Announcement", b =>
+                {
+                    b.HasOne("DB.EFModel.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId");
+
+                    b.Navigation("Vendor");
+                });
+
             modelBuilder.Entity("DB.EFModel.Category", b =>
                 {
                     b.HasOne("DB.EFModel.CodeMaster", "CodeMaster")
@@ -2689,6 +3269,17 @@ namespace DB.Migrations
                         .HasForeignKey("ContentManagementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DB.EFModel.EvaluationCriteria", b =>
+                {
+                    b.HasOne("DB.EFModel.JobCategory", "JobCategory")
+                        .WithMany()
+                        .HasForeignKey("JobCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobCategory");
                 });
 
             modelBuilder.Entity("DB.EFModel.Menu", b =>
@@ -2727,9 +3318,7 @@ namespace DB.Migrations
 
                     b.HasOne("DB.EFModel.Vendor", "Vendor")
                         .WithOne("VendorPayment")
-                        .HasForeignKey("DB.EFModel.PaymentRequest", "VendorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DB.EFModel.PaymentRequest", "VendorId");
 
                     b.Navigation("PaymentChannel");
 
@@ -2747,6 +3336,36 @@ namespace DB.Migrations
                         .IsRequired();
 
                     b.Navigation("PaymentRequest");
+                });
+
+            modelBuilder.Entity("DB.EFModel.Question", b =>
+                {
+                    b.HasOne("DB.EFModel.Questionnaire", "Questionnaire")
+                        .WithMany("Questions")
+                        .HasForeignKey("QuestionnaireId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Questionnaire");
+                });
+
+            modelBuilder.Entity("DB.EFModel.QuestionAnswer", b =>
+                {
+                    b.HasOne("DB.EFModel.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Vendor");
                 });
 
             modelBuilder.Entity("DB.EFModel.RoleMenuPermission", b =>
@@ -2773,15 +3392,112 @@ namespace DB.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DB.EFModel.TenderAdvertisementSetting", b =>
+                {
+                    b.HasOne("DB.EFModel.TenderApplication", "Tender")
+                        .WithMany()
+                        .HasForeignKey("TenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tender");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderApplication", b =>
+                {
+                    b.HasOne("DB.EFModel.JobCategory", "JobCategory")
+                        .WithMany()
+                        .HasForeignKey("JobCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.TenderApplicationStatus", "TenderApplicationStatus")
+                        .WithMany()
+                        .HasForeignKey("TenderApplicationStatusId");
+
+                    b.HasOne("DB.EFModel.TenderCategory", "TenderCategory")
+                        .WithMany()
+                        .HasForeignKey("TenderCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.User", "TenderCreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("TenderCreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobCategory");
+
+                    b.Navigation("TenderApplicationStatus");
+
+                    b.Navigation("TenderCategory");
+
+                    b.Navigation("TenderCreatedByUser");
+                });
+
             modelBuilder.Entity("DB.EFModel.TenderApproval", b =>
                 {
+                    b.HasOne("DB.EFModel.User", "ApprovedByUser")
+                        .WithMany()
+                        .HasForeignKey("ApprovedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DB.EFModel.TenderApplication", "TenderApplication")
                         .WithMany("Approvals")
                         .HasForeignKey("TenderApplicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DB.EFModel.TenderApplicationStatus", "TenderApplicationStatus")
+                        .WithMany()
+                        .HasForeignKey("TenderApplicationStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApprovedByUser");
+
                     b.Navigation("TenderApplication");
+
+                    b.Navigation("TenderApplicationStatus");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderCategoryCode", b =>
+                {
+                    b.HasOne("DB.EFModel.Activity", "Activity")
+                        .WithMany()
+                        .HasForeignKey("ActivityId");
+
+                    b.HasOne("DB.EFModel.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("DB.EFModel.CodeMaster", "CodeMaster")
+                        .WithMany()
+                        .HasForeignKey("CodeMasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.SubCategory", "SubCategory")
+                        .WithMany()
+                        .HasForeignKey("SubCategoryId");
+
+                    b.HasOne("DB.EFModel.TenderApplication", "Tender")
+                        .WithOne("TenderCategoryCode")
+                        .HasForeignKey("DB.EFModel.TenderCategoryCode", "TenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("CodeMaster");
+
+                    b.Navigation("SubCategory");
+
+                    b.Navigation("Tender");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderDocument", b =>
@@ -2795,6 +3511,25 @@ namespace DB.Migrations
                     b.Navigation("JobCategory");
                 });
 
+            modelBuilder.Entity("DB.EFModel.TenderEvaluationCommittee", b =>
+                {
+                    b.HasOne("DB.EFModel.TenderApplication", "Tender")
+                        .WithMany()
+                        .HasForeignKey("TenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tender");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DB.EFModel.TenderEvaluationCriteria", b =>
                 {
                     b.HasOne("DB.EFModel.JobCategory", "JobCategory")
@@ -2803,7 +3538,51 @@ namespace DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DB.EFModel.TenderApplication", "Tender")
+                        .WithMany()
+                        .HasForeignKey("TenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("JobCategory");
+
+                    b.Navigation("Tender");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderEvaluationSpecification", b =>
+                {
+                    b.HasOne("DB.EFModel.TenderEvaluationCriteria", "Criteria")
+                        .WithMany("Specifications")
+                        .HasForeignKey("CriteriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Criteria");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderIssuenceApproval", b =>
+                {
+                    b.HasOne("DB.EFModel.User", "Reviewer")
+                        .WithMany()
+                        .HasForeignKey("ReviewerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.TenderApplication", "Tender")
+                        .WithMany()
+                        .HasForeignKey("TenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.TenderApplicationStatus", "TenderStatus")
+                        .WithMany()
+                        .HasForeignKey("TenderStatusId");
+
+                    b.Navigation("Reviewer");
+
+                    b.Navigation("Tender");
+
+                    b.Navigation("TenderStatus");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderJobScope", b =>
@@ -2815,6 +3594,25 @@ namespace DB.Migrations
                         .IsRequired();
 
                     b.Navigation("TenderApplication");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderOpeningCommittee", b =>
+                {
+                    b.HasOne("DB.EFModel.TenderApplication", "Tender")
+                        .WithMany()
+                        .HasForeignKey("TenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tender");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderRequiredDocument", b =>
@@ -2830,17 +3628,48 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.EFModel.TenderReview", b =>
                 {
+                    b.HasOne("DB.EFModel.User", "ReviewedByUser")
+                        .WithMany()
+                        .HasForeignKey("ReviewedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DB.EFModel.TenderApplication", "TenderApplication")
                         .WithMany("Reviews")
                         .HasForeignKey("TenderApplicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DB.EFModel.TenderApplicationStatus", "TenderApplicationStatus")
+                        .WithMany()
+                        .HasForeignKey("TenderApplicationStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ReviewedByUser");
+
                     b.Navigation("TenderApplication");
+
+                    b.Navigation("TenderApplicationStatus");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderSiteVisit", b =>
+                {
+                    b.HasOne("DB.EFModel.TenderApplication", "Tender")
+                        .WithOne("TenderSiteVisit")
+                        .HasForeignKey("DB.EFModel.TenderSiteVisit", "TenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tender");
                 });
 
             modelBuilder.Entity("DB.EFModel.User", b =>
                 {
+                    b.HasOne("DB.EFModel.Designation", "Designation")
+                        .WithMany()
+                        .HasForeignKey("DesignationId");
+
                     b.HasOne("DB.EFModel.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
@@ -2858,6 +3687,8 @@ namespace DB.Migrations
                         .HasForeignKey("SiteOffice")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Designation");
 
                     b.Navigation("Role");
 
@@ -2906,11 +3737,27 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.EFModel.VendorCategory", b =>
                 {
-                    b.HasOne("DB.Model.CodeHierarchy", "MasterCategory")
+                    b.HasOne("DB.EFModel.Activity", "Activity")
+                        .WithMany()
+                        .HasForeignKey("ActivityId");
+
+                    b.HasOne("DB.EFModel.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("DB.Model.CodeHierarchy", null)
                         .WithMany("VendorCategories")
-                        .HasForeignKey("MasterCategoryId")
+                        .HasForeignKey("CodeHierarchyId");
+
+                    b.HasOne("DB.EFModel.CodeMaster", "CodeMaster")
+                        .WithMany()
+                        .HasForeignKey("CodeMasterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DB.EFModel.SubCategory", "SubCategory")
+                        .WithMany()
+                        .HasForeignKey("SubCategoryId");
 
                     b.HasOne("DB.EFModel.Vendor", null)
                         .WithMany("VendorCategories")
@@ -2918,7 +3765,32 @@ namespace DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MasterCategory");
+                    b.Navigation("Activity");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("CodeMaster");
+
+                    b.Navigation("SubCategory");
+                });
+
+            modelBuilder.Entity("DB.EFModel.VendorCategoryCertificate", b =>
+                {
+                    b.HasOne("DB.EFModel.CodeMaster", "CodeMaster")
+                        .WithMany()
+                        .HasForeignKey("CodeMasterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DB.EFModel.Vendor", "Vendor")
+                        .WithMany("VendorCategoryCertificates")
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CodeMaster");
+
+                    b.Navigation("Vendor");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorCreditFacility", b =>
@@ -3098,6 +3970,16 @@ namespace DB.Migrations
                     b.Navigation("ContentPictures");
                 });
 
+            modelBuilder.Entity("DB.EFModel.Question", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("DB.EFModel.Questionnaire", b =>
+                {
+                    b.Navigation("Questions");
+                });
+
             modelBuilder.Entity("DB.EFModel.SubCategory", b =>
                 {
                     b.Navigation("Activities");
@@ -3112,6 +3994,15 @@ namespace DB.Migrations
                     b.Navigation("JobScopes");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("TenderCategoryCode");
+
+                    b.Navigation("TenderSiteVisit");
+                });
+
+            modelBuilder.Entity("DB.EFModel.TenderEvaluationCriteria", b =>
+                {
+                    b.Navigation("Specifications");
                 });
 
             modelBuilder.Entity("DB.EFModel.Vendor", b =>
@@ -3125,6 +4016,8 @@ namespace DB.Migrations
                     b.Navigation("VendorBanks");
 
                     b.Navigation("VendorCategories");
+
+                    b.Navigation("VendorCategoryCertificates");
 
                     b.Navigation("VendorDeclaration");
 

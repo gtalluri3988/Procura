@@ -11,11 +11,13 @@ namespace DB.EFModel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ID { get; set; }
 
-        public int VendorId { get; set; }
+        public int? VendorId { get; set; }
         public int? PaymentTypeId { get; set; }
 
         public int? PaymentChannelId { get; set; }
         public string? OrderId { get; set; }
+
+        public string? ROCNumber { get; set; }
         public string? TID { get; set; }
         public string? Invoice { get; set; }
         public string? InvoiceDesc { get; set; }

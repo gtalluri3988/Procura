@@ -14,7 +14,7 @@ namespace DB.Entity
 
         public int CodeId { get; set; }
 
-        public string SubCategoryCode { get; set; }
+       
 
         public string SubCategoryName { get; set; }
 

@@ -81,14 +81,15 @@ namespace DB.Repositories
         //}
 
 
-        public async Task<long> SavePaymentRequestAsync(PaymentRequestDTO dto)
+        public async Task<PaymentRequestDTO> SavePaymentRequestAsync(PaymentRequestDTO dto)
         {
             var entity = new PaymentRequest
             {
                 // Order / Invoice
-                OrderId = dto.orderId,
-             
+                OrderId = GenerateOrderId(),
+                
                 InvoiceDesc = dto.orderRef,
+                ROCNumber= dto.ROCNumber,
 
                 // Payment
                 Amount = dto.txAmount,
@@ -107,9 +108,25 @@ namespace DB.Repositories
             };
 
             _context.PaymentRequest.Add(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
 
-            return entity.ID;
+            }
+            dto.Id = entity.ID;
+            dto.orderId = entity.OrderId;
+            return dto;
+        }
+
+        private string GenerateOrderId()
+        {
+            var ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            var rnd = new Random().Next(1000, 9999);
+
+            return $"order_{ts}_{rnd}";
         }
 
 
@@ -235,6 +252,7 @@ namespace DB.Repositories
             var vendor = await _context.Vendors.FindAsync(vendorId);
             if (vendor != null)
             {
+                vendor.IsRegistrationComplete = true;
                 vendor.VendorCodeStatus = VendorStatus.PendingRequest.GetDisplayName();
                 await _context.SaveChangesAsync();
             }

@@ -1,0 +1,85 @@
+Table: LookupValue
+--------------------------------------------------
+  DwLookupKey  |  bigint  |  System.Int64
+  SourceSystem  |  nvarchar  |  System.String
+  DwExtractDate  |  datetime2  |  System.DateTime
+  DwClassification  |  int  |  System.Int32
+  LookUpID  |  uniqueidentifier  |  System.Guid
+  Archived  |  bit  |  System.Boolean
+  Code  |  varchar  |  System.String
+  Description  |  varchar  |  System.String
+  LookUpType  |  varchar  |  System.String
+  SortOrder  |  int  |  System.Int32
+  DwCreated  |  datetime2  |  System.DateTime
+  DwCreatedBy  |  nvarchar  |  System.String
+  DwModified  |  datetime2  |  System.DateTime
+  DwModifiedBy  |  nvarchar  |  System.String
+
+Table: Contract
+--------------------------------------------------
+  DwLookupKey  |  bigint  |  System.Int64
+  SourceSystem  |  nvarchar  |  System.String
+  DwExtractDate  |  datetime2  |  System.DateTime
+  DwClassification  |  int  |  System.Int32
+  LookUpID  |  uniqueidentifier  |  System.Guid
+  Archived  |  bit  |  System.Boolean
+  Code  |  varchar  |  System.String
+  Description  |  varchar  |  System.String
+  LookUpType  |  varchar  |  System.String
+  SortOrder  |  int  |  System.Int32
+  DwCreated  |  datetime2  |  System.DateTime
+  DwCreatedBy  |  nvarchar  |  System.String
+  DwModified  |  datetime2  |  System.DateTime
+  DwModifiedBy  |  nvarchar  |  System.String
+
+Table: Credential
+--------------------------------------------------
+  DwLookupKey  |  bigint  |  System.Int64
+  SourceSystem  |  nvarchar  |  System.String
+  DwExtractDate  |  datetime2  |  System.DateTime
+  DwClassification  |  int  |  System.Int32
+  LookUpID  |  uniqueidentifier  |  System.Guid
+  Archived  |  bit  |  System.Boolean
+  Code  |  varchar  |  System.String
+  Description  |  varchar  |  System.String
+  LookUpType  |  varchar  |  System.String
+  SortOrder  |  int  |  System.Int32
+  DwCreated  |  datetime2  |  System.DateTime
+  DwCreatedBy  |  nvarchar  |  System.String
+  DwModified  |  datetime2  |  System.DateTime
+  DwModifiedBy  |  nvarchar  |  System.String
+
+Table: Demographics
+--------------------------------------------------
+  DwLookupKey  |  bigint  |  System.Int64
+  SourceSystem  |  nvarchar  |  System.String
+  DwExtractDate  |  datetime2  |  System.DateTime
+  DwClassification  |  int  |  System.Int32
+  LookUpID  |  uniqueidentifier  |  System.Guid
+  Archived  |  bit  |  System.Boolean
+  Code  |  varchar  |  System.String
+  Description  |  varchar  |  System.String
+  LookUpType  |  varchar  |  System.String
+  SortOrder  |  int  |  System.Int32
+  DwCreated  |  datetime2  |  System.DateTime
+  DwCreatedBy  |  nvarchar  |  System.String
+  DwModified  |  datetime2  |  System.DateTime
+  DwModifiedBy  |  nvarchar  |  System.String
+
+Table: ContractToLookupValue
+--------------------------------------------------
+  DwLookupKey  |  bigint  |  System.Int64
+  SourceSystem  |  nvarchar  |  System.String
+  DwExtractDate  |  datetime2  |  System.DateTime
+  DwClassification  |  int  |  System.Int32
+  LookUpID  |  uniqueidentifier  |  System.Guid
+  Archived  |  bit  |  System.Boolean
+  Code  |  varchar  |  System.String
+  Description  |  varchar  |  System.String
+  LookUpType  |  varchar  |  System.String
+  SortOrder  |  int  |  System.Int32
+  DwCreated  |  datetime2  |  System.DateTime
+  DwCreatedBy  |  nvarchar  |  System.String
+  DwModified  |  datetime2  |  System.DateTime
+  DwModifiedBy  |  nvarchar  |  System.String
+

@@ -14,7 +14,7 @@ namespace DB.Entity
 
         public int CodeId { get; set; }
 
-        public string ActivityCode { get; set; }
+       
 
         public string ActivityName { get; set; }
     }

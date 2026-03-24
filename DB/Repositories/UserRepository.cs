@@ -7,6 +7,7 @@ using DB.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Net;
 using System.Net.Mail;
 
@@ -204,27 +205,31 @@ namespace DB.Repositories
 
         public async Task<UserDTO> SaveUserAsync(UserDTO user)
         {
-            if (userExist(user.UserName))
+            if (StaffExist(user.StaffId))
             {
-                throw new Exception("User Already Exist with Same UserName");
+                throw new Exception("User Already Exist with Same StaffId");
             }
-            user.Name = user.FirstName;
+
+            user.Name = user.FullName;
             var entity = _mapper.Map<EFModel.User>(user);
+            entity.EmailAddress = user.Email;
+            entity.MobileNo = user.Mobile;
+            entity.SiteOffice = user.SiteOfficeId.Value;
             _context.Users.Add(entity);
             await _context.SaveChangesAsync();
             var password = EmailHelper.GenerateRandomPassword();
-            //var community = _context.Community.Where(x => x.Id == entity.CommunityId).FirstOrDefault();
-            //if (community != null)
-            //{
-            //    await SendWelcomeEmailAsync(
-            //                toEmail: user.Email ?? "",
-            //                residentFullName: user.Name ?? "",
-            //                tempPassword: password,
-            //                residentPageUrl: "http://103.27.86.226/CSAApp",
-            //                community?.CommunityName,
-            //                user?.UserName
-            //            );
-            //}
+            var userDetails = _context.Users.Where(x => x.Id == entity.Id).FirstOrDefault();
+            if (userDetails != null)
+            {
+                await SendWelcomeEmailAsync(
+                            toEmail: user.Email ?? "",
+                            residentFullName: user.Name ?? "",
+                            tempPassword: password,
+                            residentPageUrl: "http://103.27.86.226/Procura",
+                            userDetails.FullName,
+                            userDetails.StaffId
+                        );
+            }
 
             return await GetByIdAsync(entity.Id);
         }
@@ -246,8 +251,8 @@ namespace DB.Repositories
 
             var mailMessage = new MailMessage
             {
-                From = new MailAddress(fromEmail, "CSA Team"),
-                Subject = "Welcome to Community Smart Access Admin Portal - Your Account Has Been Created",
+                From = new MailAddress(fromEmail, "Procura Team"),
+                Subject = "Welcome to Procura - Your Account Has Been Created",
                 Body = EmailHelper.GetWelcomeEmailBody(residentFullName, userName, tempPassword, residentPageUrl, community),
                 IsBodyHtml = true
             };
@@ -271,22 +276,26 @@ namespace DB.Repositories
             return _context.Users.Any(u => u.UserName == userName);
         }
 
+        private bool StaffExist(string? staffId)
+        {
+            return _context.Users.Any(u => u.StaffId == staffId);
+        }
+
         public async Task UpdateUserAsync(int userId, UserDTO user)
         {
             var entity = await _context.Users.FirstOrDefaultAsync(c => c.Id == userId);
             if (entity != null)
             {
-                //entity.Name = user.Name;
-                //entity.Email = user.Email;
-                entity.Password = user.Password;
-                //entity.FirstName = user.FirstName;
-                //entity.LastName = user.LastName;
-                //entity.RoleId = user.RoleId;
-                //entity.Status = user.Status;
-                //entity.UpdatedDate = DateTime.Now;
-                //entity.UserName = user.UserName;
-                //entity.CommunityId=user.CommunityId;
-                //entity.Name = user.FirstName + " " + user.LastName;
+                entity.FullName = user.FullName;
+                entity.EmailAddress = user.Email;
+                entity.MobileNo = user.Mobile;
+                entity.SiteLevelId = user.SiteLevelId.Value;
+                entity.RoleId = user.RoleId.Value;
+                entity.SiteOffice = user.SiteOfficeId.Value;
+                entity.DesignationId = user.DesignationId;
+                entity.IsOpeningCommittee = user.IsOpeningCommittee;
+                entity.IsEvaluationCommittee = user.IsEvaluationCommittee;
+                entity.IsNegotiationCommittee = user.IsNegotiationCommittee;
             }
             await _context.SaveChangesAsync();
         }
@@ -423,7 +432,98 @@ namespace DB.Repositories
             if (password.Count(char.IsLetter) < Convert.ToInt32(policy.MinAlphaChars))
                 throw new Exception("Password should contains atleast " + policy.MinAlphaChars + " character");
         }
-       
-       
+
+
+
+
+        public async Task<IEnumerable<UserDTO>> GetUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status)
+        {
+            var query = _context.Users
+                .Include(x => x.State)
+                .Include(x => x.SiteLevel)
+                .AsQueryable();
+
+            // Site Level filter
+            if (siteLevelId.HasValue)
+            {
+                query = query.Where(x => x.SiteLevelId == siteLevelId);
+            }
+
+            // Site Office filter
+            if (siteOfficeId.HasValue)
+            {
+                query = query.Where(x => x.SiteOffice == siteOfficeId);
+            }
+
+            // Status filter
+            if (status.HasValue)
+            {
+                query = query.Where(x => x.IsActive == status);
+            }
+
+            return await query
+                .Select(c => new UserDTO
+                {
+                    Id = c.Id,
+                    RoleName = c.Role == null ? "" : c.Role.Name,
+                    FirstName = c.FullName,
+                    LastName = c.FullName,
+                    RoleId = c.RoleId,
+                    Status = c.IsActive ? "Active" : "InActive",
+                    Email = c.EmailAddress,
+                    UserName = c.UserName,
+                    SiteLevel = c.SiteLevel,
+                    SiteOffice = c.State,
+                    IsEvaluationCommittee = c.IsEvaluationCommittee,
+                    IsNegotiationCommittee = c.IsNegotiationCommittee,
+                    IsOpeningCommittee = c.IsOpeningCommittee
+                })
+                .ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<UserDTO>> GetBidderUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status)
+        {
+            var query = _context.Users
+                .Where(x => x.RoleId == 5)
+                .Include(x => x.State)
+                .Include(x => x.SiteLevel)
+                .AsQueryable();
+
+            if (siteLevelId.HasValue)
+            {
+                query = query.Where(x => x.SiteLevelId == siteLevelId);
+            }
+
+            if (siteOfficeId.HasValue)
+            {
+                query = query.Where(x => x.SiteOffice == siteOfficeId);
+            }
+
+            if (status.HasValue)
+            {
+                query = query.Where(x => x.IsActive == status);
+            }
+
+            return await query
+                .Select(c => new UserDTO
+                {
+                    Id = c.Id,
+                    RoleName = c.Role == null ? "" : c.Role.Name,
+                    FirstName = c.FullName,
+                    LastName = c.FullName,
+                    RoleId = c.RoleId,
+                    Status = c.IsActive ? "Active" : "InActive",
+                    Email = c.EmailAddress,
+                    UserName = c.UserName,
+                    SiteLevel = c.SiteLevel,
+                    SiteOffice = c.State,
+                    IsEvaluationCommittee = c.IsEvaluationCommittee,
+                    IsNegotiationCommittee = c.IsNegotiationCommittee,
+                    IsOpeningCommittee = c.IsOpeningCommittee
+                })
+                .ToListAsync();
+        }
+
     }
 }

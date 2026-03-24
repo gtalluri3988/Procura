@@ -1,4 +1,5 @@
-﻿using DB.Entity;
+﻿using DB.EFModel;
+using DB.Entity;
 using DB.Helper;
 using Procura.Models;
 using System;
@@ -24,7 +25,7 @@ namespace BusinessLogic.Interfaces
         Task<VendorRegistrationStep?> SaveProfileAsync(int vendorId, VendorProfileDto request);
         Task<VendorRegistrationStep?> SaveMembersAsync(int vendorId, VendorMemberDto request);
         Task<VendorRegistrationStep?> SaveFinancialAsync(int vendorId, VendorFinancialDto request);
-        Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, List<VendorCategoryDto> request);
+        Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, VendorCategoryRequest request);
         Task<VendorRegistrationStep?> SaveExperiencesAsync(int vendorId, List<VendorExperienceDto> request);
         Task<VendorRegistrationStep?> SaveDeclarationAsync(int vendorId, VendorDeclarationDto request);
         Task<PaymentDetailsDTO> GetPaymentDetailsAsync(int vendorId);
@@ -39,5 +40,10 @@ namespace BusinessLogic.Interfaces
         Task<IEnumerable<VendorProfileDto>> GetVendorListAsync(VendorSearchRequest? request);
 
         Task<IEnumerable<IndustryTypeDto>> BindIndustryTypeListAsync();
+
+        Task<Vendor?> GetVendorFullDetailsAsync(int vendorId);
+
+           Task SaveQuestionAnswers(int vendorId, List<QuestionAnswerDto> answers);
+        Task<List<QuestionAnswerDto>> GetQuestionAnswersByQuestionnaireId(int questionnaireId, int vendorId);
     }
 }

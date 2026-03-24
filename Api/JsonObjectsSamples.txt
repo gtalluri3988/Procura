@@ -62,7 +62,7 @@
   },
   {
     "id": 0,
-    "codeMasterId": 2,
+    "codeMasterId": 3,
     "categoryCode": "01",
     "categoryName": "BEKALAN DAN ALAT TULIS",
     "subCategories": [
@@ -109,16 +109,78 @@
   },
   {
     "id": 0,
-    "codeMasterId": 2,
+    "codeMasterId": 3,
     "categoryCode": "02",
     "categoryName": "PERTANIAN PERHUTANAN DAN TERNAKAN",
     "subCategories": []
   },
   {
     "id": 0,
-    "codeMasterId": 2,
+    "codeMasterId": 3,
     "categoryCode": "03",
     "categoryName": "SISTEM MAKLUMAT",
+    "subCategories": []
+  },
+  {
+    "id": 0,
+    "codeMasterId": 4,
+    "categoryCode": "CF",
+    "categoryName": "KEJURUTERAAN AWAM",
+    "subCategories": [
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 4,
+        "subCategoryCode": "CE01",
+        "subCategoryName": "CE01",
+        "activities": [
+          {
+            "id": 0,
+            "subCategoryId": 0,
+            "codeId": 4,
+            "activityCode": "01",
+            "activityName": "Pembinaan jalan dan pavemen"
+          }
+        ]
+      },
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 4,
+        "subCategoryCode": "CE08",
+        "subCategoryName": "CE08",
+        "activities": [
+          {
+            "id": 0,
+            "subCategoryId": 0,
+            "codeId": 4,
+            "activityCode": "01",
+            "activityName": "Sistem perlindungan dan penstabilan cerun"
+          }
+        ]
+      },
+      {
+        "id": 0,
+        "categoryId": 0,
+        "codeId": 4,
+        "subCategoryCode": "CE36",
+        "subCategoryName": "CE36",
+        "activities": []
+      }
+    ]
+  },
+  {
+    "id": 0,
+    "codeMasterId": 4,
+    "categoryCode": "ME",
+    "categoryName": "KEJURUTERAAN MEKANIKAL",
+    "subCategories": []
+  },
+  {
+    "id": 0,
+    "codeMasterId": 4,
+    "categoryCode": "F",
+    "categoryName": "FASILITI",
     "subCategories": []
   }
 ]

@@ -3,6 +3,7 @@ using BusinessLogic.Services;
 using DB.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Procura.Models;
 using System.Security.Claims;
 using YourNamespace.Services;
 [Authorize]
@@ -42,6 +43,20 @@ public class UserController : ControllerBase
     {
         return Ok(await _userService.GetBiddingUsersList());
     }
+
+    [HttpPost]
+    public async Task<IActionResult> GetAllUsers(UserSearch userSearch)
+    {
+        return Ok(await _userService.GetUserListAsync(userSearch.siteLevelId,userSearch.siteOfficeId,userSearch.status));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GetBiddingUsersList(UserSearch userSearch)
+    {
+        return Ok(await _userService.GetBidderUserListAsync(userSearch.siteLevelId, userSearch.siteOfficeId, userSearch.status));
+    }
+
+
     [HttpPost]
     public async Task<IActionResult> CreateUser(UserDTO user)
     {
