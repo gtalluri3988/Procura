@@ -107,7 +107,15 @@ namespace DB.Repositories
                     Name = item.Name ?? string.Empty,
                 }).ToList() ?? new List<DropdownItem>();
             }
-
+            if (inputType.ToLower() == DropDown.JobCategory.ToString().ToLower())
+            {
+                return _context.JobCategories.Select(item => new DropdownItem
+                {
+                    Id = item.Id,
+                    Name = item.Name ?? string.Empty,
+                }).ToList() ?? new List<DropdownItem>();
+            }
+            
             return new List<DropdownItem>();
 
         }

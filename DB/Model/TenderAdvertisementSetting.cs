@@ -14,7 +14,7 @@ namespace DB.EFModel
         public int TenderId { get; set; }
         // Tender Opening Committee
         public DateTime OpeningStartDate { get; set; }
-        public DateTime OpeningEndDate { get; set; }
+        public DateTime OpeningEndDate { get; set; }   
         public ICollection<TenderOpeningCommittee> OpeningCommittees { get; set; } = new List<TenderOpeningCommittee>();
         // Tender Evaluation
         public DateTime EvaluationStartDate { get; set; }
@@ -22,5 +22,7 @@ namespace DB.EFModel
         public ICollection<TenderEvaluationCommittee> EvaluationCommittees { get; set; } = new List<TenderEvaluationCommittee>();
         public string? TenderDocumentPath { get; set; }
         public TenderApplication? Tender { get; set; }
+
+       
     }
 }

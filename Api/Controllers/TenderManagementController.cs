@@ -103,5 +103,170 @@ namespace Procura.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveTenderAdvertisementPage([FromBody] TenderAdvertisementPageDto dto)
+        {
+            await _tenderService.SaveTenderAdvertisementPageAsync(dto);
+            return Ok("Tender advertisement page saved successfully");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTenderAdvertisementPage(int tenderApplicationId)
+        {
+            var result = await _tenderService.GetTenderAdvertisementPageByTenderApplicationIdAsync(tenderApplicationId);
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        // ── Tender Opening — List (Page 1) ─────────────────────────────────────────
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTenderOpeningList(string? referenceId, string? projectName)
+        {
+            var result = await _tenderService.GetTenderOpeningListAsync(referenceId, projectName);
+            return Ok(result);
+        }
+
+        // ── Tender Opening — Detail (Page 2, click on Reference No) ───────────────
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTenderOpeningDetail(int tenderId)
+        {
+            var result = await _tenderService.GetTenderOpeningDetailAsync(tenderId);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
+        // ── Tender Opening — Full Opening Page (Page 3, after Proceed) ────────────
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTenderOpeningPage(int tenderId)
+        {
+            var result = await _tenderService.GetTenderOpeningPageAsync(tenderId);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> SearchCommitteeUsers(string name, string committeeType)
+        {
+            if (string.IsNullOrWhiteSpace(committeeType) ||
+                (!committeeType.Equals("opening", StringComparison.OrdinalIgnoreCase) &&
+                 !committeeType.Equals("evaluation", StringComparison.OrdinalIgnoreCase)))
+            {
+                return BadRequest("committeeType must be 'opening' or 'evaluation'");
+            }
+
+            var result = await _tenderService.SearchCommitteeUsersAsync(name, committeeType);
+            return Ok(result);
+        }
+
+        // ── Tender Evaluation — Full Page ─────────────────────────────────────
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTenderEvaluationPage(int tenderId)
+        {
+            var result = await _tenderService.GetTenderEvaluationPageAsync(tenderId);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
+        // ── Tender Evaluation — Technical Popup ───────────────────────────────
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTechnicalEvaluationPopup(int tenderId, int vendorId)
+        {
+            var result = await _tenderService.GetTechnicalEvaluationPopupAsync(tenderId, vendorId);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
+        // ── Tender Evaluation — Save Technical Scores ────────────────────────
+        [HttpPost]
+        public async Task<IActionResult> SaveTechnicalScore([FromBody] SaveTechnicalScoreDto dto)
+        {
+            await _tenderService.SaveTechnicalScoreAsync(dto);
+            return Ok("Technical scores saved successfully");
+        }
+
+        // ── Tender Evaluation — Save Recommendation ───────────────────────────
+        [HttpPost]
+        public async Task<IActionResult> SaveTenderRecommendation([FromBody] TenderRecommendationPageDto dto)
+        {
+            await _tenderService.SaveTenderRecommendationAsync(dto);
+            return Ok("Recommendation saved successfully");
+        }
+
+        // ── Tender Award — List ────────────────────────────────────────────────
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTenderAwardList(string? referenceId, string? projectName)
+        {
+            var result = await _tenderService.GetTenderAwardListAsync(referenceId, projectName);
+            return Ok(result);
+        }
+
+        // ── Tender Award — Full Page ───────────────────────────────────────────
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetTenderAwardPage(int tenderId)
+        {
+            var result = await _tenderService.GetTenderAwardPageAsync(tenderId);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
+        // ── Tender Award — Save Vendor Appointment ────────────────────────────
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> SaveTenderAward([FromBody] SaveTenderAwardDto dto)
+        {
+            await _tenderService.SaveTenderAwardAsync(dto);
+            return Ok("Tender award saved successfully");
+        }
+
+        // ── Tender Award — Save Minutes of Meeting (Add/Edit popup) ──────────
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> SaveTenderAwardMinutes([FromBody] SaveTenderAwardMinutesDto dto)
+        {
+            var result = await _tenderService.SaveTenderAwardMinutesAsync(dto);
+            return Ok(result);
+        }
+
+        // ── Tender Award — Delete Minutes of Meeting ──────────────────────────
+        [AllowAnonymous]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTenderAwardMinutes(int minutesId)
+        {
+            await _tenderService.DeleteTenderAwardMinutesAsync(minutesId);
+            return Ok("Minutes of meeting deleted successfully");
+        }
+
+        // ── Vendor Performance — Get Page ──────────────────────────────────────
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetVendorPerformancePage(int tenderId)
+        {
+            var result = await _tenderService.GetVendorPerformancePageAsync(tenderId);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
+
+        // ── Vendor Performance — Save ──────────────────────────────────────────
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> SaveVendorPerformance([FromBody] SaveVendorPerformanceDto dto)
+        {
+            int.TryParse(_currentUserService.GetUserId(), out var userId);
+            await _tenderService.SaveVendorPerformanceAsync(dto, userId);
+            return Ok("Vendor performance saved successfully");
+        }
     }
 }

@@ -35,98 +35,98 @@ namespace Api.Controllers
 
 
 
-            var app = ConfidentialClientApplicationBuilder.Create("6b5cb635-b477-4eda-a39b-78f3c80d4f21")
-            .WithClientSecret("e1m8Q~8slNytggZ6UHtO3dijvE6RmEx3T.tYMan_") // 🔴 replace with rotated secret
-            .WithAuthority("https://login.microsoftonline.com/bae04769-f27e-49d4-89f9-2dd2ade385b7")
-            .Build();
+//            var app = ConfidentialClientApplicationBuilder.Create("6b5cb635-b477-4eda-a39b-78f3c80d4f21")
+//            .WithClientSecret("e1m8Q~8slNytggZ6UHtO3dijvE6RmEx3T.tYMan_") // 🔴 replace with rotated secret
+//            .WithAuthority("https://login.microsoftonline.com/bae04769-f27e-49d4-89f9-2dd2ade385b7")
+//            .Build();
 
-            var result = await app
-                .AcquireTokenForClient(new[] { "https://database.windows.net/.default" })
-                .ExecuteAsync();
+//            var result = await app
+//                .AcquireTokenForClient(new[] { "https://database.windows.net/.default" })
+//                .ExecuteAsync();
 
-            string accessToken = result.AccessToken;
-
-
-
-            var connectionString =
-            "Server=ercprodws1.sql.azuresynapse.net;" +
-            "Database=ercprodws1pOds;" +
-            "Encrypt=True;" +
-            "TrustServerCertificate=False;" +
-            "Connection Timeout=30;";
-
-            using var conn = new SqlConnection(connectionString);
-            conn.AccessToken = accessToken;
-
-            await conn.OpenAsync();
-
-
-            using var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT * FROM MDStaff.LookupValue";
-
-            // execute reader
-            using var reader = await cmd.ExecuteReaderAsync();
-
-            // create datatable
-            var dataTable = new DataTable();
-
-            // load data
-            dataTable.Load(reader);
-
-            // now you can use it
-            foreach (DataRow row in dataTable.Rows)
-            {
-                Console.WriteLine(row[0]?.ToString());
-            }
+//            string accessToken = result.AccessToken;
 
 
 
-            // get all tables in MDStaff schema
-            var tablesCmd = conn.CreateCommand();
-            tablesCmd.CommandText = @"
-SELECT TABLE_NAME 
-FROM INFORMATION_SCHEMA.TABLES 
-WHERE TABLE_SCHEMA = 'MDStaff' AND TABLE_TYPE = 'BASE TABLE'";
+//            var connectionString =
+//            "Server=ercprodws1.sql.azuresynapse.net;" +
+//            "Database=ercprodws1pOds;" +
+//            "Encrypt=True;" +
+//            "TrustServerCertificate=False;" +
+//            "Connection Timeout=30;";
 
-            var tables = new List<string>();
+//            using var conn = new SqlConnection(connectionString);
+//            conn.AccessToken = accessToken;
 
-            using (var reader1 = await tablesCmd.ExecuteReaderAsync())
-            {
-                while (await reader1.ReadAsync())
-                {
-                    tables.Add(reader1.GetString(0));
-                }
-            }
+//            await conn.OpenAsync();
 
-            string filePath =@"C:\Uploads\MDStaff_Schema.txt";
 
-            using var writer = new StreamWriter(filePath);
+//            using var cmd = conn.CreateCommand();
+//            cmd.CommandText = "SELECT * FROM MDStaff.LookupValue";
 
-            foreach (var table in tables)
-            {
-                writer.WriteLine($"Table: {table}");
-                writer.WriteLine(new string('-', 50));
+//            // execute reader
+//            using var reader = await cmd.ExecuteReaderAsync();
 
-                var cmd1 = conn.CreateCommand();
-                cmd1.CommandText = $"SELECT TOP 1 * FROM MDStaff.{table}";
+//            // create datatable
+//            var dataTable = new DataTable();
 
-                using var reader1 = await cmd1.ExecuteReaderAsync(); // ✅ FIXED
+//            // load data
+//            dataTable.Load(reader);
 
-                var schema = reader1.GetSchemaTable();
+//            // now you can use it
+//            foreach (DataRow row in dataTable.Rows)
+//            {
+//                Console.WriteLine(row[0]?.ToString());
+//            }
 
-                foreach (DataRow row in schema.Rows)
-                {
-                    string columnName = row["ColumnName"].ToString();
-                    string dataType = row["DataType"].ToString();
-                    string sqlType = row["DataTypeName"]?.ToString();
 
-                    writer.WriteLine($"  {columnName}  |  {sqlType}  |  {dataType}");
-                }
 
-                writer.WriteLine();
-            }
+//            // get all tables in MDStaff schema
+//            var tablesCmd = conn.CreateCommand();
+//            tablesCmd.CommandText = @"
+//SELECT TABLE_NAME 
+//FROM INFORMATION_SCHEMA.TABLES 
+//WHERE TABLE_SCHEMA = 'MDStaff' AND TABLE_TYPE = 'BASE TABLE'";
 
-            Console.WriteLine($"Schema saved to: {filePath}");
+//            var tables = new List<string>();
+
+//            using (var reader1 = await tablesCmd.ExecuteReaderAsync())
+//            {
+//                while (await reader1.ReadAsync())
+//                {
+//                    tables.Add(reader1.GetString(0));
+//                }
+//            }
+
+//            string filePath =@"C:\Uploads\MDStaff_Schema.txt";
+
+//            using var writer = new StreamWriter(filePath);
+
+//            foreach (var table in tables)
+//            {
+//                writer.WriteLine($"Table: {table}");
+//                writer.WriteLine(new string('-', 50));
+
+//                var cmd1 = conn.CreateCommand();
+//                cmd1.CommandText = $"SELECT TOP 1 * FROM MDStaff.{table}";
+
+//                using var reader1 = await cmd1.ExecuteReaderAsync(); // ✅ FIXED
+
+//                var schema = reader1.GetSchemaTable();
+
+//                foreach (DataRow row in schema.Rows)
+//                {
+//                    string columnName = row["ColumnName"].ToString();
+//                    string dataType = row["DataType"].ToString();
+//                    string sqlType = row["DataTypeName"]?.ToString();
+
+//                    writer.WriteLine($"  {columnName}  |  {sqlType}  |  {dataType}");
+//                }
+
+//                writer.WriteLine();
+//            }
+
+//            Console.WriteLine($"Schema saved to: {filePath}");
 
 
 

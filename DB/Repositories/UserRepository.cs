@@ -444,13 +444,13 @@ namespace DB.Repositories
                 .AsQueryable();
 
             // Site Level filter
-            if (siteLevelId.HasValue)
+            if (siteLevelId.HasValue && siteLevelId!=0)
             {
                 query = query.Where(x => x.SiteLevelId == siteLevelId);
             }
 
             // Site Office filter
-            if (siteOfficeId.HasValue)
+            if (siteOfficeId.HasValue && siteOfficeId !=0)
             {
                 query = query.Where(x => x.SiteOffice == siteOfficeId);
             }

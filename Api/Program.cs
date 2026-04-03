@@ -7,6 +7,8 @@ using BusinessLogic.Services;
 using DB;
 using DB.EFModel;
 using DB.Model;
+using DB.Repositories;
+using DB.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http.Features;
@@ -83,6 +85,8 @@ builder.Services.AddScoped<IVendorService, VendorService>();
 builder.Services.AddScoped<ISAPServices, SAPServices>();
 builder.Services.AddScoped<IMasterDataService, MasterDataService>();
 builder.Services.AddScoped<ITenderService, TenderService>();
+builder.Services.AddScoped<IBiddingService, BiddingService>();
+builder.Services.AddScoped<IBiddingRepository, BiddingRepository>();
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 

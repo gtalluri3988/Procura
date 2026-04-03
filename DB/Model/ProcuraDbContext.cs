@@ -140,8 +140,28 @@ namespace DB.Model
         public DbSet<TenderEvaluationSpecification> TenderEvaluationSpecifications { get; set; }
         public DbSet<TenderIssuenceApproval> TenderIssuenceApprovals { get; set; }
 
+        public DbSet<TenderVendorSubmission> TenderVendorSubmissions { get; set; }
+        public DbSet<TenderTechnicalEvaluationScore> TenderTechnicalEvaluationScores { get; set; }
+        public DbSet<TenderTechnicalEvaluationResult> TenderTechnicalEvaluationResults { get; set; }
+        public DbSet<TenderRecommendation> TenderRecommendations { get; set; }
 
-        
+        // Tender Award
+        public DbSet<TenderAward> TenderAwards { get; set; }
+        public DbSet<TenderAwardMinutesOfMeeting> TenderAwardMinutesOfMeetings { get; set; }
+
+        // Vendor Performance
+        public DbSet<VendorPerformance> VendorPerformances { get; set; }
+        public DbSet<VendorPerformanceScore> VendorPerformanceScores { get; set; }
+        public DbSet<VendorPerformanceFeedback> VendorPerformanceFeedbacks { get; set; }
+
+        // Bidding
+        public DbSet<BiddingAsset> BiddingAssets { get; set; }
+        public DbSet<BidderSubmissionItem> BidderSubmissionItems { get; set; }
+        public DbSet<TenderOpeningVerification> TenderOpeningVerifications { get; set; }
+        public DbSet<BidderAcknowledgement> BidderAcknowledgements { get; set; }
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

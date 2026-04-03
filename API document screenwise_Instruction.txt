@@ -1,0 +1,119 @@
+------Claear API document generation instrunction with screenshots---------
+
+
+You are given:
+
+1. A folder containing wireframe screenshots (C:\Users\Srikanth\OneDrive\Documents\GitSolutions_gtalluri3988\Procura\Procura\screens)
+2. A .NET Web API project with all implemented endpoints
+
+Your task is to analyze both and generate a complete API documentation for UI developers.
+
+---
+
+## OBJECTIVE
+
+Map each wireframe screen to its corresponding API endpoints and generate a structured document.
+
+---
+
+## INPUTS
+
+* Wireframe screenshots folder (C:\Users\Srikanth\OneDrive\Documents\GitSolutions_gtalluri3988\Procura\Procura\screens)
+* API Controllers / Swagger JSON
+
+---
+
+## INSTRUCTIONS
+
+1. Analyze wireframes:
+
+   * Identify each screen name (e.g., Login, Dashboard, User Management)
+   * Extract UI elements:
+
+     * Fields
+     * Buttons
+     * Actions (Create, Update, Delete, Search)
+
+2. Analyze API project:
+
+   * Identify all endpoints
+   * Group them by module (Auth, Users, Orders, etc.)
+
+3. Map UI → API:
+
+   * For each screen:
+
+     * Identify which APIs are used
+     * Example:
+
+       * Login screen → POST /auth/login
+       * User list → GET /users
+
+4. Generate documentation per screen:
+
+For EACH SCREEN include:
+
+* Screen Name
+* Description
+* UI Actions
+* Related APIs
+
+For EACH API include:
+
+* Endpoint Name
+* Method (GET/POST/PUT/DELETE)
+* URL
+* Request JSON
+* Response JSON
+* Field descriptions
+* Required vs optional
+* Validation rules
+* Error responses
+* Authentication required (Yes/No)
+
+5. Add frontend notes:
+
+   * Required headers (JWT token)
+   * Pagination handling
+   * Error handling expectations
+
+6. Handle edge cases:
+
+   * Missing APIs → mention clearly
+   * Extra APIs not used in UI → list separately
+
+---
+
+## OUTPUT FORMAT
+
+Generate a clean document structured like:
+
+1. Module-wise 
+2. Screen-wise mapping
+3. API details under each screen
+
+---
+
+## FINAL OUTPUT
+
+* Generate content suitable for a Word document (.docx)
+* Use clear headings and formatting
+* Keep it readable for frontend developers
+
+---
+
+## BONUS
+
+Also include:
+
+* API summary table
+* Authentication flow explanation
+* Common error response format
+
+---
+
+## IMPORTANT
+
+* Do NOT assume APIs — use only what exists in the project
+* Keep naming consistent with code
+* Be precise and production-ready

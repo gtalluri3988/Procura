@@ -23,5 +23,34 @@ namespace BusinessLogic.Interfaces
           int? jobCategoryId,
           int? statusId);
         Task<IEnumerable<UserDTO>> GetTendorReviewers(int ApplicationLevelId, int DesignationId, int StateId);
+
+        // Advertisement Page
+        Task SaveTenderAdvertisementPageAsync(TenderAdvertisementPageDto dto);
+        Task<TenderAdvertisementPageDto?> GetTenderAdvertisementPageByTenderApplicationIdAsync(int tenderApplicationId);
+
+        // Search users by name for committee assignment
+        Task<IEnumerable<UserDTO>> SearchCommitteeUsersAsync(string name, string committeeType);
+
+        // Tender Opening flow
+        Task<List<TenderOpeningListDto>> GetTenderOpeningListAsync(string? referenceId, string? projectName);
+        Task<TenderOpeningDetailDto?> GetTenderOpeningDetailAsync(int tenderId);
+        Task<TenderOpeningPageDto?> GetTenderOpeningPageAsync(int tenderId);
+
+        // Tender Evaluation flow
+        Task<TenderEvaluationPageDto?> GetTenderEvaluationPageAsync(int tenderId);
+        Task<TenderTechnicalEvalPopupDto?> GetTechnicalEvaluationPopupAsync(int tenderId, int vendorId);
+        Task SaveTechnicalScoreAsync(SaveTechnicalScoreDto dto);
+        Task SaveTenderRecommendationAsync(TenderRecommendationPageDto dto);
+
+        // Tender Award flow
+        Task<List<TenderAwardListDto>> GetTenderAwardListAsync(string? referenceId, string? projectName);
+        Task<TenderAwardPageDto?> GetTenderAwardPageAsync(int tenderId);
+        Task SaveTenderAwardAsync(SaveTenderAwardDto dto);
+        Task<TenderAwardMinutesDto> SaveTenderAwardMinutesAsync(SaveTenderAwardMinutesDto dto);
+        Task DeleteTenderAwardMinutesAsync(int minutesId);
+
+        // Vendor Performance flow
+        Task<VendorPerformancePageDto?> GetVendorPerformancePageAsync(int tenderId);
+        Task SaveVendorPerformanceAsync(SaveVendorPerformanceDto dto, int userId);
     }
 }
