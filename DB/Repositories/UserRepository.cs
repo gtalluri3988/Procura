@@ -155,7 +155,7 @@ namespace DB.Repositories
 
         public async Task<IEnumerable<UserDTO>> GetUserListAsync()
         {
-            return await _context.Users.Include(x=>x.State).Include(x=>x.SiteLevel)
+            return await _context.Users.Include(x=>x.State).Include(x=>x.SiteLevel).Include(x=>x.Designation)
                 .Select(c => new UserDTO
                 {
                     Id = c.Id,
@@ -165,10 +165,16 @@ namespace DB.Repositories
                     RoleId = c.RoleId,
                     Status = c.IsActive==true?"Active":"InActive",
                     Email = c.EmailAddress,
-                    //LastLogin = c.la,
                     UserName = c.UserName,
+                    SiteLevelId = c.SiteLevelId,
+                    SiteOfficeId = c.SiteOffice,
+                    DesignationId = c.DesignationId,
+                    SiteLevelName = c.SiteLevel == null ? "" : c.SiteLevel.Name,
+                    SiteOfficeName = c.State == null ? "" : c.State.Name,
+                    DesignationName = c.Designation == null ? "" : c.Designation.Name,
                     SiteLevel=c.SiteLevel,
                     SiteOffice=c.State,
+                    StaffId=c.StaffId,
                     IsEvaluationCommittee=c.IsEvaluationCommittee,
                     IsNegotiationCommittee=c.IsNegotiationCommittee,
                     IsOpeningCommittee=c.IsOpeningCommittee
@@ -180,7 +186,7 @@ namespace DB.Repositories
 
         public async Task<IEnumerable<UserDTO>> GetBidderUserListAsync(int roleId)
         {
-            return await _context.Users.Where(x=>x.RoleId== roleId).Include(x => x.State).Include(x => x.SiteLevel)
+            return await _context.Users.Where(x=>x.RoleId== roleId).Include(x => x.State).Include(x => x.SiteLevel).Include(x => x.Designation)
                 .Select(c => new UserDTO
                 {
                     Id = c.Id,
@@ -190,10 +196,16 @@ namespace DB.Repositories
                     RoleId = c.RoleId,
                     Status = c.IsActive == true ? "Active" : "InActive",
                     Email = c.EmailAddress,
-                    //LastLogin = c.la,
                     UserName = c.UserName,
+                    SiteLevelId = c.SiteLevelId,
+                    SiteOfficeId = c.SiteOffice,
+                    DesignationId = c.DesignationId,
+                    SiteLevelName = c.SiteLevel == null ? "" : c.SiteLevel.Name,
+                    SiteOfficeName = c.State == null ? "" : c.State.Name,
+                    DesignationName = c.Designation == null ? "" : c.Designation.Name,
                     SiteLevel = c.SiteLevel,
                     SiteOffice = c.State,
+                    StaffId = c.StaffId,
                     IsEvaluationCommittee = c.IsEvaluationCommittee,
                     IsNegotiationCommittee = c.IsNegotiationCommittee,
                     IsOpeningCommittee = c.IsOpeningCommittee
@@ -215,9 +227,11 @@ namespace DB.Repositories
             entity.EmailAddress = user.Email;
             entity.MobileNo = user.Mobile;
             entity.SiteOffice = user.SiteOfficeId.Value;
+            var password = EmailHelper.GenerateRandomPassword();
+            entity.Password = password;
             _context.Users.Add(entity);
             await _context.SaveChangesAsync();
-            var password = EmailHelper.GenerateRandomPassword();
+            
             var userDetails = _context.Users.Where(x => x.Id == entity.Id).FirstOrDefault();
             if (userDetails != null)
             {
@@ -441,6 +455,7 @@ namespace DB.Repositories
             var query = _context.Users
                 .Include(x => x.State)
                 .Include(x => x.SiteLevel)
+                .Include(x => x.Designation)
                 .AsQueryable();
 
             // Site Level filter
@@ -472,7 +487,14 @@ namespace DB.Repositories
                     Status = c.IsActive ? "Active" : "InActive",
                     Email = c.EmailAddress,
                     UserName = c.UserName,
+                    SiteLevelId = c.SiteLevelId,
+                    SiteOfficeId = c.SiteOffice,
+                    DesignationId = c.DesignationId,
+                    SiteLevelName = c.SiteLevel == null ? "" : c.SiteLevel.Name,
+                    SiteOfficeName = c.State == null ? "" : c.State.Name,
+                    DesignationName = c.Designation == null ? "" : c.Designation.Name,
                     SiteLevel = c.SiteLevel,
+                    StaffId = c.StaffId,
                     SiteOffice = c.State,
                     IsEvaluationCommittee = c.IsEvaluationCommittee,
                     IsNegotiationCommittee = c.IsNegotiationCommittee,
@@ -488,6 +510,7 @@ namespace DB.Repositories
                 .Where(x => x.RoleId == 5)
                 .Include(x => x.State)
                 .Include(x => x.SiteLevel)
+                .Include(x => x.Designation)
                 .AsQueryable();
 
             if (siteLevelId.HasValue)
@@ -516,7 +539,14 @@ namespace DB.Repositories
                     Status = c.IsActive ? "Active" : "InActive",
                     Email = c.EmailAddress,
                     UserName = c.UserName,
+                    SiteLevelId = c.SiteLevelId,
+                    SiteOfficeId = c.SiteOffice,
+                    DesignationId = c.DesignationId,
+                    SiteLevelName = c.SiteLevel == null ? "" : c.SiteLevel.Name,
+                    SiteOfficeName = c.State == null ? "" : c.State.Name,
+                    DesignationName = c.Designation == null ? "" : c.Designation.Name,
                     SiteLevel = c.SiteLevel,
+                    StaffId = c.StaffId,
                     SiteOffice = c.State,
                     IsEvaluationCommittee = c.IsEvaluationCommittee,
                     IsNegotiationCommittee = c.IsNegotiationCommittee,

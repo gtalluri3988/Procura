@@ -45,7 +45,7 @@ namespace DB.Entity
         public int CreatedBy { get; set; }
 
         // Navigation Property
-        [JsonIgnore]
+      
         public JobCategory? JobCategory { get; set; }
     }
 }

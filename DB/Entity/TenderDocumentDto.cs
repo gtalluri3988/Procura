@@ -16,7 +16,7 @@ namespace DB.Entity
         public string DocumentName { get; set; }
 
         public string Requirement { get; set; }
-        [JsonIgnore]
+       
         public JobCategory? JobCategory { get; set; }
 
 

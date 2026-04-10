@@ -32,10 +32,13 @@ namespace DB.Entity
         public string? PicturePath { get; set; }
         public Nullable<System.DateTime> PasswordExpiryDate { get; set; }
         public Nullable<int> BadLoginAttempt { get; set; }
+        public string? SiteLevelName { get; set; }
+        public string? SiteOfficeName { get; set; }
+        public string? DesignationName { get; set; }
         [JsonIgnore]
         public SiteLevel? SiteLevel { get; set; }   // e.g. Ibu Pejabat (HQ)
         [JsonIgnore]
-        public State? SiteOffice { get; set; }  // e.g. Kuala Lumpur   
+        public State? SiteOffice { get; set; }  // e.g. Kuala Lumpur
         [JsonIgnore]
         public Role? Roles { get; set; }
     }

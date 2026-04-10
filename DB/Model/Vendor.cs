@@ -87,7 +87,10 @@ namespace DB.EFModel
         public ICollection<VendorStaffDeclaration>? StaffDeclarations { get; set; }
             = new List<VendorStaffDeclaration>();
 
-        
+        public ICollection<VendorCreditFacility>? CreditFacilities { get; set; }
+           = new List<VendorCreditFacility>();
+
+
     }
 
 }

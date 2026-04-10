@@ -17,7 +17,7 @@ namespace DB.Entity
 
         public int Weightage { get; set; }
 
-        [JsonIgnore]
+       
         public JobCategory? JobCategory { get; set; }
     }
 }
