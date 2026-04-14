@@ -16,7 +16,7 @@ namespace DB.Repositories
 {
     public class RolePermissionRepository : RepositoryBase<RoleMenuPermission, RoleMenuPermissionDTO>, IRolePermissionRepository
     {
-        public RolePermissionRepository(ProcuraDbContext context, IMapper mapper,IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) { }
+        public RolePermissionRepository(ProcuraDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) { }
 
         public async Task UpdateRolePermissionAsync(int PermissionId, RoleMenuPermissionDTO rolePermission)
         {
@@ -36,6 +36,13 @@ namespace DB.Repositories
                 entity.UpdatedDate = DateTime.Now;
             }
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<RoleMenuPermissionDTO> GeteRolePermissionAsync(int PermissionId)
+        {
+
+            var entity = await _context.RoleMenuPermissions.FirstOrDefaultAsync(c => c.Id == PermissionId);
+            return _mapper.Map<RoleMenuPermissionDTO>(entity);
         }
 
         public async Task<List<RoleMenuPermissionDTO>> GetAllMenuPermissionListAsync()
@@ -58,7 +65,7 @@ namespace DB.Repositories
         public async Task<RoleMenuPermissionDTO> SaveMenuRolePermission(RoleMenuPermissionDTO roleMenuPermission)
         {
             var rolePermission = await _context.RoleMenuPermissions
-            .Where(x => x.RoleId == roleMenuPermission.RoleId 
+            .Where(x => x.RoleId == roleMenuPermission.RoleId
             && x.SubMenuId == roleMenuPermission.SubMenuId && x.MenuId == roleMenuPermission.MenuId)
             .FirstOrDefaultAsync();
             if (rolePermission != null)

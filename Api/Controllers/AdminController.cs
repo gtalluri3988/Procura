@@ -82,6 +82,12 @@ namespace Api.Controllers
         {
             return Ok(await _roleMenuPermissionervice.GetAllMenuRolesAsync());
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRolePermissionById(int permissionId)
+        {
+            return Ok(await _roleMenuPermissionervice.GetRolePermissionAsync(permissionId));
+        }
         
         [HttpPost]
         public async Task<IActionResult> SaveMenuRolePermission(RoleMenuPermissionDTO roleMenuPermissionDTO)

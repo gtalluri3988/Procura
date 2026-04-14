@@ -590,6 +590,17 @@ namespace DB.Repositories
 
                 if (financial.Bank != null)
                 {
+                    // Save bank statement attachment (base64 → physical file)
+                    if (!string.IsNullOrEmpty(financial.Bank.Attachment))
+                    {
+                        var uploadPath = _configuration["FileSettings:UploadPath"];
+                        string attachmentPath = Path.Combine(uploadPath, $"vendor_{vendorId}_BankStatement.pdf");
+                        if (File.Exists(attachmentPath))
+                            File.Delete(attachmentPath);
+                        SaveBase64ToFile(financial.Bank.Attachment, attachmentPath);
+                        financial.Bank.Attachment = attachmentPath;
+                    }
+
                     financial.Bank.VendorId = vendorId;
                     if (existingBank == null)
                     {

@@ -14,6 +14,13 @@ namespace DB.EFModel
         public string BankName { get; set; }
         public string AccountNumber { get; set; }
         public string AccountHolderName { get; set; }
+
+        public string? BankBranch { get; set; }
+        public string? BankBranchAddress { get; set; }
+        public decimal? Balance { get; set; }
+        public string? FixedDeposit { get; set; }
+        public string? Attachment { get; set; }
+
         //public Vendor? Vendor { get; set; }
     }
 
