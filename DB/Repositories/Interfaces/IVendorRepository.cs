@@ -56,5 +56,8 @@ namespace DB.Repositories.Interfaces
 
         Task SaveQuestionAnswers(int vendorId, List<QuestionAnswerDto> answers);
         Task<List<QuestionAnswerDto>> GetQuestionAnswersByQuestionnaireId(int questionnaireId, int vendorId);
+
+        Task<int> GetCategoryChangeCountAsync(int vendorId, DateTime from, DateTime to);
+        Task LogCategoryChangeAsync(int vendorId, string description);
     }
 }

@@ -829,6 +829,22 @@ namespace DB.Repositories
                 // Persist all changes
                 await _context.SaveChangesAsync();
 
+                // Log category change for audit/tracking (freeze & change-limit enforcement)
+                var vendor = await _context.Vendors.FindAsync(vendorId);
+                if (vendor?.ApprovalDatetime != null)
+                {
+                    var changeLog = new VendorCategoryChangeLog
+                    {
+                        VendorId = vendorId,
+                        ChangeDate = DateTime.UtcNow,
+                        ChangeDescription = $"Category codes updated. Categories: {categories.Count}, Certificates: {vendorCategoryCertificates.Count}",
+                        CreatedBy = GetCurrentUserId(),
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    await _context.VendorCategoryChangeLogs.AddAsync(changeLog);
+                    await _context.SaveChangesAsync();
+                }
+
                 // mark Category step completed
                 await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Category);
 
@@ -1365,7 +1381,30 @@ namespace DB.Repositories
             return result;
         }
 
-        
+        #region CATEGORY CHANGE TRACKING
+
+        public async Task<int> GetCategoryChangeCountAsync(int vendorId, DateTime from, DateTime to)
+        {
+            return await _context.VendorCategoryChangeLogs
+                .Where(l => l.VendorId == vendorId && l.ChangeDate >= from && l.ChangeDate <= to)
+                .CountAsync();
+        }
+
+        public async Task LogCategoryChangeAsync(int vendorId, string description)
+        {
+            var log = new VendorCategoryChangeLog
+            {
+                VendorId = vendorId,
+                ChangeDate = DateTime.UtcNow,
+                ChangeDescription = description,
+                CreatedBy = GetCurrentUserId(),
+                CreatedDate = DateTime.UtcNow
+            };
+            await _context.VendorCategoryChangeLogs.AddAsync(log);
+            await _context.SaveChangesAsync();
+        }
+
+        #endregion
 
     }
 

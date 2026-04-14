@@ -2,6 +2,15 @@
 
 | Timestamp | File | Action | Requirement |
 |-----------|------|---------|-------------|
+| 2026-04-14 | DB/Model/VendorCategoryChangeLog.cs | Created audit entity for tracking vendor category code changes | Enforce max 2 changes within 3-year validity period — requires change history to count against |
+| 2026-04-14 | DB/Model/ProcuraDbContext.cs | Added DbSet\<VendorCategoryChangeLog\> | Register new audit table in EF Core context |
+| 2026-04-14 | BusinessLogic/Models/CategoryChangeValidationResult.cs | Created structured validation result DTO | Return freeze period, change count, eligibility status to controller/UI for header-level pre-validation |
+| 2026-04-14 | DB/Repositories/Interfaces/IVendorRepository.cs | Added GetCategoryChangeCountAsync and LogCategoryChangeAsync | Repository contracts for change tracking and audit logging |
+| 2026-04-14 | DB/Repositories/VendorRepository.cs | Implemented change count query, audit logging, and auto-log on SaveCategoriesAsync | Enforce change-limit rule and maintain audit trail inside existing transaction |
+| 2026-04-14 | BusinessLogic/Interfaces/IVendorService.cs | Added ValidateCategoryChangeAsync to interface | Service contract for header-level category change eligibility check |
+| 2026-04-14 | BusinessLogic/Services/VendorService.cs | Implemented ValidateCategoryChangeAsync with freeze period and change-limit checks; injected IMasterDataRepository | Enforce 6-month freeze after approval and max 2 changes within N-year validity at service layer |
+| 2026-04-14 | Api/Controllers/VendorController.cs | Added GET ValidateCategoryChangeEligibility endpoint; added pre-validation gate in POST Categories | Block invalid submissions early at controller level before reaching repository |
+| 2026-04-14 | DB/Migrations/20260414014625_AddVendorCategoryChangeLog.cs | EF Core migration for VendorCategoryChangeLogs table | Create audit table with FK to Vendors and index on VendorId |
 | 2026-04-11 | DB/Repositories/Interfaces/IRolePermissionRepository.cs | Added `GeteRolePermissionAsync(int PermissionId)` to interface | Method existed in the implementation but was missing from the interface, causing a compiler contract violation |
 | 2026-04-11 | BusinessLogic/Interfaces/IRoleMenuPermissionService.cs | Added `GetRolePermissionAsync(int permissionId)` to service interface | Expose get-by-id capability through the service layer |
 | 2026-04-11 | BusinessLogic/Services/RoleMenuPermissionService.cs | Implemented `GetRolePermissionAsync` delegating to repository | Wire service layer to repository for get-by-id permission lookup |

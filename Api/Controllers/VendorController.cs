@@ -275,11 +275,26 @@ namespace Procura.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> ValidateCategoryChangeEligibility(int vendorId)
+        {
+            var result = await _vendorService.ValidateCategoryChangeAsync(vendorId);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Categories(int vendorId, VendorCategoryRequest request)
         {
             try
             {
+                // Header-level pre-validation: freeze period and change-limit checks
+                var eligibility = await _vendorService.ValidateCategoryChangeAsync(vendorId);
+                if (!eligibility.IsEligible)
+                {
+                    return BadRequest(new { Errors = eligibility.Errors });
+                }
+
                 var categories = await _vendorService.SaveCategoriesAsync(vendorId, request);
                 return Ok(new { NextStep = categories.ToString() });
             }

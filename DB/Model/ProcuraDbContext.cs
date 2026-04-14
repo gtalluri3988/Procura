@@ -160,6 +160,9 @@ namespace DB.Model
         public DbSet<TenderOpeningVerification> TenderOpeningVerifications { get; set; }
         public DbSet<BidderAcknowledgement> BidderAcknowledgements { get; set; }
 
+        // Category Code Change Audit
+        public DbSet<VendorCategoryChangeLog> VendorCategoryChangeLogs { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

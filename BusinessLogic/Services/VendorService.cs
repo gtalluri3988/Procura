@@ -19,10 +19,16 @@ namespace BusinessLogic.Services
     public class VendorService : IVendorService
     {
         private readonly IVendorRepository _vendorRepository;
+        private readonly IMasterDataRepository _masterDataRepository;
 
-        public VendorService(IVendorRepository vendorRepository)
+        private const int MaxCategoriesAllowed = 2;
+        private const int MaxSubCategoriesPerCategory = 3;
+        private const int MaxChangesAllowed = 2;
+
+        public VendorService(IVendorRepository vendorRepository, IMasterDataRepository masterDataRepository)
         {
             _vendorRepository = vendorRepository;
+            _masterDataRepository = masterDataRepository;
         }
 
         //public async Task SaveStepAsync(int vendorId, VendorRegistrationStep Step, StepSaveRequest request)
@@ -513,6 +519,85 @@ namespace BusinessLogic.Services
         public async Task<List<QuestionAnswerDto>> GetQuestionAnswersByQuestionnaireId(int questionnaireId, int vendorId)
         {
              return await _vendorRepository.GetQuestionAnswersByQuestionnaireId(questionnaireId, vendorId);
+        }
+
+        public async Task<CategoryChangeValidationResult> ValidateCategoryChangeAsync(int vendorId)
+        {
+            var result = new CategoryChangeValidationResult
+            {
+                MaxCategoriesAllowed = MaxCategoriesAllowed,
+                MaxSubCategoriesPerCategory = MaxSubCategoriesPerCategory
+            };
+
+            var vendor = await _vendorRepository.GetVendorByIdAsync(vendorId);
+            if (vendor == null)
+            {
+                result.IsEligible = false;
+                result.Errors.Add("Vendor not found.");
+                return result;
+            }
+
+            var (monthsSetting, yearsSetting) = await _masterDataRepository.GetCategoryCodeSettingAsync();
+
+            // Rule 3: Freeze period — no changes allowed for N months after approval
+            if (vendor.ApprovalDatetime.HasValue && monthsSetting > 0)
+            {
+                var freezeEnd = vendor.ApprovalDatetime.Value.AddMonths(monthsSetting);
+                result.FreezeEndDate = freezeEnd;
+
+                if (DateTime.UtcNow < freezeEnd)
+                {
+                    result.IsInFreezePeriod = true;
+                    result.IsEligible = false;
+                    result.Errors.Add(
+                        $"Category codes are frozen until {freezeEnd:dd MMM yyyy}. " +
+                        $"Changes are not allowed during the {monthsSetting}-month freeze period after approval.");
+                    return result;
+                }
+            }
+
+            // Rule 4: Max 2 changes within the N-year validity period
+            if (vendor.ApprovalDatetime.HasValue && yearsSetting > 0)
+            {
+                var validityStart = vendor.ApprovalDatetime.Value;
+                var validityEnd = validityStart.AddYears(yearsSetting);
+                result.ValidityEndDate = validityEnd;
+
+                var changeCount = await _vendorRepository.GetCategoryChangeCountAsync(
+                    vendorId, validityStart, validityEnd);
+
+                result.RemainingChanges = Math.Max(0, MaxChangesAllowed - changeCount);
+
+                if (changeCount >= MaxChangesAllowed)
+                {
+                    result.HasExceededMaxChanges = true;
+                    result.IsEligible = false;
+                    result.Errors.Add(
+                        $"Maximum {MaxChangesAllowed} category code changes allowed within the " +
+                        $"{yearsSetting}-year validity period. " +
+                        $"Next change available after {validityEnd:dd MMM yyyy}.");
+                    return result;
+                }
+            }
+
+            // Rule 1: Current category count (informational for UI)
+            var vendorFull = await _vendorRepository.GetVendorFullDetailsAsync(vendorId);
+            if (vendorFull?.VendorCategories != null)
+            {
+                result.CurrentCategoryCount = vendorFull.VendorCategories
+                    .Select(c => c.CategoryId)
+                    .Distinct()
+                    .Count();
+            }
+
+            result.IsEligible = true;
+            if (!vendor.ApprovalDatetime.HasValue)
+            {
+                // Vendor not yet approved — initial registration, no freeze/change limits apply
+                result.RemainingChanges = MaxChangesAllowed;
+            }
+
+            return result;
         }
     }
 }

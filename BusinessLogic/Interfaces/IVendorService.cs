@@ -1,4 +1,5 @@
-﻿using DB.EFModel;
+﻿using BusinessLogic.Models;
+using DB.EFModel;
 using DB.Entity;
 using DB.Helper;
 using Procura.Models;
@@ -45,5 +46,7 @@ namespace BusinessLogic.Interfaces
 
            Task SaveQuestionAnswers(int vendorId, List<QuestionAnswerDto> answers);
         Task<List<QuestionAnswerDto>> GetQuestionAnswersByQuestionnaireId(int questionnaireId, int vendorId);
+
+        Task<CategoryChangeValidationResult> ValidateCategoryChangeAsync(int vendorId);
     }
 }
