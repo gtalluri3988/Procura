@@ -829,21 +829,9 @@ namespace DB.Repositories
                 // Persist all changes
                 await _context.SaveChangesAsync();
 
-                // Log category change for audit/tracking (freeze & change-limit enforcement)
-                var vendor = await _context.Vendors.FindAsync(vendorId);
-                if (vendor?.ApprovalDatetime != null)
-                {
-                    var changeLog = new VendorCategoryChangeLog
-                    {
-                        VendorId = vendorId,
-                        ChangeDate = DateTime.UtcNow,
-                        ChangeDescription = $"Category codes updated. Categories: {categories.Count}, Certificates: {vendorCategoryCertificates.Count}",
-                        CreatedBy = GetCurrentUserId(),
-                        CreatedDate = DateTime.UtcNow
-                    };
-                    await _context.VendorCategoryChangeLogs.AddAsync(changeLog);
-                    await _context.SaveChangesAsync();
-                }
+                // Note: Category change logging moved to CategoryCodeApprovalRepository.ApproveRequestAsync()
+                // to ensure only approved requests are counted toward the change limit.
+                // This method is now used only for initial registration (before SAP approval).
 
                 // mark Category step completed
                 await AdvanceStepIfNeededAsync(vendorId, VendorRegistrationStep.Category);

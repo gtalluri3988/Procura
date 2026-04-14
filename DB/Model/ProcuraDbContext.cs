@@ -163,6 +163,10 @@ namespace DB.Model
         // Category Code Change Audit
         public DbSet<VendorCategoryChangeLog> VendorCategoryChangeLogs { get; set; }
 
+        // Category Code Approval Workflow
+        public DbSet<CategoryCodeApproval> CategoryCodeApprovals { get; set; }
+        public DbSet<CategoryCodeApprovalItem> CategoryCodeApprovalItems { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -234,9 +238,24 @@ namespace DB.Model
             //            .HasForeignKey(x => x.ReviewedByUserId)
             //            .OnDelete(DeleteBehavior.NoAction);
 
-            // Vendor Entity Types
+            // Category Code Approval — relationships
+            modelBuilder.Entity<CategoryCodeApproval>()
+                .HasOne(a => a.Vendor)
+                .WithMany()
+                .HasForeignKey(a => a.VendorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-           
+            modelBuilder.Entity<CategoryCodeApproval>()
+                .HasOne(a => a.Reviewer)
+                .WithMany()
+                .HasForeignKey(a => a.ReviewedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<CategoryCodeApprovalItem>()
+                .HasOne(i => i.CategoryCodeApproval)
+                .WithMany(a => a.Items)
+                .HasForeignKey(i => i.CategoryCodeApprovalId)
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

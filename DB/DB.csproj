@@ -41,6 +41,7 @@
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
     <Compile Include="Repositories\Interfaces\IVendorRepository.cs" />
     <Compile Include="Repositories\Interfaces\IBiddingRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ICategoryCodeApprovalRepository.cs" />
     <Compile Include="Repositories\IRepositoryBase.cs" />
     <Compile Include="Repositories\MasterDataRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Repositories\BiddingRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\VendorRepository.cs" />
+    <Compile Include="Repositories\CategoryCodeApprovalRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>

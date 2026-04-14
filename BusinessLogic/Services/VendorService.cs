@@ -20,15 +20,17 @@ namespace BusinessLogic.Services
     {
         private readonly IVendorRepository _vendorRepository;
         private readonly IMasterDataRepository _masterDataRepository;
+        private readonly ICategoryCodeApprovalRepository _approvalRepository;
 
         private const int MaxCategoriesAllowed = 2;
         private const int MaxSubCategoriesPerCategory = 3;
         private const int MaxChangesAllowed = 2;
 
-        public VendorService(IVendorRepository vendorRepository, IMasterDataRepository masterDataRepository)
+        public VendorService(IVendorRepository vendorRepository, IMasterDataRepository masterDataRepository, ICategoryCodeApprovalRepository approvalRepository)
         {
             _vendorRepository = vendorRepository;
             _masterDataRepository = masterDataRepository;
+            _approvalRepository = approvalRepository;
         }
 
         //public async Task SaveStepAsync(int vendorId, VendorRegistrationStep Step, StepSaveRequest request)
@@ -563,12 +565,16 @@ namespace BusinessLogic.Services
                 var validityEnd = validityStart.AddYears(yearsSetting);
                 result.ValidityEndDate = validityEnd;
 
-                var changeCount = await _vendorRepository.GetCategoryChangeCountAsync(
+                var approvedChangeCount = await _vendorRepository.GetCategoryChangeCountAsync(
                     vendorId, validityStart, validityEnd);
 
-                result.RemainingChanges = Math.Max(0, MaxChangesAllowed - changeCount);
+                // Also count pending requests to prevent over-submission
+                var pendingCount = await _approvalRepository.GetPendingRequestCountAsync(vendorId);
+                var totalChanges = approvedChangeCount + pendingCount;
 
-                if (changeCount >= MaxChangesAllowed)
+                result.RemainingChanges = Math.Max(0, MaxChangesAllowed - totalChanges);
+
+                if (totalChanges >= MaxChangesAllowed)
                 {
                     result.HasExceededMaxChanges = true;
                     result.IsEligible = false;

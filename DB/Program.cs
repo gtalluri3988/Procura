@@ -39,6 +39,7 @@ namespace DB
             services.AddAutoMapper(typeof(VendorManagementSettingProfile));
             services.AddAutoMapper(typeof(TenderProfile));
             services.AddAutoMapper(typeof(AnnouncementProfile));
+            services.AddAutoMapper(typeof(CategoryCodeApprovalProfile));
             services.AddScoped<IUserRepository, UserRepository>();      
             services.AddScoped<IDropdownRepository, DropdownRepository>();          
             services.AddScoped<IPasswordPolicyRepository, PasswordPolicyRepository>();
@@ -52,6 +53,7 @@ namespace DB
             services.AddScoped<IMasterDataRepository, MasterDataRepository>();
             services.AddScoped<ITenderRepository, TenderRepository>();
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+            services.AddScoped<ICategoryCodeApprovalRepository, CategoryCodeApprovalRepository>();
             return services;
         }
     }

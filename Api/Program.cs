@@ -88,6 +88,7 @@ builder.Services.AddScoped<ITenderService, TenderService>();
 builder.Services.AddScoped<IBiddingService, BiddingService>();
 builder.Services.AddScoped<IBiddingRepository, BiddingRepository>();
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
+builder.Services.AddScoped<ICategoryCodeApprovalService, CategoryCodeApprovalService>();
 
 
 bool useSimulator = true;

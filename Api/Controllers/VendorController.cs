@@ -274,6 +274,11 @@ namespace Procura.Controllers
             return Ok(new { NextStep = financial.ToString() });
         }
 
+        /// <summary>
+        /// Save categories during initial registration (vendor not yet SAP-approved).
+        /// For post-approval category changes, use POST /api/CategoryCodeApproval/SubmitRequest instead.
+        /// For eligibility validation, use GET /api/CategoryCodeApproval/ValidateEligibility.
+        /// </summary>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> ValidateCategoryChangeEligibility(int vendorId)
@@ -281,7 +286,6 @@ namespace Procura.Controllers
             var result = await _vendorService.ValidateCategoryChangeAsync(vendorId);
             return Ok(result);
         }
-
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Categories(int vendorId, VendorCategoryRequest request)
@@ -294,7 +298,6 @@ namespace Procura.Controllers
                 {
                     return BadRequest(new { Errors = eligibility.Errors });
                 }
-
                 var categories = await _vendorService.SaveCategoriesAsync(vendorId, request);
                 return Ok(new { NextStep = categories.ToString() });
             }
