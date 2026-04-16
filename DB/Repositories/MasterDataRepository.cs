@@ -924,5 +924,15 @@ namespace DB.Repositories
 
             return (months, years);
         }
+
+        public async Task<IEnumerable<BankKeyDto>> GetAllBankKeysAsync()
+        {
+            var bankKeys = await _context.BankKeys
+                .AsNoTracking()
+                .OrderBy(b => b.BankName)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<BankKeyDto>>(bankKeys);
+        }
     }
 }

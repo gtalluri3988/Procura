@@ -60,5 +60,7 @@ namespace BusinessLogic.Interfaces
 
         Task<(int monthsSetting, int yearsetting)> GetCategoryCodeSettingAsync();
 
+        Task<IEnumerable<BankKeyDto>> GetAllBankKeysAsync();
+
     }
 }

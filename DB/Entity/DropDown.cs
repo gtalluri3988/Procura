@@ -26,7 +26,8 @@ namespace DB.Entity
         ApplicationLevel,
         Questionaire,
         SiteLevel,
-        Designation
+        Designation,
+        BankKey
 
 
     }

@@ -56,5 +56,7 @@ namespace DB.Repositories.Interfaces
 
         Task<(int monthsSetting, int yearsetting)> GetCategoryCodeSettingAsync();
 
+        Task<IEnumerable<BankKeyDto>> GetAllBankKeysAsync();
+
     }
 }

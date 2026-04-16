@@ -115,7 +115,15 @@ namespace DB.Repositories
                     Name = item.Name ?? string.Empty,
                 }).ToList() ?? new List<DropdownItem>();
             }
-            
+            if (inputType.ToLower() == DropDown.BankKey.ToString().ToLower())
+            {
+                return _context.BankKeys.Select(item => new DropdownItem
+                {
+                    Id = item.Id,
+                    Name = item.BankName ?? string.Empty,
+                }).ToList() ?? new List<DropdownItem>();
+            }
+
             return new List<DropdownItem>();
 
         }

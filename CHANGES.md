@@ -37,6 +37,18 @@
 | 2026-04-16 | DB/EFModel/VendorCategoryCertificate.cs, DB/Entity/VendorCategoryCertificateDto.cs | Added `FileName` property for CertificatePath upload | Frontend needs to send the original filename alongside the base64 certificate file |
 | 2026-04-16 | DB/EFModel/VendorExperience.cs, DB/Entity/VendorExperienceDto.cs | Added `FileName` property for AttachmentPath upload | Frontend needs to send the original filename alongside the base64 experience attachment |
 | 2026-04-16 | BusinessLogic/Services/VendorService.cs | Mapped `FileName` in SaveFinancialAsync, SaveCategoriesAsync, SaveExperiencesAsync, and SaveStepAsync | Ensure FileName from DTO is passed through to entities for all file-upload registration sections |
+| 2026-04-16 | DB/Model/BankKey.cs | Created BankKey master entity with Id, BankName, BankKeyCode | Bank Key dropdown on Vendor Bank Details form needs a master table of Malaysian bank names and their SAP bank key codes |
+| 2026-04-16 | DB/Entity/BankKeyDto.cs | Created BankKeyDto for API layer | DTO for BankKey entity to cross layer boundaries |
+| 2026-04-16 | DB/Profiles/BankKeyProfile.cs | Created AutoMapper profile for BankKey ↔ BankKeyDto | Bidirectional mapping between entity and DTO |
+| 2026-04-16 | DB/Model/ProcuraDbContext.cs | Added DbSet\<BankKey\> BankKeys | Register BankKey table in EF Core context |
+| 2026-04-16 | DB/Entity/DropDown.cs | Added BankKey to DropDown enum | Enable BankKey in generic dropdown API |
+| 2026-04-16 | DB/Repositories/DropdownRepository.cs | Added BankKey handler returning bank names as dropdown items | Support generic dropdown API for bank key selection |
+| 2026-04-16 | DB/Repositories/Interfaces/IMasterDataRepository.cs | Added GetAllBankKeysAsync method | Repository contract for fetching full bank key data (name + code) |
+| 2026-04-16 | DB/Repositories/MasterDataRepository.cs | Implemented GetAllBankKeysAsync | Return all bank keys ordered by name with full DTO (includes BankKeyCode) |
+| 2026-04-16 | BusinessLogic/Interfaces/IMasterDataService.cs | Added GetAllBankKeysAsync to interface | Service contract for bank key data |
+| 2026-04-16 | BusinessLogic/Services/MasterDataService.cs | Implemented GetAllBankKeysAsync delegating to repository | Wire service layer for bank key data |
+| 2026-04-16 | Api/Controllers/MasterDataController.cs | Added GetAllBankKeys GET endpoint with try-catch | Expose `GET /api/MasterData/GetAllBankKeys` for Bank Key dropdown on vendor bank details form |
+| 2026-04-16 | DB/Migrations/20260416074433_AddBankKeyMasterTable.cs | Migration: create BankKeys table + seed 24 Malaysian bank entries | Populate Bank Key master data from Excel reference sheet |
 | 2026-04-11 | DB/Repositories/Interfaces/IRolePermissionRepository.cs | Added `GeteRolePermissionAsync(int PermissionId)` to interface | Method existed in the implementation but was missing from the interface, causing a compiler contract violation |
 | 2026-04-11 | BusinessLogic/Interfaces/IRoleMenuPermissionService.cs | Added `GetRolePermissionAsync(int permissionId)` to service interface | Expose get-by-id capability through the service layer |
 | 2026-04-11 | BusinessLogic/Services/RoleMenuPermissionService.cs | Implemented `GetRolePermissionAsync` delegating to repository | Wire service layer to repository for get-by-id permission lookup |

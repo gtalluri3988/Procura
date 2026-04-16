@@ -141,5 +141,10 @@ namespace BusinessLogic.Services
         {
             return await _masterDataRepository.GetCategoryCodeSettingAsync();
         }
+
+        public async Task<IEnumerable<BankKeyDto>> GetAllBankKeysAsync()
+        {
+            return await _masterDataRepository.GetAllBankKeysAsync();
+        }
     }
 }

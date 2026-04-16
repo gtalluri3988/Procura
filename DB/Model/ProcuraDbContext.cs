@@ -167,6 +167,9 @@ namespace DB.Model
         public DbSet<CategoryCodeApproval> CategoryCodeApprovals { get; set; }
         public DbSet<CategoryCodeApprovalItem> CategoryCodeApprovalItems { get; set; }
 
+        // Bank Key Master
+        public DbSet<BankKey> BankKeys { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

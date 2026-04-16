@@ -40,6 +40,7 @@ namespace DB
             services.AddAutoMapper(typeof(TenderProfile));
             services.AddAutoMapper(typeof(AnnouncementProfile));
             services.AddAutoMapper(typeof(CategoryCodeApprovalProfile));
+            services.AddAutoMapper(typeof(BankKeyProfile));
             services.AddScoped<IUserRepository, UserRepository>();      
             services.AddScoped<IDropdownRepository, DropdownRepository>();          
             services.AddScoped<IPasswordPolicyRepository, PasswordPolicyRepository>();

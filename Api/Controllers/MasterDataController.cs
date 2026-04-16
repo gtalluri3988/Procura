@@ -221,5 +221,21 @@ namespace Procura.Controllers
             var settings = await _masterDataService.GetCategoryCodeSettingAsync();
             return Ok(new {monthSetting=settings.monthsSetting,yearSetting=settings.yearsetting });
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAllBankKeys()
+        {
+            try
+            {
+                var bankKeys = await _masterDataService.GetAllBankKeysAsync();
+                return Ok(bankKeys);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching bank keys");
+                return StatusCode(500, new { message = "An error occurred while fetching bank keys." });
+            }
+        }
     }
 }

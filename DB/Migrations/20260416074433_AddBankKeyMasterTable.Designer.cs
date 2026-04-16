@@ -4,6 +4,7 @@ using DB.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DB.Migrations
 {
     [DbContext(typeof(ProcuraDbContext))]
-    partial class ProcuraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260416074433_AddBankKeyMasterTable")]
+    partial class AddBankKeyMasterTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace DB.Migrations
 
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("Activities", (string)null);
+                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("DB.EFModel.Announcement", b =>
@@ -105,7 +108,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("Announcements", (string)null);
+                    b.ToTable("Announcements");
                 });
 
             modelBuilder.Entity("DB.EFModel.BankKey", b =>
@@ -126,7 +129,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BankKeys", (string)null);
+                    b.ToTable("BankKeys");
                 });
 
             modelBuilder.Entity("DB.EFModel.BidderAcknowledgement", b =>
@@ -174,7 +177,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("BidderAcknowledgements", (string)null);
+                    b.ToTable("BidderAcknowledgements");
                 });
 
             modelBuilder.Entity("DB.EFModel.BidderSubmissionItem", b =>
@@ -212,7 +215,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderVendorSubmissionId");
 
-                    b.ToTable("BidderSubmissionItems", (string)null);
+                    b.ToTable("BidderSubmissionItems");
                 });
 
             modelBuilder.Entity("DB.EFModel.BiddingAsset", b =>
@@ -260,7 +263,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderId");
 
-                    b.ToTable("BiddingAssets", (string)null);
+                    b.ToTable("BiddingAssets");
                 });
 
             modelBuilder.Entity("DB.EFModel.Category", b =>
@@ -297,7 +300,7 @@ namespace DB.Migrations
 
                     b.HasIndex("CodeMasterId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DB.EFModel.CategoryCodeApproval", b =>
@@ -349,7 +352,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("CategoryCodeApprovals", (string)null);
+                    b.ToTable("CategoryCodeApprovals");
                 });
 
             modelBuilder.Entity("DB.EFModel.CategoryCodeApprovalItem", b =>
@@ -408,7 +411,7 @@ namespace DB.Migrations
 
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("CategoryCodeApprovalItems", (string)null);
+                    b.ToTable("CategoryCodeApprovalItems");
                 });
 
             modelBuilder.Entity("DB.EFModel.CategoryCodeSetting", b =>
@@ -439,7 +442,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryCodeSetting", (string)null);
+                    b.ToTable("CategoryCodeSetting");
                 });
 
             modelBuilder.Entity("DB.EFModel.CategorySettings", b =>
@@ -464,7 +467,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategorySettings", (string)null);
+                    b.ToTable("CategorySettings");
                 });
 
             modelBuilder.Entity("DB.EFModel.CodeMaster", b =>
@@ -497,7 +500,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CodeMasters", (string)null);
+                    b.ToTable("CodeMasters");
                 });
 
             modelBuilder.Entity("DB.EFModel.CompanyCategory", b =>
@@ -514,7 +517,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("companyCategories", (string)null);
+                    b.ToTable("companyCategories");
                 });
 
             modelBuilder.Entity("DB.EFModel.CompanyEntityType", b =>
@@ -536,7 +539,7 @@ namespace DB.Migrations
 
                     b.HasIndex("CompanyCategoryId");
 
-                    b.ToTable("CompanyEntityTypes", (string)null);
+                    b.ToTable("CompanyEntityTypes");
                 });
 
             modelBuilder.Entity("DB.EFModel.ContentManagement", b =>
@@ -573,7 +576,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContentManagement", (string)null);
+                    b.ToTable("ContentManagement");
                 });
 
             modelBuilder.Entity("DB.EFModel.ContentPicture", b =>
@@ -615,7 +618,7 @@ namespace DB.Migrations
 
                     b.HasIndex("ContentManagementId");
 
-                    b.ToTable("ContentPictures", (string)null);
+                    b.ToTable("ContentPictures");
                 });
 
             modelBuilder.Entity("DB.EFModel.Country", b =>
@@ -632,7 +635,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("DB.EFModel.Designation", b =>
@@ -649,7 +652,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Designations", (string)null);
+                    b.ToTable("Designations");
                 });
 
             modelBuilder.Entity("DB.EFModel.EvaluationCriteria", b =>
@@ -689,7 +692,7 @@ namespace DB.Migrations
 
                     b.HasIndex("JobCategoryId");
 
-                    b.ToTable("EvaluationCriteria", (string)null);
+                    b.ToTable("EvaluationCriteria");
                 });
 
             modelBuilder.Entity("DB.EFModel.IndustryType", b =>
@@ -710,7 +713,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IndustryTypes", (string)null);
+                    b.ToTable("IndustryTypes");
                 });
 
             modelBuilder.Entity("DB.EFModel.InternalOrder", b =>
@@ -746,7 +749,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InternalOrders", (string)null);
+                    b.ToTable("InternalOrders");
                 });
 
             modelBuilder.Entity("DB.EFModel.JobCategory", b =>
@@ -766,7 +769,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobCategories", (string)null);
+                    b.ToTable("JobCategories");
                 });
 
             modelBuilder.Entity("DB.EFModel.JobScope", b =>
@@ -836,7 +839,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobScopes", (string)null);
+                    b.ToTable("JobScopes");
                 });
 
             modelBuilder.Entity("DB.EFModel.LoginHistory", b =>
@@ -875,7 +878,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoginHistories", (string)null);
+                    b.ToTable("LoginHistories");
                 });
 
             modelBuilder.Entity("DB.EFModel.MaterialBudgetUpload", b =>
@@ -913,7 +916,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MaterialBudgetUploads", (string)null);
+                    b.ToTable("MaterialBudgetUploads");
                 });
 
             modelBuilder.Entity("DB.EFModel.Menu", b =>
@@ -962,7 +965,7 @@ namespace DB.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Menus", (string)null);
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("DB.EFModel.Notification", b =>
@@ -996,7 +999,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("DB.EFModel.PasswordPolicy", b =>
@@ -1021,7 +1024,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("passwordPolicies", (string)null);
+                    b.ToTable("passwordPolicies");
                 });
 
             modelBuilder.Entity("DB.EFModel.PaymentChannel", b =>
@@ -1037,7 +1040,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentChannel", (string)null);
+                    b.ToTable("PaymentChannel");
                 });
 
             modelBuilder.Entity("DB.EFModel.PaymentHistory", b =>
@@ -1107,7 +1110,7 @@ namespace DB.Migrations
 
                     b.HasIndex("PaymentTypeId");
 
-                    b.ToTable("PaymentHistory", (string)null);
+                    b.ToTable("PaymentHistory");
                 });
 
             modelBuilder.Entity("DB.EFModel.PaymentMethod", b =>
@@ -1127,7 +1130,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethods", (string)null);
+                    b.ToTable("PaymentMethods");
                 });
 
             modelBuilder.Entity("DB.EFModel.PaymentRequest", b =>
@@ -1208,7 +1211,7 @@ namespace DB.Migrations
                         .IsUnique()
                         .HasFilter("[VendorId] IS NOT NULL");
 
-                    b.ToTable("PaymentRequest", (string)null);
+                    b.ToTable("PaymentRequest");
                 });
 
             modelBuilder.Entity("DB.EFModel.PaymentStatus", b =>
@@ -1236,7 +1239,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentStatus", (string)null);
+                    b.ToTable("PaymentStatus");
                 });
 
             modelBuilder.Entity("DB.EFModel.PaymentTransactionResponse", b =>
@@ -1306,7 +1309,7 @@ namespace DB.Migrations
 
                     b.HasIndex("PaymentId");
 
-                    b.ToTable("PaymentTransactionResponses", (string)null);
+                    b.ToTable("PaymentTransactionResponses");
                 });
 
             modelBuilder.Entity("DB.EFModel.PaymentType", b =>
@@ -1334,7 +1337,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentType", (string)null);
+                    b.ToTable("PaymentType");
                 });
 
             modelBuilder.Entity("DB.EFModel.Question", b =>
@@ -1374,7 +1377,7 @@ namespace DB.Migrations
 
                     b.HasIndex("QuestionnaireId");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("DB.EFModel.QuestionAnswer", b =>
@@ -1416,7 +1419,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("QuestionAnswers", (string)null);
+                    b.ToTable("QuestionAnswers");
                 });
 
             modelBuilder.Entity("DB.EFModel.Questionnaire", b =>
@@ -1433,7 +1436,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Questionnaires", (string)null);
+                    b.ToTable("Questionnaires");
                 });
 
             modelBuilder.Entity("DB.EFModel.Role", b =>
@@ -1465,7 +1468,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("DB.EFModel.RoleMenuPermission", b =>
@@ -1518,7 +1521,7 @@ namespace DB.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleMenuPermissions", (string)null);
+                    b.ToTable("RoleMenuPermissions");
                 });
 
             modelBuilder.Entity("DB.EFModel.SiteLevel", b =>
@@ -1535,7 +1538,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SiteLevel", (string)null);
+                    b.ToTable("SiteLevel");
                 });
 
             modelBuilder.Entity("DB.EFModel.State", b =>
@@ -1552,7 +1555,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("State", (string)null);
+                    b.ToTable("State");
                 });
 
             modelBuilder.Entity("DB.EFModel.SubCategory", b =>
@@ -1586,7 +1589,7 @@ namespace DB.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("SubCategories", (string)null);
+                    b.ToTable("SubCategories");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderAdvertisementSetting", b =>
@@ -1640,7 +1643,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderId");
 
-                    b.ToTable("TenderAdvertisementSettings", (string)null);
+                    b.ToTable("TenderAdvertisementSettings");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderApplication", b =>
@@ -1715,7 +1718,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderCreatedBy");
 
-                    b.ToTable("TenderApplications", (string)null);
+                    b.ToTable("TenderApplications");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderApplicationStatus", b =>
@@ -1744,7 +1747,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TenderApplicationStatus", (string)null);
+                    b.ToTable("TenderApplicationStatus");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderApproval", b =>
@@ -1797,7 +1800,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderApplicationStatusId");
 
-                    b.ToTable("TenderApprovals", (string)null);
+                    b.ToTable("TenderApprovals");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderAward", b =>
@@ -1853,7 +1856,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderId");
 
-                    b.ToTable("TenderAwards", (string)null);
+                    b.ToTable("TenderAwards");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderAwardMinutesOfMeeting", b =>
@@ -1900,7 +1903,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderId");
 
-                    b.ToTable("TenderAwardMinutesOfMeetings", (string)null);
+                    b.ToTable("TenderAwardMinutesOfMeetings");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderCategory", b =>
@@ -1917,7 +1920,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TenderCategories", (string)null);
+                    b.ToTable("TenderCategories");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderCategoryCode", b =>
@@ -1968,7 +1971,7 @@ namespace DB.Migrations
                     b.HasIndex("TenderId")
                         .IsUnique();
 
-                    b.ToTable("TenderCategoryCodes", (string)null);
+                    b.ToTable("TenderCategoryCodes");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderDocument", b =>
@@ -2009,7 +2012,7 @@ namespace DB.Migrations
 
                     b.HasIndex("JobCategoryId");
 
-                    b.ToTable("TenderDocuments", (string)null);
+                    b.ToTable("TenderDocuments");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderEvaluationCommittee", b =>
@@ -2049,7 +2052,7 @@ namespace DB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TenderEvaluationCommittee", (string)null);
+                    b.ToTable("TenderEvaluationCommittee");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderEvaluationCriteria", b =>
@@ -2090,7 +2093,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderId");
 
-                    b.ToTable("TenderEvaluationCriteria", (string)null);
+                    b.ToTable("TenderEvaluationCriteria");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderEvaluationSpecification", b =>
@@ -2126,7 +2129,7 @@ namespace DB.Migrations
 
                     b.HasIndex("CriteriaId");
 
-                    b.ToTable("TenderEvaluationSpecifications", (string)null);
+                    b.ToTable("TenderEvaluationSpecifications");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderIssuenceApproval", b =>
@@ -2175,7 +2178,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderStatusId");
 
-                    b.ToTable("TenderIssuenceApprovals", (string)null);
+                    b.ToTable("TenderIssuenceApprovals");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderJobScope", b =>
@@ -2241,7 +2244,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderApplicationId");
 
-                    b.ToTable("TenderJobScopes", (string)null);
+                    b.ToTable("TenderJobScopes");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderOpeningCommittee", b =>
@@ -2281,7 +2284,7 @@ namespace DB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TenderOpeningCommittee", (string)null);
+                    b.ToTable("TenderOpeningCommittee");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderOpeningVerification", b =>
@@ -2322,7 +2325,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VerifiedByUserId");
 
-                    b.ToTable("TenderOpeningVerifications", (string)null);
+                    b.ToTable("TenderOpeningVerifications");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderRecommendation", b =>
@@ -2360,7 +2363,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderId");
 
-                    b.ToTable("TenderRecommendations", (string)null);
+                    b.ToTable("TenderRecommendations");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderRequiredDocument", b =>
@@ -2402,7 +2405,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderApplicationId");
 
-                    b.ToTable("TenderRequiredDocuments", (string)null);
+                    b.ToTable("TenderRequiredDocuments");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderReview", b =>
@@ -2451,7 +2454,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderApplicationStatusId");
 
-                    b.ToTable("TenderReviews", (string)null);
+                    b.ToTable("TenderReviews");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderSetting", b =>
@@ -2482,7 +2485,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TenderSettings", (string)null);
+                    b.ToTable("TenderSettings");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderSiteVisit", b =>
@@ -2535,7 +2538,7 @@ namespace DB.Migrations
                     b.HasIndex("TenderId")
                         .IsUnique();
 
-                    b.ToTable("TenderSiteVisits", (string)null);
+                    b.ToTable("TenderSiteVisits");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderTechnicalEvaluationResult", b =>
@@ -2583,7 +2586,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("TenderTechnicalEvaluationResults", (string)null);
+                    b.ToTable("TenderTechnicalEvaluationResults");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderTechnicalEvaluationScore", b =>
@@ -2629,7 +2632,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("TenderTechnicalEvaluationScores", (string)null);
+                    b.ToTable("TenderTechnicalEvaluationScores");
                 });
 
             modelBuilder.Entity("DB.EFModel.TenderVendorSubmission", b =>
@@ -2674,7 +2677,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("TenderVendorSubmissions", (string)null);
+                    b.ToTable("TenderVendorSubmissions");
                 });
 
             modelBuilder.Entity("DB.EFModel.User", b =>
@@ -2762,7 +2765,7 @@ namespace DB.Migrations
 
                     b.HasIndex("SiteOffice");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("DB.EFModel.UserPasswordHistory", b =>
@@ -2793,7 +2796,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserPasswordHistories", (string)null);
+                    b.ToTable("UserPasswordHistories");
                 });
 
             modelBuilder.Entity("DB.EFModel.Vendor", b =>
@@ -2906,7 +2909,7 @@ namespace DB.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Vendors", (string)null);
+                    b.ToTable("Vendors");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorBank", b =>
@@ -2954,7 +2957,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorBanks", (string)null);
+                    b.ToTable("VendorBanks");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorCategory", b =>
@@ -2997,7 +3000,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorCategories", (string)null);
+                    b.ToTable("VendorCategories");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorCategoryCertificate", b =>
@@ -3044,7 +3047,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorCategoryCertificates", (string)null);
+                    b.ToTable("VendorCategoryCertificates");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorCategoryChangeLog", b =>
@@ -3081,7 +3084,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorCategoryChangeLogs", (string)null);
+                    b.ToTable("VendorCategoryChangeLogs");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorCreditFacility", b =>
@@ -3111,7 +3114,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorCreditFacilities", (string)null);
+                    b.ToTable("VendorCreditFacilities");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorDeclaration", b =>
@@ -3169,7 +3172,7 @@ namespace DB.Migrations
                     b.HasIndex("VendorId")
                         .IsUnique();
 
-                    b.ToTable("VendorDeclarations", (string)null);
+                    b.ToTable("VendorDeclarations");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorDirector", b =>
@@ -3210,7 +3213,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorDirectors", (string)null);
+                    b.ToTable("VendorDirectors");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorExperience", b =>
@@ -3253,7 +3256,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorExperiences", (string)null);
+                    b.ToTable("VendorExperiences");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorFinancial", b =>
@@ -3324,7 +3327,7 @@ namespace DB.Migrations
                     b.HasIndex("VendorId")
                         .IsUnique();
 
-                    b.ToTable("VendorFinancials", (string)null);
+                    b.ToTable("VendorFinancials");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorManagementSetting", b =>
@@ -3373,7 +3376,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VendorManagementSettings", (string)null);
+                    b.ToTable("VendorManagementSettings");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorManpower", b =>
@@ -3419,7 +3422,7 @@ namespace DB.Migrations
                     b.HasIndex("VendorId")
                         .IsUnique();
 
-                    b.ToTable("VendorManpowers", (string)null);
+                    b.ToTable("VendorManpowers");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorMember", b =>
@@ -3483,7 +3486,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorMembers", (string)null);
+                    b.ToTable("VendorMembers");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorPaymentStatus", b =>
@@ -3526,7 +3529,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorPaymentStatus", (string)null);
+                    b.ToTable("VendorPaymentStatus");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorPerformance", b =>
@@ -3574,7 +3577,7 @@ namespace DB.Migrations
 
                     b.HasIndex("TenderId");
 
-                    b.ToTable("VendorPerformances", (string)null);
+                    b.ToTable("VendorPerformances");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorPerformanceFeedback", b =>
@@ -3610,7 +3613,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorPerformanceId");
 
-                    b.ToTable("VendorPerformanceFeedbacks", (string)null);
+                    b.ToTable("VendorPerformanceFeedbacks");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorPerformanceScore", b =>
@@ -3650,7 +3653,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorPerformanceId");
 
-                    b.ToTable("VendorPerformanceScores", (string)null);
+                    b.ToTable("VendorPerformanceScores");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorShareholder", b =>
@@ -3697,7 +3700,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorShareholder", (string)null);
+                    b.ToTable("VendorShareholder");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorStaffDeclaration", b =>
@@ -3744,7 +3747,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorStaffDeclaration", (string)null);
+                    b.ToTable("VendorStaffDeclaration");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorTax", b =>
@@ -3781,7 +3784,7 @@ namespace DB.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("VendorTaxes", (string)null);
+                    b.ToTable("VendorTaxes");
                 });
 
             modelBuilder.Entity("DB.EFModel.Vendor_SAPRequestResponse", b =>
@@ -3818,7 +3821,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vendor_SAPRequestResponses", (string)null);
+                    b.ToTable("Vendor_SAPRequestResponses");
                 });
 
             modelBuilder.Entity("DB.EFModel.WebHookResponse", b =>
@@ -3849,7 +3852,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WebHookResponses", (string)null);
+                    b.ToTable("WebHookResponses");
                 });
 
             modelBuilder.Entity("DB.Entity.SSMResponse", b =>
@@ -3883,7 +3886,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SSMResponses", (string)null);
+                    b.ToTable("SSMResponses");
                 });
 
             modelBuilder.Entity("DB.Model.CodeHierarchy", b =>
@@ -3921,7 +3924,7 @@ namespace DB.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("CodeHierarchies", (string)null);
+                    b.ToTable("CodeHierarchies");
                 });
 
             modelBuilder.Entity("DB.Model.CodeSystem", b =>
@@ -3942,7 +3945,7 @@ namespace DB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CodeSystems", (string)null);
+                    b.ToTable("CodeSystems");
                 });
 
             modelBuilder.Entity("DB.Model.MaterialBudget", b =>
@@ -4016,7 +4019,7 @@ namespace DB.Migrations
 
                     b.HasIndex("JobCategoryId");
 
-                    b.ToTable("MaterialBudgets", (string)null);
+                    b.ToTable("MaterialBudgets");
                 });
 
             modelBuilder.Entity("DB.EFModel.Activity", b =>
