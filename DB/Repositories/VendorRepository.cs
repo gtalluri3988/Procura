@@ -508,14 +508,19 @@ namespace DB.Repositories
 
                 if (!string.IsNullOrEmpty(financial.LatestBankStatementPath))
                 {
-                    var uploadPath = _configuration["FileSettings:UploadPath"];
-                    string filepath = Path.Combine(uploadPath, $"vendor_{vendorId}_LatestBankStatement.pdf");
-                    if (File.Exists(filepath))
+                    // Heuristic: if contains ',' (data URI) or is long (likely base64), attempt to save.
+                    if (financial.LatestBankStatementPath.Contains(",") || financial.LatestBankStatementPath.Length > 200)
                     {
-                        File.Delete(filepath);
+                        var uploadPath = _configuration["FileSettings:UploadPath"];
+                        string filepath = Path.Combine(uploadPath, $"vendor_{vendorId}_LatestBankStatement.pdf");
+                        if (File.Exists(filepath))
+                        {
+                            File.Delete(filepath);
+                        }
+                        SaveBase64ToFile(financial.LatestBankStatementPath, filepath);
+                        financial.LatestBankStatementPath = filepath;
                     }
-                    SaveBase64ToFile(financial.LatestBankStatementPath, filepath);
-                    financial.LatestBankStatementPath = filepath;
+                    // else: already a stored file path, keep as-is
                 }
 
 
@@ -593,12 +598,17 @@ namespace DB.Repositories
                     // Save bank statement attachment (base64 → physical file)
                     if (!string.IsNullOrEmpty(financial.Bank.Attachment))
                     {
-                        var uploadPath = _configuration["FileSettings:UploadPath"];
-                        string attachmentPath = Path.Combine(uploadPath, $"vendor_{vendorId}_BankStatement.pdf");
-                        if (File.Exists(attachmentPath))
-                            File.Delete(attachmentPath);
-                        SaveBase64ToFile(financial.Bank.Attachment, attachmentPath);
-                        financial.Bank.Attachment = attachmentPath;
+                        // Heuristic: if contains ',' (data URI) or is long (likely base64), attempt to save.
+                        if (financial.Bank.Attachment.Contains(",") || financial.Bank.Attachment.Length > 200)
+                        {
+                            var uploadPath = _configuration["FileSettings:UploadPath"];
+                            string attachmentPath = Path.Combine(uploadPath, $"vendor_{vendorId}_BankStatement.pdf");
+                            if (File.Exists(attachmentPath))
+                                File.Delete(attachmentPath);
+                            SaveBase64ToFile(financial.Bank.Attachment, attachmentPath);
+                            financial.Bank.Attachment = attachmentPath;
+                        }
+                        // else: already a stored file path, keep as-is
                     }
 
                     financial.Bank.VendorId = vendorId;
@@ -954,9 +964,14 @@ namespace DB.Repositories
                     .FirstOrDefaultAsync(x => x.VendorId == vendorId);
 
                 if (existing == null)
+                {
                     await _context.VendorDeclarations.AddAsync(declaration);
+                }
                 else
+                {
+                    declaration.Id = existing.Id;
                     _context.Entry(existing).CurrentValues.SetValues(declaration);
+                }
 
                 await _context.SaveChangesAsync();
 
@@ -1114,6 +1129,11 @@ namespace DB.Repositories
                 await tx.RollbackAsync();
                 throw;
             }
+        }
+
+        public async Task<bool> IsRocNumberExistsAsync(string rocNumber)
+        {
+            return await _context.Vendors.AnyAsync(v => v.RocNumber == rocNumber);
         }
 
         public async Task<VendorProfileDto> RegisterVendor(Vendor vendor)

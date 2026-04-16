@@ -30,6 +30,7 @@ namespace DB.EFModel
 
         // Attachment
         public string? LatestBankStatementPath { get; set; }
+        public string? FileName { get; set; }
 
         // Navigation
         public ICollection<VendorCreditFacility> CreditFacilities { get; set; }

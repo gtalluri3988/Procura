@@ -168,7 +168,7 @@ namespace Procura.Controllers
 
         [AllowAnonymous]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMaterialBudge(int id)
+        public async Task<IActionResult> DeleteMaterialBudget(int id)
         {
             var materialBudget = await _masterDataService.DeleteMaterilBudgetAsync(id);
             return Ok(materialBudget);

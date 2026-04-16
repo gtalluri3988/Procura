@@ -218,6 +218,7 @@ namespace BusinessLogic.Services
                                     VendorId = vendorId,
                                     CodeMasterId = dto.CodeMasterId,
                                     CertificatePath = dto.CertificatePath,
+                                    FileName = dto.FileName,
                                     StartDate = dto.StartDate,
                                     EndDate = dto.EndDate
                                 });
@@ -242,7 +243,8 @@ namespace BusinessLogic.Services
                                 ProjectValue = dto.ProjectValue,
                                 Status = dto.Status,
                                 CompletionYear = dto.CompletionYear,
-                                AttachmentPath = dto.AttachmentPath
+                                AttachmentPath = dto.AttachmentPath,
+                                FileName = dto.FileName
                             });
                         }
 
@@ -284,13 +286,17 @@ namespace BusinessLogic.Services
 
         public async Task<VendorProfileDto> RegisterVendor(CreateVendorRequest request)
         {
+            var exists = await _vendorRepository.IsRocNumberExistsAsync(request.RocNumber);
+            if (exists)
+                throw new InvalidOperationException("Account already created for this ROC Number. Please login as Vendor.");
+
             var vendor = new Vendor
             {
                 CompanyEntityTypeId = request.CompanyEntityTypeId,
                 RocNumber = request.RocNumber,
                 PasswordHash = request.PasswordHash,
                 RoleId = (int)Roles.Vendor,
-                
+
             };
 
             // repository returns the persisted profile DTO (including CurrentStep)
@@ -384,6 +390,7 @@ namespace BusinessLogic.Services
                 OthersCredit = dto.OthersCredit,
                 CreditFacilities=dto.CreditFacilities,
                 LatestBankStatementPath= dto.LatestBankStatementPath,
+                FileName = dto.FileName,
                 Tax =dto.Tax,
                 Bank=dto.Bank
                 
@@ -422,6 +429,7 @@ namespace BusinessLogic.Services
                         VendorId = vendorId,
                         CodeMasterId = dto.CodeMasterId,
                         CertificatePath = dto.CertificatePath,
+                        FileName = dto.FileName,
                         StartDate = dto.StartDate,
                         EndDate = dto.EndDate
                     });
@@ -445,7 +453,8 @@ namespace BusinessLogic.Services
                     ProjectValue = dto.ProjectValue,
                     Status = dto.Status,
                     CompletionYear = dto.CompletionYear,
-                    AttachmentPath = dto.AttachmentPath
+                    AttachmentPath = dto.AttachmentPath,
+                    FileName = dto.FileName
                 });
             }
 

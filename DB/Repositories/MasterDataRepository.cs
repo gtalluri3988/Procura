@@ -378,6 +378,8 @@ namespace DB.Repositories
 
         public async Task SaveHierarchyAsync(int monthSetting, int YearSetting, List<CategoryDto> categories)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
             try
             {
                 var categorycodesetting = await _context.CategoryCodeSetting.FirstOrDefaultAsync();
@@ -399,67 +401,177 @@ namespace DB.Repositories
                 }
 
                 await _context.SaveChangesAsync();
-            }
-            catch
-            {
-            }
 
-            // ✅ Remove existing hierarchy
-            var activities = await _context.Activities.ToListAsync();
-            _context.Activities.RemoveRange(activities);
+                // Load existing hierarchy
+                var existingActivities = await _context.Activities.ToListAsync();
+                var existingSubCategories = await _context.SubCategories.ToListAsync();
+                var existingCategories = await _context.Categories.ToListAsync();
 
-            var subCategories = await _context.SubCategories.ToListAsync();
-            _context.SubCategories.RemoveRange(subCategories);
+                // Collect incoming IDs (id > 0 = existing record to keep/update; 0 or null = new)
+                var incomingActivityIds = categories
+                    .SelectMany(c => c.SubCategories ?? new List<SubCategoryDto>())
+                    .SelectMany(s => s.Activities ?? new List<ActivityDto>())
+                    .Where(a => a.Id.GetValueOrDefault() > 0)
+                    .Select(a => a.Id!.Value)
+                    .ToHashSet();
 
-            var categoriesExisting = await _context.Categories.ToListAsync();
-            _context.Categories.RemoveRange(categoriesExisting);
+                var incomingSubCategoryIds = categories
+                    .SelectMany(c => c.SubCategories ?? new List<SubCategoryDto>())
+                    .Where(s => s.Id.GetValueOrDefault() > 0)
+                    .Select(s => s.Id!.Value)
+                    .ToHashSet();
 
-            await _context.SaveChangesAsync();
+                var incomingCategoryIds = categories
+                    .Where(c => c.Id.GetValueOrDefault() > 0)
+                    .Select(c => c.Id!.Value)
+                    .ToHashSet();
 
+                // Identify stale records to delete
+                var activitiesToDelete = existingActivities.Where(a => !incomingActivityIds.Contains(a.Id)).ToList();
+                var subCategoriesToDelete = existingSubCategories.Where(s => !incomingSubCategoryIds.Contains(s.Id)).ToList();
+                var categoriesToDelete = existingCategories.Where(c => !incomingCategoryIds.Contains(c.Id)).ToList();
 
-            // ✅ Insert new hierarchy
-            foreach (var cat in categories)
-            {
-                var category = new Category
+                var activityIdsToDelete = activitiesToDelete.Select(a => a.Id).ToHashSet();
+                var subCategoryIdsToDelete = subCategoriesToDelete.Select(s => s.Id).ToHashSet();
+                var categoryIdsToDelete = categoriesToDelete.Select(c => c.Id).ToHashSet();
+
+                // Null out FK references in dependent tables before deleting
+                var affectedVendorCategories = await _context.VendorCategories
+                    .Where(vc =>
+                        (vc.ActivityId.HasValue && activityIdsToDelete.Contains(vc.ActivityId.Value)) ||
+                        (vc.SubCategoryId.HasValue && subCategoryIdsToDelete.Contains(vc.SubCategoryId.Value)) ||
+                        (vc.CategoryId.HasValue && categoryIdsToDelete.Contains(vc.CategoryId.Value)))
+                    .ToListAsync();
+
+                foreach (var vc in affectedVendorCategories)
                 {
-                    CodeMasterId = cat.CodeMasterId,
-                    CategoryName = cat.CategoryName
-                };
+                    if (vc.ActivityId.HasValue && activityIdsToDelete.Contains(vc.ActivityId.Value))
+                        vc.ActivityId = null;
+                    if (vc.SubCategoryId.HasValue && subCategoryIdsToDelete.Contains(vc.SubCategoryId.Value))
+                        vc.SubCategoryId = null;
+                    if (vc.CategoryId.HasValue && categoryIdsToDelete.Contains(vc.CategoryId.Value))
+                        vc.CategoryId = null;
+                }
 
-                _context.Categories.Add(category);
+                var affectedTenderCategoryCodes = await _context.TenderCategoryCodes
+                    .Where(tc =>
+                        (tc.ActivityId.HasValue && activityIdsToDelete.Contains(tc.ActivityId.Value)) ||
+                        (tc.SubCategoryId.HasValue && subCategoryIdsToDelete.Contains(tc.SubCategoryId.Value)) ||
+                        (tc.CategoryId.HasValue && categoryIdsToDelete.Contains(tc.CategoryId.Value)))
+                    .ToListAsync();
+
+                foreach (var tc in affectedTenderCategoryCodes)
+                {
+                    if (tc.ActivityId.HasValue && activityIdsToDelete.Contains(tc.ActivityId.Value))
+                        tc.ActivityId = null;
+                    if (tc.SubCategoryId.HasValue && subCategoryIdsToDelete.Contains(tc.SubCategoryId.Value))
+                        tc.SubCategoryId = null;
+                    if (tc.CategoryId.HasValue && categoryIdsToDelete.Contains(tc.CategoryId.Value))
+                        tc.CategoryId = null;
+                }
+
+                var affectedApprovalItems = await _context.CategoryCodeApprovalItems
+                    .Where(ai =>
+                        (ai.ActivityId.HasValue && activityIdsToDelete.Contains(ai.ActivityId.Value)) ||
+                        (ai.SubCategoryId.HasValue && subCategoryIdsToDelete.Contains(ai.SubCategoryId.Value)) ||
+                        (ai.CategoryId.HasValue && categoryIdsToDelete.Contains(ai.CategoryId.Value)))
+                    .ToListAsync();
+
+                foreach (var ai in affectedApprovalItems)
+                {
+                    if (ai.ActivityId.HasValue && activityIdsToDelete.Contains(ai.ActivityId.Value))
+                        ai.ActivityId = null;
+                    if (ai.SubCategoryId.HasValue && subCategoryIdsToDelete.Contains(ai.SubCategoryId.Value))
+                        ai.SubCategoryId = null;
+                    if (ai.CategoryId.HasValue && categoryIdsToDelete.Contains(ai.CategoryId.Value))
+                        ai.CategoryId = null;
+                }
+
+                // Remove stale records (order: Activities → SubCategories → Categories)
+                _context.Activities.RemoveRange(activitiesToDelete);
+                _context.SubCategories.RemoveRange(subCategoriesToDelete);
+                _context.Categories.RemoveRange(categoriesToDelete);
+
                 await _context.SaveChangesAsync();
 
-                if (cat.SubCategories != null)
+                // Upsert hierarchy (id > 0 = update existing, 0 or null = insert new)
+                foreach (var cat in categories)
                 {
-                    foreach (var sub in cat.SubCategories)
+                    Category category;
+
+                    if (cat.Id.GetValueOrDefault() > 0)
                     {
-                        var subCategory = new SubCategory
+                        category = existingCategories.First(c => c.Id == cat.Id.Value);
+                        category.CodeMasterId = cat.CodeMasterId;
+                        category.CategoryName = cat.CategoryName;
+                    }
+                    else
+                    {
+                        category = new Category
                         {
-                            CategoryId = category.Id,
-                            SubCategoryName = sub.SubCategoryName
+                            CodeMasterId = cat.CodeMasterId,
+                            CategoryName = cat.CategoryName
                         };
-
-                        _context.SubCategories.Add(subCategory);
+                        _context.Categories.Add(category);
                         await _context.SaveChangesAsync();
+                    }
 
-                        if (sub.Activities != null)
+                    if (cat.SubCategories != null)
+                    {
+                        foreach (var sub in cat.SubCategories)
                         {
-                            foreach (var act in sub.Activities)
-                            {
-                                var activity = new Activity
-                                {
-                                    SubCategoryId = subCategory.Id,
-                                    ActivityName = act.ActivityName
-                                };
+                            SubCategory subCategory;
 
-                                _context.Activities.Add(activity);
+                            if (sub.Id.GetValueOrDefault() > 0)
+                            {
+                                subCategory = existingSubCategories.First(s => s.Id == sub.Id.Value);
+                                subCategory.CategoryId = category.Id;
+                                subCategory.SubCategoryName = sub.SubCategoryName;
+                            }
+                            else
+                            {
+                                subCategory = new SubCategory
+                                {
+                                    CategoryId = category.Id,
+                                    SubCategoryName = sub.SubCategoryName
+                                };
+                                _context.SubCategories.Add(subCategory);
+                                await _context.SaveChangesAsync();
+                            }
+
+                            if (sub.Activities != null)
+                            {
+                                foreach (var act in sub.Activities)
+                                {
+                                    if (act.Id.GetValueOrDefault() > 0)
+                                    {
+                                        var existingActivity = existingActivities.First(a => a.Id == act.Id.Value);
+                                        existingActivity.SubCategoryId = subCategory.Id;
+                                        existingActivity.ActivityName = act.ActivityName;
+                                    }
+                                    else
+                                    {
+                                        var activity = new Activity
+                                        {
+                                            SubCategoryId = subCategory.Id,
+                                            ActivityName = act.ActivityName
+                                        };
+                                        _context.Activities.Add(activity);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
 
@@ -639,7 +751,7 @@ namespace DB.Repositories
 
         public async Task<IEnumerable<MaterialBudgetDto>> GetAllMaterilBudgetListAsync()
         {
-            var materialBudget = await _context.MaterialBudgets
+            var materialBudget = await _context.MaterialBudgets.Where(x=>x.IsActive)
                 .Include(x => x.JobCategory)
                 .ToListAsync();
             return _mapper.Map<IEnumerable<MaterialBudgetDto>>(materialBudget);

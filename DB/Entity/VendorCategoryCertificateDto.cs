@@ -13,6 +13,7 @@ namespace DB.Entity
         public int Id { get; set; }
         public int VendorId { get; set; }
         public string? CertificatePath { get; set; }
+        public string? FileName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int CodeMasterId { get; set; }

@@ -18,5 +18,6 @@ namespace DB.Entity
         public int CompletionYear { get; set; }
 
         public string AttachmentPath { get; set; }
+        public string? FileName { get; set; }
     }
 }

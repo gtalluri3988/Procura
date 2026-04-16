@@ -14,6 +14,7 @@ namespace DB.EFModel
 
         public int CodeMasterId { get; set; }
         public string? CertificatePath { get; set; }
+        public string? FileName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public CodeMaster? CodeMaster { get; set; }

@@ -32,6 +32,7 @@ namespace DB.Repositories.Interfaces
         Task SaveSSMResponse(string input, string response);
 
         Task<VendorProfileDto> RegisterVendor(Vendor vendor);
+        Task<bool> IsRocNumberExistsAsync(string rocNumber);
 
         Task<PaymentDetailsDTO> GetPaymentDetailsAsync(int vendorId);
 

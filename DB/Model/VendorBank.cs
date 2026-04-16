@@ -20,6 +20,7 @@ namespace DB.EFModel
         public decimal? Balance { get; set; }
         public string? FixedDeposit { get; set; }
         public string? Attachment { get; set; }
+        public string? FileName { get; set; }
 
         //public Vendor? Vendor { get; set; }
     }

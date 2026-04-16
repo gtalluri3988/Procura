@@ -19,6 +19,7 @@ namespace DB.EFModel
         public int CompletionYear { get; set; }
 
         public string AttachmentPath { get; set; }
+        public string? FileName { get; set; }
         [JsonIgnore]
         public Vendor? Vendor { get; set; }
     }

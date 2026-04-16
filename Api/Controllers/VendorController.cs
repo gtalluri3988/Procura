@@ -1,4 +1,5 @@
 ﻿using Api.Controllers;
+using Api.Models;
 using AutoMapper;
 using AutoMapper.Execution;
 using BusinessLogic.Interfaces;
@@ -65,12 +66,18 @@ namespace Procura.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterVendor(CreateVendorRequest request)
         {
-            var vendor = await _vendorService.RegisterVendor(request);
-            var result = await SearchSSM(request.RocNumber, "get-company-profile-document");
-            if (!result.Success)
-                return BadRequest(result.Error);
-            return Ok(new { Id = vendor.Id, CurrentStep = vendor.CurrentStep.ToString(), RocNumber = vendor.RocNumber, NextStep = vendor.NextStep.ToString(), ProfileResponse = result.Data });
-
+            try
+            {
+                var vendor = await _vendorService.RegisterVendor(request);
+                var result = await SearchSSM(request.RocNumber, "get-company-profile-document");
+                if (!result.Success)
+                    return BadRequest(result.Error);
+                return Ok(new { Id = vendor.Id, CurrentStep = vendor.CurrentStep.ToString(), RocNumber = vendor.RocNumber, NextStep = vendor.NextStep.ToString(), ProfileResponse = result.Data });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new ErrorMessage(ex.Message));
+            }
         }
 
         // Compact endpoint — Swagger shows a small JSON body (generic object)
