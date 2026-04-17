@@ -64,13 +64,7 @@ namespace DB.Repositories
                     }).ToList();
                 }
 
-                // TenderCategoryCodes
-                if (dto.TendorCategoryCodeDto != null && dto.TendorCategoryCodeDto.Any())
-                {
-                    entity.TenderCategoryCode = null; // keep single nav null; we'll add codes collection (TenderApplication has TenderCategoryCode property singular in model)
-                                                      // The DB model uses TenderCategoryCode (singular) on TenderApplication; if you need a collection change accordingly.
-                                                      // We'll add individual TenderCategoryCode rows as separate entities and link via TenderId.
-                }
+                // TenderCategoryCodes — saved separately after first SaveChanges (needs entity.Id)
 
                 // Documents
                 if (dto.Documents != null && dto.Documents.Any())
@@ -106,13 +100,11 @@ namespace DB.Repositories
                 }
 
                 await _context.Set<TenderApplication>().AddAsync(entity);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(); // generates entity.Id
 
-                // Auto-generate TenderCode: {yyyy}/B{sequence padded to 3}
-                var year = entity.CreatedDate.Year;
-                var countThisYear = await _context.Set<TenderApplication>()
-                    .CountAsync(t => t.CreatedDate.Year == year && t.Id <= entity.Id);
-                entity.TenderCode = $"{year}/B{countThisYear.ToString("D3")}";
+                // Auto-generate TenderCode: {yyyy}/T{Id padded to 4}
+                entity.TenderCode = $"{entity.CreatedDate.Year}/T{entity.Id.ToString("D4")}";
+                _context.Set<TenderApplication>().Update(entity);
                 await _context.SaveChangesAsync();
 
                 // If incoming category codes provided, insert them now referencing the generated Id
@@ -322,56 +314,25 @@ namespace DB.Repositories
                         _context.Set<TenderSiteVisit>().Remove(existing.TenderSiteVisit);
                 }
 
-                // TenderCategoryCode sync (incoming DTO -> TenderCategoryCode rows)
-                if (dto.TendorCategoryCodeDto != null)
-                {
-                    var existingCodes = await _context.Set<TenderCategoryCode>().Where(c => c.TenderId == existing.Id).ToListAsync();
-                    foreach (var inc in dto.TendorCategoryCodeDto)
-                    {
-                        if (inc.Id > 0)
-                        {
-                            var ex = existingCodes.FirstOrDefault(x => x.Id == inc.Id);
-                            if (ex != null)
-                            {
-                                _context.Entry(ex).CurrentValues.SetValues(new
-                                {
-                                    CodeMasterId = inc.CodeMasterId ?? ex.CodeMasterId,
-                                    CategoryId = inc.CategoryId,
-                                    SubCategoryId = inc.SubCategoryId,
-                                    ActivityId = inc.ActivityId,
-                                    UpdatedDate = DateTime.UtcNow
-                                });
-                            }
-                            else
-                            {
-                                await _context.Set<TenderCategoryCode>().AddAsync(new TenderCategoryCode
-                                {
-                                    TenderId = existing.Id,
-                                    CodeMasterId = inc.CodeMasterId ?? 0,
-                                    CategoryId = inc.CategoryId,
-                                    SubCategoryId = inc.SubCategoryId,
-                                    ActivityId = inc.ActivityId,
-                                    CreatedDate = DateTime.UtcNow
-                                });
-                            }
-                        }
-                        else
-                        {
-                            await _context.Set<TenderCategoryCode>().AddAsync(new TenderCategoryCode
-                            {
-                                TenderId = existing.Id,
-                                CodeMasterId = inc.CodeMasterId ?? 0,
-                                CategoryId = inc.CategoryId,
-                                SubCategoryId = inc.SubCategoryId,
-                                ActivityId = inc.ActivityId,
-                                CreatedDate = DateTime.UtcNow
-                            });
-                        }
-                    }
+                // TenderCategoryCode sync — delete all existing, re-insert all incoming
+                var existingCodes = await _context.TenderCategoryCodes
+                    .Where(c => c.TenderId == existing.Id)
+                    .ToListAsync();
+                if (existingCodes.Any())
+                    _context.TenderCategoryCodes.RemoveRange(existingCodes);
 
-                    var incomingCodeIds = dto.TendorCategoryCodeDto.Where(c => c.Id > 0).Select(c => c.Id).ToHashSet();
-                    var removeCodes = existingCodes.Where(e => !incomingCodeIds.Contains(e.Id)).ToList();
-                    if (removeCodes.Any()) _context.Set<TenderCategoryCode>().RemoveRange(removeCodes);
+                if (dto.TendorCategoryCodeDto != null && dto.TendorCategoryCodeDto.Any())
+                {
+                    var newCodes = dto.TendorCategoryCodeDto.Select(c => new TenderCategoryCode
+                    {
+                        TenderId = existing.Id,
+                        CodeMasterId = c.CodeMasterId ?? 0,
+                        CategoryId = c.CategoryId,
+                        SubCategoryId = c.SubCategoryId,
+                        ActivityId = c.ActivityId,
+                        CreatedDate = DateTime.UtcNow
+                    }).ToList();
+                    await _context.TenderCategoryCodes.AddRangeAsync(newCodes);
                 }
 
                 await _context.SaveChangesAsync();
@@ -417,7 +378,7 @@ namespace DB.Repositories
                 .Include(t => t.JobScopes)
                 .Include(t => t.Documents)
                 .Include(t => t.TenderSiteVisit)
-                .Include(t => t.TenderCategoryCode)
+                .Include(t => t.TenderCategoryCodes)
                 .OrderByDescending(t => t.CreatedDate)
                 .ToListAsync();
 
@@ -430,14 +391,29 @@ namespace DB.Repositories
                 .Include(t => t.JobScopes)
                 .Include(t => t.Documents)
                 .Include(t => t.TenderSiteVisit)
-                .Include(t => t.TenderCategoryCode)
                 .Include(t => t.TenderCreatedByUser)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
             if (tender == null)
                 return null;
 
-            return _mapper.Map<TenderApplicationDto>(tender);
+            var dto = _mapper.Map<TenderApplicationDto>(tender);
+
+            // Manually load category codes (entity has single nav, but DB has multiple rows)
+            dto.TendorCategoryCodeDto = await _context.TenderCategoryCodes
+                .Where(c => c.TenderId == id)
+                .Select(c => new TendorCategoryCodeDto
+                {
+                    Id = c.Id,
+                    TenderId = c.TenderId,
+                    CodeMasterId = c.CodeMasterId,
+                    CategoryId = c.CategoryId,
+                    SubCategoryId = c.SubCategoryId,
+                    ActivityId = c.ActivityId,
+                })
+                .ToListAsync();
+
+            return dto;
         }
 
         public async Task<List<TenderApplicationDto>> GetAllTenderApplicationsAsync(
@@ -450,7 +426,7 @@ namespace DB.Repositories
                 .Include(t => t.JobScopes)
                 .Include(t => t.Documents)
                 .Include(t => t.TenderSiteVisit)
-                .Include(t => t.TenderCategoryCode)
+                .Include(t => t.TenderCategoryCodes)
                 .AsQueryable();
 
             // Application Level Filter
@@ -1901,6 +1877,47 @@ namespace DB.Repositories
             slot.ChangeRemarks = changeRemarks;
             slot.UpdatedDate = DateTime.UtcNow;
             slot.UpdatedBy = GetCurrentUserId();
+
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Initialize ISSUANCE approval workflow (2 slots: DesignationId 6 + 7).
+        /// Called when user clicks "Proceed Tender Issuance".
+        /// </summary>
+        public async Task InitializeIssuanceWorkflowAsync(int tenderId, int siteLevelId, int siteOfficeId)
+        {
+            // Check if ISSUANCE slots already exist
+            var existing = await _context.TenderApprovalWorkflows
+                .Where(w => w.TenderApplicationId == tenderId && w.Stage == "ISSUANCE")
+                .ToListAsync();
+            if (existing.Any()) return; // already initialized
+
+            var issuanceDesignations = new[] { 6, 7 }; // Ketua Unit Perolehan, Ketua Bahagian Perolehan
+
+            for (int i = 0; i < issuanceDesignations.Length; i++)
+            {
+                var desigId = issuanceDesignations[i];
+                var user = await _context.Users
+                    .Where(u => u.SiteLevelId == siteLevelId
+                        && u.DesignationId == desigId
+                        && u.SiteOffice == siteOfficeId
+                        && u.IsActive == true)
+                    .FirstOrDefaultAsync();
+
+                _context.TenderApprovalWorkflows.Add(new TenderApprovalWorkflow
+                {
+                    TenderApplicationId = tenderId,
+                    Stage = "ISSUANCE",
+                    StageOrder = 4,
+                    Level = i + 1,
+                    DesignationId = desigId,
+                    AssignedUserId = user?.Id,
+                    Status = "Pending", // ISSUANCE slots are immediately active
+                    CreatedDate = DateTime.UtcNow,
+                    CreatedBy = GetCurrentUserId()
+                });
+            }
 
             await _context.SaveChangesAsync();
         }

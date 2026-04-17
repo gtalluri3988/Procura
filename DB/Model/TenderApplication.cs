@@ -26,7 +26,7 @@ namespace DB.EFModel
 
         public int TenderCreatedBy { get; set; }
         public ICollection<TenderJobScope>? JobScopes { get; set; }
-        public TenderCategoryCode? TenderCategoryCode { get; set; }
+        public ICollection<TenderCategoryCode>? TenderCategoryCodes { get; set; }
         public TenderCategory? TenderCategory { get; set; }
         public JobCategory? JobCategory { get; set; }
         public TenderSiteVisit? TenderSiteVisit { get; set; }

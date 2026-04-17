@@ -261,6 +261,13 @@ namespace DB.Model
                 .HasForeignKey(i => i.CategoryCodeApprovalId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // TenderCategoryCode is 1:many (one tender has many category codes)
+            modelBuilder.Entity<TenderCategoryCode>()
+                .HasOne(c => c.Tender)
+                .WithMany(t => t.TenderCategoryCodes)
+                .HasForeignKey(c => c.TenderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 
