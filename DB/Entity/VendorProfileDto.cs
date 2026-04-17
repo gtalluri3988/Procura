@@ -22,12 +22,12 @@ namespace DB.Entity
         public int? CountryId { get; set; }
 
         public string OfficePhoneNo { get; set; }
-        public string FaxNo { get; set; }
+        public string? FaxNo { get; set; }
         public string Email { get; set; }
-        public string Website { get; set; }
+        public string? Website { get; set; }
 
         public int? IndustryTypeId { get; set; }
-        public string BusinessCoverageArea { get; set; }
+        public string? BusinessCoverageArea { get; set; }
 
         public string PicName { get; set; }
         public string PicMobileNo { get; set; }

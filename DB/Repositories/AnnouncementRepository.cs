@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using DB.EFModel;
 using DB.Entity;
 using DB.Helper;
@@ -17,11 +17,12 @@ namespace DB.Repositories
     public class AnnouncementRepository : RepositoryBase<Announcement, AnnouncementDto>, IAnnouncementRepository
     {
         public AnnouncementRepository(ProcuraDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) { }
+
         public async Task<List<AnnouncementDto>> GetAnnouncementsAsync(AnnouncementType type)
         {
             return await _context.Announcements
                 .Where(x => x.Type == type)
-                .OrderByDescending(x => x.Date)
+                .OrderByDescending(x => x.CreatedDate)
                 .Select(x => new AnnouncementDto
                 {
                     Id = x.Id,
@@ -31,7 +32,13 @@ namespace DB.Repositories
                     Date = x.Date,
                     ClosingDate = x.ClosingDate,
                     VendorId = x.VendorId,
-                    Value = x.Value
+                    Value = x.Value,
+                    Description = x.Description,
+                    Status = x.Status,
+                    CreatedBy = x.CreatedBy != null
+                        ? _context.Users.Where(u => u.Id.ToString() == x.CreatedBy).Select(u => u.FullName).FirstOrDefault() ?? x.CreatedBy
+                        : "",
+                    CreatedDate = x.CreatedDate
                 })
                 .ToListAsync();
         }
@@ -49,11 +56,14 @@ namespace DB.Repositories
                     Date = x.Date,
                     ClosingDate = x.ClosingDate,
                     VendorId = x.VendorId,
-                    Value = x.Value
+                    Value = x.Value,
+                    Description = x.Description,
+                    Status = x.Status,
+                    CreatedBy = x.CreatedBy,
+                    CreatedDate = x.CreatedDate
                 })
-                .FirstOrDefaultAsync()?? new AnnouncementDto();
+                .FirstOrDefaultAsync() ?? new AnnouncementDto();
         }
-
 
         public async Task UpdateAnnouncementAsync(AnnouncementDto dto)
         {
@@ -70,6 +80,8 @@ namespace DB.Repositories
             entity.ClosingDate = dto.ClosingDate;
             entity.VendorId = dto.VendorId;
             entity.Value = dto.Value;
+            entity.Description = dto.Description;
+            entity.Status = dto.Status;
             entity.UpdatedDate = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
@@ -91,14 +103,18 @@ namespace DB.Repositories
         {
             return await _context.Announcements
                 .Where(x => x.Title.Contains(keyword))
-                .OrderByDescending(x => x.Date)
+                .OrderByDescending(x => x.CreatedDate)
                 .Select(x => new AnnouncementDto
                 {
                     Id = x.Id,
                     Title = x.Title,
                     Reference = x.Reference,
                     Type = x.Type,
-                    Date = x.Date
+                    Date = x.Date,
+                    Description = x.Description,
+                    Status = x.Status,
+                    CreatedBy = x.CreatedBy,
+                    CreatedDate = x.CreatedDate
                 })
                 .ToListAsync();
         }
@@ -110,12 +126,14 @@ namespace DB.Repositories
                 Title = dto.Title,
                 Reference = dto.Reference,
                 Type = dto.Type,
-                Date = dto.Date,
+                Date = dto.Date ?? DateTime.UtcNow,
                 ClosingDate = dto.ClosingDate,
                 VendorId = dto.VendorId,
                 Value = dto.Value,
                 Description = dto.Description,
-                CreatedDate = DateTime.UtcNow
+                Status = dto.Status ?? true,
+                CreatedDate = DateTime.UtcNow,
+                CreatedBy = GetCurrentUserId()
             };
 
             await _context.Announcements.AddAsync(entity);

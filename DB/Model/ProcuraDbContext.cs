@@ -94,6 +94,7 @@ namespace DB.Model
         public DbSet<TenderRequiredDocument> TenderRequiredDocuments { get; set; }
         public DbSet<TenderReview> TenderReviews { get; set; }
         public DbSet<TenderApproval> TenderApprovals { get; set; }
+        public DbSet<TenderApprovalWorkflow> TenderApprovalWorkflows { get; set; }
 
         public DbSet<TenderApplication> TenderApplications { get; set; }
 

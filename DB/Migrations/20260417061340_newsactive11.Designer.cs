@@ -4,6 +4,7 @@ using DB.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DB.Migrations
 {
     [DbContext(typeof(ProcuraDbContext))]
-    partial class ProcuraDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260417061340_newsactive11")]
+    partial class newsactive11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1806,68 +1809,6 @@ namespace DB.Migrations
                     b.ToTable("TenderApprovals");
                 });
 
-            modelBuilder.Entity("DB.EFModel.TenderApprovalWorkflow", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("ActionDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("AssignedUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ChangeRemarks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DesignationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Remarks")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Stage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StageOrder")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TenderApplicationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssignedUserId");
-
-                    b.HasIndex("DesignationId");
-
-                    b.HasIndex("TenderApplicationId");
-
-                    b.ToTable("TenderApprovalWorkflows");
-                });
-
             modelBuilder.Entity("DB.EFModel.TenderAward", b =>
                 {
                     b.Property<int>("Id")
@@ -2962,6 +2903,7 @@ namespace DB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Website")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -4434,31 +4376,6 @@ namespace DB.Migrations
                     b.Navigation("TenderApplicationStatus");
                 });
 
-            modelBuilder.Entity("DB.EFModel.TenderApprovalWorkflow", b =>
-                {
-                    b.HasOne("DB.EFModel.User", "AssignedUser")
-                        .WithMany()
-                        .HasForeignKey("AssignedUserId");
-
-                    b.HasOne("DB.EFModel.Designation", "Designation")
-                        .WithMany()
-                        .HasForeignKey("DesignationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DB.EFModel.TenderApplication", "TenderApplication")
-                        .WithMany("ApprovalWorkflows")
-                        .HasForeignKey("TenderApplicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AssignedUser");
-
-                    b.Navigation("Designation");
-
-                    b.Navigation("TenderApplication");
-                });
-
             modelBuilder.Entity("DB.EFModel.TenderAward", b =>
                 {
                     b.HasOne("DB.EFModel.Vendor", "AwardedVendor")
@@ -5191,8 +5108,6 @@ namespace DB.Migrations
 
             modelBuilder.Entity("DB.EFModel.TenderApplication", b =>
                 {
-                    b.Navigation("ApprovalWorkflows");
-
                     b.Navigation("Approvals");
 
                     b.Navigation("Documents");

@@ -68,7 +68,15 @@ namespace DB.Helper
         Advertised = 3,
         Opening = 4,
         Evaluation = 5,
-        Award = 6
+        Award = 6,
+        ReviewApproved = 7,
+        ReviewReject = 8,
+        WilayahApproved = 9,
+        WilayahReject = 10,
+        HQApproved = 11,
+        HQReject = 12,
+        IssuanceApproved = 13,
+        IssuanceReject = 14
     }
 
     public enum AnnouncementType

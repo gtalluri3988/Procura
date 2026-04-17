@@ -29,11 +29,9 @@ namespace DB.Model
 
         public string GLDescription { get; set; }
 
-        public string WBSReference { get; set; }
+        public string RujukanType { get; set; }    // "WBS" | "COST_CENTRE" | "IO"
 
-        public string CostCentreReference { get; set; }
-
-        public string IOReference { get; set; }
+        public string RujukanValue { get; set; }
 
         public decimal Amount { get; set; }
 

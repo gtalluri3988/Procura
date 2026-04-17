@@ -9,6 +9,7 @@ namespace DB.EFModel
     public class TenderApplication:BaseEntity
     {
         public int Id { get; set; }
+        public string? TenderCode { get; set; }
         public int? ApplicationLevelId { get; set; }
         public string? ProjectName { get; set; }
         public int JobCategoryId { get; set; }
@@ -32,7 +33,7 @@ namespace DB.EFModel
         public ICollection<TenderRequiredDocument>? Documents { get; set; }
         public ICollection<TenderReview>? Reviews { get; set; }
         public ICollection<TenderApproval>? Approvals { get; set; }
-        
+        public ICollection<TenderApprovalWorkflow>? ApprovalWorkflows { get; set; }
 
         public TenderApplicationStatus? TenderApplicationStatus { get; set; }
        

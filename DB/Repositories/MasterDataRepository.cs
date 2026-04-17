@@ -692,37 +692,34 @@ namespace DB.Repositories
                 POActAssign = model.POActAssign,
                 GLAccount = model.GLAccount,
                 GLDescription = model.GLDescription,
-                WBSReference = model.WBSReference,
-                CostCentreReference = model.CostCentreReference,
-                IOReference = model.IOReference,
+                RujukanType = model.RujukanType,
+                RujukanValue = model.RujukanValue,
                 Amount = model.Amount
             };
             _context.MaterialBudgets.Add(materialBudget);
             await _context.SaveChangesAsync();
-            
         }
 
         // UPDATE
         public async Task UpdateMaterilBudgetAsync(MaterialBudgetDto model)
         {
             var existing = await _context.MaterialBudgets.FindAsync(model.Id);
-            if (existing != null)
-            {
-                existing.JobCategoryId = model.JobCategoryId;
-                existing.ServiceCode = model.ServiceCode;
-                existing.ShortText = model.ShortText;
-                existing.MaterialGroup = model.MaterialGroup;
-                existing.MaterialGroupDescription = model.MaterialGroupDescription;
-                existing.Unit = model.Unit;
-                existing.POActAssign = model.POActAssign;
-                existing.GLAccount = model.GLAccount;
-                existing.GLDescription = model.GLDescription;
-                existing.WBSReference = model.WBSReference;
-                existing.CostCentreReference = model.CostCentreReference;
-                existing.IOReference = model.IOReference;
-                existing.Amount = model.Amount;
-                await _context.SaveChangesAsync();
-            }
+            if (existing == null)
+                throw new InvalidOperationException($"MaterialBudget with Id {model.Id} not found.");
+
+            existing.JobCategoryId = model.JobCategoryId;
+            existing.ServiceCode = model.ServiceCode;
+            existing.ShortText = model.ShortText;
+            existing.MaterialGroup = model.MaterialGroup;
+            existing.MaterialGroupDescription = model.MaterialGroupDescription;
+            existing.Unit = model.Unit;
+            existing.POActAssign = model.POActAssign;
+            existing.GLAccount = model.GLAccount;
+            existing.GLDescription = model.GLDescription;
+            existing.RujukanType = model.RujukanType;
+            existing.RujukanValue = model.RujukanValue;
+            existing.Amount = model.Amount;
+            await _context.SaveChangesAsync();
         }
 
         // DELETE (Soft Delete Recommended)
@@ -743,7 +740,7 @@ namespace DB.Repositories
         // GET BY ID
         public async Task<MaterialBudgetDto> GetMaterilBudgetByIdAsync(int id)
         {
-            var materialBudget= await _context.MaterialBudgets
+            var materialBudget = await _context.MaterialBudgets
                 .Include(x => x.JobCategory)
                 .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
             return _mapper.Map<MaterialBudgetDto>(materialBudget);
@@ -751,7 +748,7 @@ namespace DB.Repositories
 
         public async Task<IEnumerable<MaterialBudgetDto>> GetAllMaterilBudgetListAsync()
         {
-            var materialBudget = await _context.MaterialBudgets.Where(x=>x.IsActive)
+            var materialBudget = await _context.MaterialBudgets.Where(x => x.IsActive)
                 .Include(x => x.JobCategory)
                 .ToListAsync();
             return _mapper.Map<IEnumerable<MaterialBudgetDto>>(materialBudget);
@@ -760,7 +757,7 @@ namespace DB.Repositories
         // GET BY JOBCATEGORY
         public async Task<IEnumerable<MaterialBudgetDto>> GetByJobCategoryAsync(int jobCategoryId)
         {
-            var materialBudget=  await _context.MaterialBudgets
+            var materialBudget = await _context.MaterialBudgets
                 .Where(x => x.JobCategoryId == jobCategoryId && x.IsActive)
                 .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();

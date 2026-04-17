@@ -7,6 +7,7 @@ using DB.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Net;
 using System.Net.Mail;
@@ -15,7 +16,47 @@ namespace DB.Repositories
 {
     public class UserRepository : RepositoryBase<User, UserDTO>, IUserRepository
     {
-        public UserRepository(ProcuraDbContext context, IMapper mapper,IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) { }
+        private readonly IConfiguration _configuration;
+
+        public UserRepository(ProcuraDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor, IConfiguration configuration) : base(context, mapper, httpContextAccessor)
+        {
+            _configuration = configuration;
+        }
+
+        public new async Task<UserDTO> GetByIdAsync(int id)
+        {
+            return await _context.Users
+                .Where(u => u.Id == id)
+                .Include(u => u.SiteLevel)
+                .Include(u => u.State)
+                .Include(u => u.Designation)
+                .Include(u => u.Role)
+                .Select(c => new UserDTO
+                {
+                    Id = c.Id,
+                    FullName = c.FullName,
+                    FirstName = c.FullName,
+                    LastName = c.FullName,
+                    StaffId = c.StaffId,
+                    Email = c.EmailAddress,
+                    Mobile = c.MobileNo,
+                    UserName = c.UserName,
+                    RoleId = c.RoleId,
+                    RoleName = c.Role == null ? "" : c.Role.Name,
+                    SiteLevelId = c.SiteLevelId,
+                    SiteOfficeId = c.SiteOffice,
+                    DesignationId = c.DesignationId,
+                    SiteLevelName = c.SiteLevel == null ? "" : c.SiteLevel.Name,
+                    SiteOfficeName = c.State == null ? "" : c.State.Name,
+                    DesignationName = c.Designation == null ? "" : c.Designation.Name,
+                    Status = c.IsActive == true ? "Active" : "InActive",
+                    IsOpeningCommittee = c.IsOpeningCommittee,
+                    IsEvaluationCommittee = c.IsEvaluationCommittee,
+                    IsNegotiationCommittee = c.IsNegotiationCommittee
+                })
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<User?> GetUserByUsernameAsync(string username)
         {
             try
@@ -108,31 +149,38 @@ namespace DB.Repositories
         
         public async Task SendResetEmailAsync(string toEmail, string residentFullName, string tempPassword, string residentPageUrl, string community)
         {
-            var fromEmail = "absec.demo@gmail.com";
+            var smtp = _configuration.GetSection("Smtp");
+            var host = smtp["Host"];
+            var port = int.Parse(smtp["Port"] ?? "587");
+            var enableSsl = bool.Parse(smtp["EnableSsl"] ?? "true");
+            var fromEmail = smtp["FromEmail"];
+            var fromDisplayName = smtp["FromDisplayName"] ?? "Procura Team";
+            var userName = smtp["UserName"] ?? fromEmail;
+            var password = smtp["Password"];
+
+            if (string.IsNullOrWhiteSpace(host) || string.IsNullOrWhiteSpace(fromEmail) || string.IsNullOrWhiteSpace(password))
+            {
+                throw new InvalidOperationException("SMTP configuration is missing. Set Smtp:Host, Smtp:FromEmail and Smtp:Password.");
+            }
+
             var subject = $"CSA {community} | Password reset request";
             var body = EmailHelper.GetResetPasswordEmailBody(residentFullName, toEmail, tempPassword, residentPageUrl, community);
-            using var client = new SmtpClient("smtp.gmail.com") // Replace with your SMTP
+
+            using var client = new SmtpClient(host)
             {
-                Port = 587,
-                Credentials = new NetworkCredential("absec.demo@gmail.com", "qhogkbdwobdoznyx"),
-                EnableSsl = true,
+                Port = port,
+                Credentials = new NetworkCredential(userName, password),
+                EnableSsl = enableSsl,
             };
-            var mailMessage = new MailMessage
+            using var mailMessage = new MailMessage
             {
-                From = new MailAddress(fromEmail, "CSA Team"),
+                From = new MailAddress(fromEmail, fromDisplayName),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = true
             };
-            try
-            {
-                mailMessage.To.Add(toEmail);
-                await client.SendMailAsync(mailMessage);
-            }
-            catch (Exception ex)
-            {
-                //throw(ex);
-            }
+            mailMessage.To.Add(toEmail);
+            await client.SendMailAsync(mailMessage);
         }
 
 
@@ -254,33 +302,42 @@ namespace DB.Repositories
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            var fromEmail = "absec.demo@gmail.com";
+            var smtp = _configuration.GetSection("Smtp");
+            var host = smtp["Host"];
+            var port = int.Parse(smtp["Port"] ?? "587");
+            var enableSsl = bool.Parse(smtp["EnableSsl"] ?? "true");
+            var fromEmail = smtp["FromEmail"];
+            var fromDisplayName = smtp["FromDisplayName"] ?? "Procura Team";
+            var smtpUserName = smtp["UserName"] ?? fromEmail;
+            var password = smtp["Password"];
 
-            var client = new SmtpClient("smtp.gmail.com")
+            if (string.IsNullOrWhiteSpace(host) || string.IsNullOrWhiteSpace(fromEmail) || string.IsNullOrWhiteSpace(password))
             {
-                Port = 587,
-                EnableSsl = true,
-                Credentials = new NetworkCredential(fromEmail, "qhogkbdwobdoznyx")
+                throw new InvalidOperationException("SMTP configuration is missing. Set Smtp:Host, Smtp:FromEmail and Smtp:Password.");
+            }
+
+            using var client = new SmtpClient(host)
+            {
+                Port = port,
+                EnableSsl = enableSsl,
+                Credentials = new NetworkCredential(smtpUserName, password)
             };
 
-            var mailMessage = new MailMessage
+            using var mailMessage = new MailMessage
             {
-                From = new MailAddress(fromEmail, "Procura Team"),
+                From = new MailAddress(fromEmail, fromDisplayName),
                 Subject = "Welcome to Procura - Your Account Has Been Created",
                 Body = EmailHelper.GetWelcomeEmailBody(residentFullName, userName, tempPassword, residentPageUrl, community),
                 IsBodyHtml = true
             };
-
-            mailMessage.To.Add(toEmail);
-
             try
             {
+                mailMessage.To.Add(toEmail);
                 await client.SendMailAsync(mailMessage);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                Console.WriteLine("Email Error: " + ex.Message);
-                throw;
+
             }
         }
 

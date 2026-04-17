@@ -81,7 +81,7 @@ namespace Procura.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetTenderApplicationBySearch(TenderAppSearch search)
+        public async Task<IActionResult> GetTenderApplicationBySearch([FromQuery] TenderAppSearch search)
         {
             var result = await _tenderService.GetAllTenderApplicationsAsync(search.applicationLevelId, search.tenderCategoryId, 
                 search.jobCategoryId, search.statusId);
@@ -268,5 +268,67 @@ namespace Procura.Controllers
             await _tenderService.SaveVendorPerformanceAsync(dto, userId);
             return Ok("Vendor performance saved successfully");
         }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  APPROVAL WORKFLOW
+        // ════════════════════════════════════════════════════════════════════
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetApprovalWorkflow(int tenderId)
+        {
+            var result = await _tenderService.GetApprovalWorkflowAsync(tenderId);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> InitializeWorkflow(int tenderId, decimal? estimatedPrices, int siteLevelId, int siteOfficeId)
+        {
+            await _tenderService.InitializeWorkflowAsync(tenderId, estimatedPrices, siteLevelId, siteOfficeId);
+            return Ok("Workflow initialized");
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ApproveRejectWorkflow([FromBody] ApproveRejectRequest request)
+        {
+            var userIdClaim = HttpContext.User.FindFirst("userid")?.Value ?? "0";
+            var userId = Convert.ToInt32(userIdClaim);
+            await _tenderService.ApproveRejectWorkflowAsync(
+                request.TenderId, request.Stage, request.Level, request.Status, request.Remarks, userId);
+            return Ok("Workflow updated");
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ChangeWorkflowApprover([FromBody] ChangeApproverRequest request)
+        {
+            await _tenderService.ChangeWorkflowApproverAsync(
+                request.TenderId, request.Stage, request.Level, request.NewUserId, request.ChangeRemarks);
+            return Ok("Approver changed");
+        }
+    }
+}
+
+// Request models
+namespace Procura.Models
+{
+    public class ApproveRejectRequest
+    {
+        public int TenderId { get; set; }
+        public string Stage { get; set; }
+        public int Level { get; set; }
+        public string Status { get; set; }
+        public string? Remarks { get; set; }
+    }
+
+    public class ChangeApproverRequest
+    {
+        public int TenderId { get; set; }
+        public string Stage { get; set; }
+        public int Level { get; set; }
+        public int NewUserId { get; set; }
+        public string? ChangeRemarks { get; set; }
     }
 }

@@ -140,10 +140,18 @@ namespace Procura.Controllers
         }
 
 
+        private static readonly HashSet<string> ValidRujukanTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "WBS", "COST_CENTRE", "IO"
+        };
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SaveMaterialBudget(MaterialBudgetDto request)
         {
+            var error = ValidateRujukan(request);
+            if (error != null) return BadRequest(error);
+
             await _masterDataService.AddMaterilBudgetAsync(request);
             return Ok("Saved Successfully");
         }
@@ -152,8 +160,22 @@ namespace Procura.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateMaterialBudget(MaterialBudgetDto request)
         {
+            var error = ValidateRujukan(request);
+            if (error != null) return BadRequest(error);
+
             await _masterDataService.UpdateMaterilBudgetAsync(request);
             return Ok("Saved Successfully");
+        }
+
+        private string? ValidateRujukan(MaterialBudgetDto request)
+        {
+            if (string.IsNullOrWhiteSpace(request.RujukanType))
+                return "rujukanType is required.";
+            if (string.IsNullOrWhiteSpace(request.RujukanValue))
+                return "rujukanValue is required.";
+            if (!ValidRujukanTypes.Contains(request.RujukanType))
+                return $"rujukanType must be one of: WBS, COST_CENTRE, IO. Got: '{request.RujukanType}'";
+            return null;
         }
 
         [AllowAnonymous]

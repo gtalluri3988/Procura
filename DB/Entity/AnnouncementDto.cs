@@ -26,5 +26,11 @@ namespace DB.Entity
         public decimal? Value { get; set; }
 
         public string Description { get; set; }
+
+        public bool? Status { get; set; }
+
+        public string? CreatedBy { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
     }
 }

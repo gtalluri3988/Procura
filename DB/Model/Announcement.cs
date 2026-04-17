@@ -20,7 +20,9 @@ namespace DB.EFModel
         public DateTime? Date { get; set; }
 
         public DateTime? ClosingDate { get; set; }
-       
+
+        public bool? Status { get; set; }
+
         public int? VendorId { get; set; }
 
         public decimal? Value { get; set; }

@@ -108,6 +108,13 @@ namespace DB.Repositories
                 await _context.Set<TenderApplication>().AddAsync(entity);
                 await _context.SaveChangesAsync();
 
+                // Auto-generate TenderCode: {yyyy}/B{sequence padded to 3}
+                var year = entity.CreatedDate.Year;
+                var countThisYear = await _context.Set<TenderApplication>()
+                    .CountAsync(t => t.CreatedDate.Year == year && t.Id <= entity.Id);
+                entity.TenderCode = $"{year}/B{countThisYear.ToString("D3")}";
+                await _context.SaveChangesAsync();
+
                 // If incoming category codes provided, insert them now referencing the generated Id
                 if (dto.TendorCategoryCodeDto != null && dto.TendorCategoryCodeDto.Any())
                 {
@@ -479,16 +486,34 @@ namespace DB.Repositories
 
         public async Task<IEnumerable<UserDTO>> GetTendorReviewers(int ApplicationLevelId, int DesignationId, int StateId)
         {
-            try
-            {
-                var Users = await _context.Users.Where(x=>x.SiteLevelId== ApplicationLevelId
-                && x.DesignationId== DesignationId && x.SiteOffice==StateId).ToListAsync();
-                return _mapper.Map<IEnumerable<UserDTO>>(Users);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error while retrive record");
-            }
+            return await _context.Users
+                .Where(x => x.SiteLevelId == ApplicationLevelId
+                    && x.DesignationId == DesignationId
+                    && x.SiteOffice == StateId)
+                .Include(x => x.SiteLevel)
+                .Include(x => x.Designation)
+                .Include(x => x.State)
+                .Include(x => x.Role)
+                .Select(c => new UserDTO
+                {
+                    Id = c.Id,
+                    FullName = c.FullName,
+                    FirstName = c.FullName,
+                    LastName = c.FullName,
+                    StaffId = c.StaffId,
+                    Email = c.EmailAddress,
+                    Mobile = c.MobileNo,
+                    UserName = c.UserName,
+                    RoleId = c.RoleId,
+                    RoleName = c.Role == null ? "" : c.Role.Name,
+                    SiteLevelId = c.SiteLevelId,
+                    SiteOfficeId = c.SiteOffice,
+                    DesignationId = c.DesignationId,
+                    SiteLevelName = c.SiteLevel == null ? "" : c.SiteLevel.Name,
+                    SiteOfficeName = c.State == null ? "" : c.State.Name,
+                    DesignationName = c.Designation == null ? "" : c.Designation.Name,
+                })
+                .ToListAsync();
         }
 
         public async Task SaveTenderAdvertisementPageAsync(TenderAdvertisementPageDto dto)
@@ -1694,6 +1719,188 @@ namespace DB.Repositories
             }).ToList();
 
             _context.VendorPerformanceFeedbacks.AddRange(newFeedbacks);
+
+            await _context.SaveChangesAsync();
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  APPROVAL WORKFLOW
+        // ════════════════════════════════════════════════════════════════════
+
+        // Workflow slot configuration: Stage → (StageOrder, DesignationId[])
+        private static readonly Dictionary<string, (int Order, int[] Designations)> WorkflowConfig = new()
+        {
+            ["REVIEWER"]  = (1, new[] { 4, 5 }),       // Asst Field Controller, Field Controller
+            ["WILAYAH"]   = (2, new[] { 1, 2, 3 }),    // Ketua Unit Perolehan Wilayah, Operation Controller, Regional Controller
+            ["HQ"]        = (3, new[] { 8, 9, 10 }),    // PC/KKK, COO, CEO
+        };
+
+        // Map each stage to the TenderApplicationStatus IDs for approved/rejected
+        private static readonly Dictionary<string, (int ApprovedStatusId, int RejectedStatusId)> StageStatusMap = new()
+        {
+            ["REVIEWER"]  = ((int)TenderApplicationStatusEnum.ReviewApproved,   (int)TenderApplicationStatusEnum.ReviewReject),
+            ["WILAYAH"]   = ((int)TenderApplicationStatusEnum.WilayahApproved,  (int)TenderApplicationStatusEnum.WilayahReject),
+            ["HQ"]        = ((int)TenderApplicationStatusEnum.HQApproved,       (int)TenderApplicationStatusEnum.HQReject),
+        };
+
+        public async Task InitializeWorkflowAsync(int tenderId, decimal? estimatedPrices, int siteLevelId, int siteOfficeId)
+        {
+            // Remove any existing workflow rows for this tender
+            var existing = await _context.TenderApprovalWorkflows
+                .Where(w => w.TenderApplicationId == tenderId)
+                .ToListAsync();
+            if (existing.Any())
+                _context.TenderApprovalWorkflows.RemoveRange(existing);
+
+            var stages = new[] { "REVIEWER", "WILAYAH", "HQ" };
+
+            foreach (var stage in stages)
+            {
+                // Skip HQ if estimated price <= 50000
+                if (stage == "HQ" && (estimatedPrices ?? 0) <= 50000)
+                    continue;
+
+                var config = WorkflowConfig[stage];
+
+                for (int i = 0; i < config.Designations.Length; i++)
+                {
+                    var desigId = config.Designations[i];
+
+                    // Auto-assign first matching user
+                    var user = await _context.Users
+                        .Where(u => u.SiteLevelId == siteLevelId
+                            && u.DesignationId == desigId
+                            && u.SiteOffice == siteOfficeId
+                            && u.IsActive == true)
+                        .FirstOrDefaultAsync();
+
+                    _context.TenderApprovalWorkflows.Add(new TenderApprovalWorkflow
+                    {
+                        TenderApplicationId = tenderId,
+                        Stage = stage,
+                        StageOrder = config.Order,
+                        Level = i + 1,
+                        DesignationId = desigId,
+                        AssignedUserId = user?.Id,
+                        Status = config.Order == 1 ? "Pending" : null, // Only first stage is Pending initially
+                        CreatedDate = DateTime.UtcNow,
+                        CreatedBy = GetCurrentUserId()
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<TenderApprovalWorkflowDto>> GetApprovalWorkflowAsync(int tenderId)
+        {
+            return await _context.TenderApprovalWorkflows
+                .Where(w => w.TenderApplicationId == tenderId)
+                .Include(w => w.AssignedUser).ThenInclude(u => u.SiteLevel)
+                .Include(w => w.AssignedUser).ThenInclude(u => u.Designation)
+                .Include(w => w.Designation)
+                .OrderBy(w => w.StageOrder).ThenBy(w => w.Level)
+                .Select(w => new TenderApprovalWorkflowDto
+                {
+                    Id = w.Id,
+                    TenderApplicationId = w.TenderApplicationId,
+                    Stage = w.Stage,
+                    StageOrder = w.StageOrder,
+                    Level = w.Level,
+                    DesignationId = w.DesignationId,
+                    DesignationName = w.Designation != null ? w.Designation.Name : "",
+                    AssignedUserId = w.AssignedUserId,
+                    AssignedUserName = w.AssignedUser != null ? w.AssignedUser.FullName : "",
+                    AssignedUserDepartment = w.AssignedUser != null && w.AssignedUser.SiteLevel != null ? w.AssignedUser.SiteLevel.Name : "",
+                    AssignedUserDesignation = w.AssignedUser != null && w.AssignedUser.Designation != null ? w.AssignedUser.Designation.Name : "",
+                    AssignedUserMobile = w.AssignedUser != null ? w.AssignedUser.MobileNo : "",
+                    Status = w.Status,
+                    Remarks = w.Remarks,
+                    ChangeRemarks = w.ChangeRemarks,
+                    ActionDateTime = w.ActionDateTime
+                })
+                .ToListAsync();
+        }
+
+        public async Task ApproveRejectWorkflowAsync(int tenderId, string stage, int level, string status, string? remarks, int userId)
+        {
+            var slot = await _context.TenderApprovalWorkflows
+                .FirstOrDefaultAsync(w => w.TenderApplicationId == tenderId && w.Stage == stage && w.Level == level);
+
+            if (slot == null)
+                throw new InvalidOperationException($"Workflow slot not found: tender={tenderId}, stage={stage}, level={level}");
+
+            if (slot.AssignedUserId != userId)
+                throw new UnauthorizedAccessException("You are not the assigned approver for this slot.");
+
+            if (slot.Status == "Approved" || slot.Status == "Rejected")
+                throw new InvalidOperationException("This slot has already been actioned.");
+
+            slot.Status = status; // "Approved" or "Rejected"
+            slot.Remarks = remarks;
+            slot.ActionDateTime = DateTime.UtcNow;
+            slot.UpdatedDate = DateTime.UtcNow;
+            slot.UpdatedBy = userId.ToString();
+
+            await _context.SaveChangesAsync();
+
+            // Update TenderApplication status based on stage result
+            var tender = await _context.TenderApplications.FindAsync(tenderId);
+            if (tender == null) return;
+
+            var stageSlots = await _context.TenderApprovalWorkflows
+                .Where(w => w.TenderApplicationId == tenderId && w.Stage == stage)
+                .ToListAsync();
+
+            var stageStatus = StageStatusMap[stage];
+
+            if (status == "Rejected")
+            {
+                // Any rejection → update tender status
+                tender.Status = $"{stage} - Rejected";
+                // Set FK only if the status row exists
+                var rejStatusExists = await _context.TenderApplicationStatus.AnyAsync(s => s.Id == stageStatus.RejectedStatusId);
+                if (rejStatusExists) tender.TenderApplicationStatusId = stageStatus.RejectedStatusId;
+                await _context.SaveChangesAsync();
+                return;
+            }
+
+            // Check if ALL slots in this stage are approved
+            if (stageSlots.All(s => s.Status == "Approved"))
+            {
+                tender.Status = $"{stage} - Approved";
+                var appStatusExists = await _context.TenderApplicationStatus.AnyAsync(s => s.Id == stageStatus.ApprovedStatusId);
+                if (appStatusExists) tender.TenderApplicationStatusId = stageStatus.ApprovedStatusId;
+                await _context.SaveChangesAsync();
+
+                // Activate the NEXT stage (set all its slots to "Pending")
+                var nextStageOrder = WorkflowConfig[stage].Order + 1;
+
+                // If HQ was skipped, jump to next
+                var nextSlots = await _context.TenderApprovalWorkflows
+                    .Where(w => w.TenderApplicationId == tenderId && w.StageOrder == nextStageOrder)
+                    .ToListAsync();
+
+                foreach (var ns in nextSlots)
+                {
+                    if (ns.Status == null) ns.Status = "Pending";
+                }
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task ChangeWorkflowApproverAsync(int tenderId, string stage, int level, int newUserId, string? changeRemarks)
+        {
+            var slot = await _context.TenderApprovalWorkflows
+                .FirstOrDefaultAsync(w => w.TenderApplicationId == tenderId && w.Stage == stage && w.Level == level);
+
+            if (slot == null)
+                throw new InvalidOperationException("Workflow slot not found.");
+
+            slot.AssignedUserId = newUserId;
+            slot.ChangeRemarks = changeRemarks;
+            slot.UpdatedDate = DateTime.UtcNow;
+            slot.UpdatedBy = GetCurrentUserId();
 
             await _context.SaveChangesAsync();
         }

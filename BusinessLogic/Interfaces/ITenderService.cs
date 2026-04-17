@@ -52,5 +52,11 @@ namespace BusinessLogic.Interfaces
         // Vendor Performance flow
         Task<VendorPerformancePageDto?> GetVendorPerformancePageAsync(int tenderId);
         Task SaveVendorPerformanceAsync(SaveVendorPerformanceDto dto, int userId);
+
+        // Approval Workflow
+        Task<List<TenderApprovalWorkflowDto>> GetApprovalWorkflowAsync(int tenderId);
+        Task InitializeWorkflowAsync(int tenderId, decimal? estimatedPrices, int siteLevelId, int siteOfficeId);
+        Task ApproveRejectWorkflowAsync(int tenderId, string stage, int level, string status, string? remarks, int userId);
+        Task ChangeWorkflowApproverAsync(int tenderId, string stage, int level, int newUserId, string? changeRemarks);
     }
 }

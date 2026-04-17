@@ -113,87 +113,128 @@ namespace DB.Migrations.Helpers
                                 <head>
                                   <meta charset='UTF-8' />
                                   <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-                                  <title>Email Notification</title>
+                                  <title>FPMSB PROCURA - Account Created</title>
                                   <style>
                                     body {{
-                                      font-family: Roboto, sans-serif;
-                                      background-color: #f5f7fa;
+                                      font-family: Arial, Helvetica, sans-serif;
+                                      background-color: #eef1f7;
                                       margin: 0;
                                       padding: 0;
+                                      color: #2b2b2b;
                                     }}
                                     .email-container {{
-                                      max-width: 600px;
+                                      max-width: 640px;
                                       margin: 0 auto;
-                                      background-color: #ffffff;
+                                      background-color: #eef1f7;
                                       border-radius: 6px;
                                       overflow: hidden;
                                     }}
                                     .header {{
-                                      background-color: #1ea4aa;
+                                      background-color: #B84521;
                                       color: #ffffff;
-                                      padding: 20px;
+                                      padding: 28px 20px;
                                       text-align: center;
-                                      font-size: 20px;
+                                    }}
+                                    .header .title {{
+                                      font-size: 22px;
                                       font-weight: bold;
+                                      margin-bottom: 10px;
+                                    }}
+                                    .header .subtitle {{
+                                      font-size: 18px;
+                                      font-weight: 600;
                                     }}
                                     .content {{
-                                      padding: 30px;
+                                      padding: 28px 32px;
+                                      background-color: #eef1f7;
                                     }}
-                                    .content h2 {{
-                                      margin-top: 0;
-                                      color: #2b2b2b;
-                                    }}
-                                    .content p, .notification-box p, .footer p {{
+                                    .content p {{
                                       line-height: 1.5;
+                                      margin: 10px 0;
                                     }}
-                                    .notification-box {{
-                                      background-color: #f1f3f6;
-                                      border-left: 4px solid #1ea4aa;
-                                      padding: 20px;
+                                    .credentials {{
                                       margin: 20px 0;
-                                      border-radius: 4px;
+                                    }}
+                                    .credentials table {{
+                                      border-collapse: collapse;
+                                    }}
+                                    .credentials td {{
+                                      padding: 4px 10px 4px 0;
+                                      vertical-align: top;
+                                    }}
+                                    .credentials .label {{
+                                      font-weight: bold;
                                     }}
                                     .button-container {{
                                       text-align: center;
-                                      margin: 30px 0;
+                                      margin: 28px 0;
                                     }}
                                     .button {{
-                                      background-color: #1ea4aa;
-                                      color: white;
-                                      padding: 12px 25px;
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 14px 28px;
                                       text-decoration: none;
                                       border-radius: 4px;
                                       font-weight: bold;
+                                      display: inline-block;
                                     }}
-                                    .blue-text {{
-                                      color: blue;
+                                    ol.steps {{
+                                      padding-left: 20px;
+                                      margin: 10px 0 0 0;
+                                    }}
+                                    ol.steps li {{
+                                      margin-bottom: 6px;
+                                      line-height: 1.5;
+                                    }}
+                                    .footer {{
+                                      background-color: #e4e7ed;
+                                      text-align: center;
+                                      padding: 18px 20px;
+                                      font-size: 13px;
+                                      color: #6b6b6b;
+                                    }}
+                                    .footer p {{
+                                      margin: 4px 0;
                                     }}
                                   </style>
                                 </head>
                                 <body>
                                   <div class='email-container'>
                                     <div class='header'>
-                                      Procura
+                                      <div class='title'>FPMSB PROCURA</div>
+                                      <div class='subtitle'>Felda Plantation Management Sdn. Bhd.</div>
                                     </div>
                                     <div class='content'>
-                                      <h2>Hello {0},</h2>
-                                      <p>Welcome to Procura <strong>{1}</strong>. Here are the details for you to login to the Procura portal.</p>
-                                      <div class='notification-box'>
-                                        <strong>Username:</strong>
-                                        <p class='blue-text'>{2}</p>
-                                        <strong>Temporary Password:</strong>
-                                        <p class='blue-text'>{3}</p>
+                                      <p><strong>Dear {0},</strong></p>
+                                      <p>Your account for the FPMSB PROCURA system has been successfully created by the system administrator.</p>
+                                      <div class='credentials'>
+                                        <table>
+                                          <tr>
+                                            <td class='label'>Staff ID</td>
+                                            <td>:</td>
+                                            <td>{1}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>Temporary Password</td>
+                                            <td>:</td>
+                                            <td>{2}</td>
+                                          </tr>
+                                        </table>
                                       </div>
-                                      <p>Please click the 'Go to Procura Porta' button and enter your username and temporary password as provided.</p>
-                                      <p>For security reasons, you will be prompted to change the password upon your first login.</p>
                                       <div class='button-container'>
-                                        <a href='{4}' class='button' style='color:white;'>Go to Procura Portal</a>
+                                        <a href='{3}' class='button' style='color:#ffffff;'>Login to FPMSB PROCURA</a>
                                       </div>
-                                      <div class='footer'>
-                                        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
-                                        <strong>Best regards,</strong>
-                                        <p>The Team at Procura</p>
-                                      </div>
+                                      <ol class='steps'>
+                                        <li>Click the button above to go to the login page.</li>
+                                        <li>Enter your <strong>Staff ID</strong> and <strong>Temporary Password</strong>.</li>
+                                        <li>The system will immediately prompt you to <strong>set a new password</strong>.</li>
+                                        <li>Once updated, you will have full access to your dashboard.</li>
+                                      </ol>
+                                    </div>
+                                    <div class='footer'>
+                                      <p>&copy; 2026 FPMSB. All rights reserved.</p>
+                                      <p>This is an automated system message. Please do not reply directly to this email.</p>
+                                      <p>Technical Support: support@fpmsb.com.my</p>
                                     </div>
                                   </div>
                                 </body>
@@ -202,7 +243,6 @@ namespace DB.Migrations.Helpers
 
             return string.Format(htmlTemplate,
                      residentFullName,
-                     community,
                      residentEmail,
                      randomPassword,
                      residentPageUrl);

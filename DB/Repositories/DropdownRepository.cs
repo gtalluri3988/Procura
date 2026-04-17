@@ -115,6 +115,22 @@ namespace DB.Repositories
                     Name = item.Name ?? string.Empty,
                 }).ToList() ?? new List<DropdownItem>();
             }
+            if (inputType.ToLower() == DropDown.TenderCategory.ToString().ToLower())
+            {
+                return _context.TenderCategories.Select(item => new DropdownItem
+                {
+                    Id = item.Id,
+                    Name = item.Name ?? string.Empty,
+                }).ToList() ?? new List<DropdownItem>();
+            }
+            if (inputType.ToLower() == DropDown.TenderApplicationStatus.ToString().ToLower())
+            {
+                return _context.TenderApplicationStatus.Select(item => new DropdownItem
+                {
+                    Id = item.Id,
+                    Name = item.Name ?? string.Empty,
+                }).ToList() ?? new List<DropdownItem>();
+            }
             if (inputType.ToLower() == DropDown.BankKey.ToString().ToLower())
             {
                 return _context.BankKeys.Select(item => new DropdownItem

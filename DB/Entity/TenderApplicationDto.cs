@@ -11,6 +11,7 @@ namespace DB.Entity
     public class TenderApplicationDto
     {
         public int Id { get; set; }
+        public string? TenderCode { get; set; }
         public int? ApplicationLevelId { get; set; }
         public string? ProjectName { get; set; }
         public int JobCategoryId { get; set; }
