@@ -45,6 +45,16 @@ namespace DB.Repositories
             return _mapper.Map<RoleMenuPermissionDTO>(entity);
         }
 
+        public async Task<bool> DeleteRolePermissionAsync(int permissionId)
+        {
+            var entity = await _context.RoleMenuPermissions.FirstOrDefaultAsync(c => c.Id == permissionId);
+            if (entity == null) return false;
+
+            _context.RoleMenuPermissions.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<List<RoleMenuPermissionDTO>> GetAllMenuPermissionListAsync()
         {
 

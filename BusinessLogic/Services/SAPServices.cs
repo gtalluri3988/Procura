@@ -2,6 +2,7 @@
 using BusinessLogic.Models;
 using DB.Entity.SAP;
 using DB.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,19 @@ namespace BusinessLogic.Services
         //var response = service.CreateVendorSAP(requestDto);
         private readonly IZBAPI_CREATEVENDORClient _sapClient;
         private readonly IVendorRepository _vendorRepository;
+        private readonly IVendorService _vendorService;
+        private readonly ILogger<SAPServices> _logger;
 
-        public SAPServices(IZBAPI_CREATEVENDORClient sapClient, IVendorRepository vendorRepository)
+        public SAPServices(
+            IZBAPI_CREATEVENDORClient sapClient,
+            IVendorRepository vendorRepository,
+            IVendorService vendorService,
+            ILogger<SAPServices> logger)
         {
             _sapClient = sapClient;
             _vendorRepository = vendorRepository;
+            _vendorService = vendorService;
+            _logger = logger;
         }
 
         public async Task<VendorCreateResponse> CreateVendorSAP(VendorCreateRequest_SAP_Dto request)
@@ -89,6 +98,31 @@ namespace BusinessLogic.Services
                 WriteIndented = true
             });
             await _vendorRepository.SaveSAPRequestResponseAsync(request.VendorId, requestJson, responseJson);
+
+            // Persist approval + trigger email when SAP returns a vendor code and no error rows
+            try
+            {
+                var returnRows = sapResponse?.RETURN ?? Array.Empty<BAPIRET2>();
+                var hasError = returnRows.Any(r => string.Equals(r?.TYPE, "E", StringComparison.OrdinalIgnoreCase));
+                var vendorCode = returnRows
+                    .Select(r => r?.VENDORCODE)
+                    .FirstOrDefault(code => !string.IsNullOrWhiteSpace(code));
+
+                if (!hasError && !string.IsNullOrWhiteSpace(vendorCode))
+                {
+                    var marked = await _vendorRepository.MarkVendorApprovedAsync(request.VendorId, vendorCode!, DateTime.UtcNow);
+                    if (marked)
+                    {
+                        await _vendorService.SendApprovalConfirmationAsync(request.VendorId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Never fail the SAP response path because of post-processing (persist or email)
+                _logger.LogError(ex, "SAP post-processing (mark approved / send email) failed for vendor {VendorId}", request.VendorId);
+            }
+
             return new VendorCreateResponse
             {
                 RespCode = "0000",

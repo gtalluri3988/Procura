@@ -1,10 +1,14 @@
 ﻿using Azure.Core;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
+using BusinessLogic.Models.Email;
 using DB.EFModel;
 using DB.Entity;
 using DB.Helper;
+using DB.Migrations.Helpers;
 using DB.Repositories.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Procura.Models;
 using System;
 using System.Collections.Generic;
@@ -21,16 +25,28 @@ namespace BusinessLogic.Services
         private readonly IVendorRepository _vendorRepository;
         private readonly IMasterDataRepository _masterDataRepository;
         private readonly ICategoryCodeApprovalRepository _approvalRepository;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<VendorService> _logger;
 
-        private const int MaxCategoriesAllowed = 2;
-        private const int MaxSubCategoriesPerCategory = 3;
+        private const int MaxCategoriesPerCodeMaster = BusinessLogic.Validators.VendorCategoryLimitValidator.MaxCategoriesPerCodeMaster;
+        private const int MaxSubCategoriesPerCategory = BusinessLogic.Validators.VendorCategoryLimitValidator.MaxSubCategoriesPerCategory;
         private const int MaxChangesAllowed = 2;
 
-        public VendorService(IVendorRepository vendorRepository, IMasterDataRepository masterDataRepository, ICategoryCodeApprovalRepository approvalRepository)
+        public VendorService(
+            IVendorRepository vendorRepository,
+            IMasterDataRepository masterDataRepository,
+            ICategoryCodeApprovalRepository approvalRepository,
+            IEmailService emailService,
+            IConfiguration configuration,
+            ILogger<VendorService> logger)
         {
             _vendorRepository = vendorRepository;
             _masterDataRepository = masterDataRepository;
             _approvalRepository = approvalRepository;
+            _emailService = emailService;
+            _configuration = configuration;
+            _logger = logger;
         }
 
         //public async Task SaveStepAsync(int vendorId, VendorRegistrationStep Step, StepSaveRequest request)
@@ -308,6 +324,252 @@ namespace BusinessLogic.Services
             return profile;
         }
 
+        public async Task SendRegistrationConfirmationAsync(int vendorId)
+        {
+            try
+            {
+                var vendor = await _vendorRepository.GetVendorFullDetailsAsync(vendorId);
+                if (vendor == null)
+                {
+                    _logger.LogWarning("Registration email skipped: vendor {VendorId} not found.", vendorId);
+                    return;
+                }
+
+                // Only fire after payment has flipped IsRegistrationComplete = true
+                if (vendor.IsRegistrationComplete != true)
+                {
+                    _logger.LogWarning("Registration email skipped for vendor {VendorId}: IsRegistrationComplete is {Flag}.", vendorId, vendor.IsRegistrationComplete);
+                    return;
+                }
+
+                var toEmail = !string.IsNullOrWhiteSpace(vendor.Email) ? vendor.Email : vendor.PicEmail;
+                if (string.IsNullOrWhiteSpace(toEmail))
+                {
+                    _logger.LogWarning("Registration email skipped for vendor {VendorId}: no Email or PicEmail on record.", vendorId);
+                    return;
+                }
+
+                var companyName = !string.IsNullOrWhiteSpace(vendor.CompanyName) ? vendor.CompanyName : vendor.RocNumber;
+                var loginUrl = _configuration["AppSettings:VendorPortalUrl"] ?? "https://portal.fpmsb.com.my/login";
+                const string subject = "FPMSB PROCURA - Registration Received";
+
+                // Idempotency: the payment webhook may fire more than once for the same order
+                // (gateway retries, manual re-triggers). Skip if we have already queued / sent this email.
+                if (await _emailService.IsAlreadyQueuedAsync(toEmail!, subject))
+                {
+                    _logger.LogInformation("Registration email already queued/sent for vendor {VendorId} ({Email}); skipping duplicate.", vendorId, toEmail);
+                    return;
+                }
+
+                await _emailService.EnqueueAsync(new EmailMessage
+                {
+                    ToEmail = toEmail!,
+                    Subject = subject,
+                    HtmlBody = EmailHelper.GetVendorRegistrationEmailBody(companyName ?? string.Empty, vendor.RocNumber ?? string.Empty, loginUrl),
+                    IsHtml = true
+                });
+
+                _logger.LogInformation("Registration email enqueued for vendor {VendorId} ({Email}).", vendorId, toEmail);
+            }
+            catch (Exception ex)
+            {
+                // Email failure must never break the calling workflow (registration / payment completion)
+                _logger.LogError(ex, "Failed to enqueue registration confirmation email for vendor {VendorId}", vendorId);
+            }
+        }
+
+        public async Task SendApprovalConfirmationAsync(int vendorId)
+        {
+            try
+            {
+                var vendor = await _vendorRepository.GetVendorFullDetailsAsync(vendorId);
+                if (vendor == null) return;
+                if (string.IsNullOrWhiteSpace(vendor.VendorCode)) return;
+
+                var toEmail = !string.IsNullOrWhiteSpace(vendor.PicEmail) ? vendor.PicEmail : vendor.Email;
+                if (string.IsNullOrWhiteSpace(toEmail)) return;
+
+                var companyName = !string.IsNullOrWhiteSpace(vendor.CompanyName) ? vendor.CompanyName : vendor.RocNumber;
+                var loginUrl = _configuration["AppSettings:VendorPortalUrl"] ?? "https://portal.fpmsb.com.my/login";
+
+                var approvalUtc = vendor.ApprovalDatetime ?? DateTime.UtcNow;
+                var expiryUtc = vendor.RegistrationExpiryDate ?? approvalUtc.AddYears(3);
+
+                await _emailService.EnqueueAsync(new EmailMessage
+                {
+                    ToEmail = toEmail!,
+                    Subject = "FPMSB PROCURA - Registration Approved",
+                    HtmlBody = EmailHelper.GetVendorApprovalEmailBody(
+                        companyName ?? string.Empty,
+                        vendor.VendorCode!,
+                        approvalUtc.ToString("dd MMM yyyy"),
+                        expiryUtc.ToString("dd MMM yyyy"),
+                        loginUrl),
+                    IsHtml = true
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to enqueue approval confirmation email for vendor {VendorId}", vendorId);
+            }
+        }
+
+        public async Task SendCategoryCodeApprovalEmailAsync(int vendorId, int approvalRequestId)
+        {
+            try
+            {
+                var vendor = await _vendorRepository.GetVendorFullDetailsAsync(vendorId);
+                if (vendor == null) return;
+
+                var toEmail = !string.IsNullOrWhiteSpace(vendor.PicEmail) ? vendor.PicEmail : vendor.Email;
+                if (string.IsNullOrWhiteSpace(toEmail)) return;
+
+                var approval = await _approvalRepository.GetApprovalRequestByIdAsync(approvalRequestId);
+                if (approval == null) return;
+
+                var companyName = !string.IsNullOrWhiteSpace(vendor.CompanyName) ? vendor.CompanyName : vendor.RocNumber;
+                var loginUrl = _configuration["AppSettings:VendorPortalUrl"] ?? "https://portal.fpmsb.com.my/login";
+                var approvedOn = (approval.ReviewedDate ?? DateTime.UtcNow).ToString("dd MMM yyyy");
+
+                var listHtml = BuildCategoryItemListHtml(approval.Items);
+
+                await _emailService.EnqueueAsync(new EmailMessage
+                {
+                    ToEmail = toEmail!,
+                    Subject = "FPMSB PROCURA - Category Code Change Approved",
+                    HtmlBody = EmailHelper.GetCategoryCodeApprovalEmailBody(
+                        companyName ?? string.Empty,
+                        vendor.VendorCode ?? string.Empty,
+                        approvedOn,
+                        listHtml,
+                        loginUrl),
+                    IsHtml = true
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to enqueue category code approval email for vendor {VendorId}, approval {ApprovalRequestId}", vendorId, approvalRequestId);
+            }
+        }
+
+        public async Task SendRenewalReminderAsync(int vendorId, int daysRemaining)
+        {
+            try
+            {
+                var vendor = await _vendorRepository.GetVendorFullDetailsAsync(vendorId);
+                if (vendor == null) return;
+                if (!vendor.RegistrationExpiryDate.HasValue) return;
+
+                var toEmail = !string.IsNullOrWhiteSpace(vendor.PicEmail) ? vendor.PicEmail : vendor.Email;
+                if (string.IsNullOrWhiteSpace(toEmail)) return;
+
+                var companyName = !string.IsNullOrWhiteSpace(vendor.CompanyName) ? vendor.CompanyName : vendor.RocNumber;
+                var renewalUrl = _configuration["AppSettings:VendorRenewalUrl"]
+                               ?? _configuration["AppSettings:VendorPortalUrl"]
+                               ?? "https://portal.fpmsb.com.my/login";
+
+                var expiryDate = vendor.RegistrationExpiryDate.Value.ToString("dd MMM yyyy");
+                var urgencyTag = daysRemaining <= 7 ? "URGENT: " : string.Empty;
+
+                await _emailService.EnqueueAsync(new EmailMessage
+                {
+                    ToEmail = toEmail!,
+                    Subject = $"{urgencyTag}FPMSB PROCURA - Registration Expires in {daysRemaining} day{(daysRemaining == 1 ? string.Empty : "s")}",
+                    HtmlBody = EmailHelper.GetRenewalReminderEmailBody(
+                        companyName ?? string.Empty,
+                        vendor.VendorCode ?? string.Empty,
+                        expiryDate,
+                        daysRemaining,
+                        renewalUrl),
+                    IsHtml = true
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to enqueue renewal reminder for vendor {VendorId} at threshold {Days} days", vendorId, daysRemaining);
+            }
+        }
+
+        public async Task RenewRegistrationAsync(int vendorId)
+        {
+            var vendor = await _vendorRepository.GetVendorByIdAsync(vendorId);
+            if (vendor == null)
+                throw new InvalidOperationException("Vendor not found.");
+
+            if (!vendor.ApprovalDatetime.HasValue)
+                throw new InvalidOperationException("Vendor has not completed initial approval; renewal is not applicable.");
+
+            var approvedDisplay = VendorStatus.Approved.GetDisplayName();
+            var expiredDisplay = VendorStatus.Expired.GetDisplayName();
+            if (vendor.VendorCodeStatus != approvedDisplay && vendor.VendorCodeStatus != expiredDisplay)
+                throw new InvalidOperationException($"Vendor status '{vendor.VendorCodeStatus}' cannot be renewed. Only Approved or Expired vendors can renew.");
+
+            var nowUtc = DateTime.UtcNow;
+            // If renewing early, extend from current expiry; if already expired, extend from today.
+            var anchor = vendor.RegistrationExpiryDate.HasValue && vendor.RegistrationExpiryDate.Value > nowUtc
+                ? vendor.RegistrationExpiryDate.Value
+                : nowUtc;
+            var newExpiry = anchor.AddYears(3);
+
+            var updated = await _vendorRepository.RenewRegistrationAsync(vendorId, nowUtc, newExpiry);
+            if (updated == null)
+                throw new InvalidOperationException("Vendor not found.");
+
+            await SendRenewalSuccessAsync(vendorId);
+        }
+
+        public async Task SendRenewalSuccessAsync(int vendorId)
+        {
+            try
+            {
+                var vendor = await _vendorRepository.GetVendorFullDetailsAsync(vendorId);
+                if (vendor == null) return;
+                if (!vendor.LastRenewedOn.HasValue || !vendor.RegistrationExpiryDate.HasValue) return;
+
+                var toEmail = !string.IsNullOrWhiteSpace(vendor.PicEmail) ? vendor.PicEmail : vendor.Email;
+                if (string.IsNullOrWhiteSpace(toEmail)) return;
+
+                var companyName = !string.IsNullOrWhiteSpace(vendor.CompanyName) ? vendor.CompanyName : vendor.RocNumber;
+                var loginUrl = _configuration["AppSettings:VendorPortalUrl"] ?? "https://portal.fpmsb.com.my/login";
+
+                await _emailService.EnqueueAsync(new EmailMessage
+                {
+                    ToEmail = toEmail!,
+                    Subject = "FPMSB PROCURA - Registration Renewed",
+                    HtmlBody = EmailHelper.GetRenewalSuccessEmailBody(
+                        companyName ?? string.Empty,
+                        vendor.VendorCode ?? string.Empty,
+                        vendor.LastRenewedOn.Value.ToString("dd MMM yyyy"),
+                        vendor.RegistrationExpiryDate.Value.ToString("dd MMM yyyy"),
+                        loginUrl),
+                    IsHtml = true
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to enqueue renewal success email for vendor {VendorId}", vendorId);
+            }
+        }
+
+        private static string BuildCategoryItemListHtml(List<CategoryCodeApprovalItemDto>? items)
+        {
+            if (items == null || items.Count == 0) return string.Empty;
+
+            var sb = new StringBuilder();
+            foreach (var item in items)
+            {
+                var segments = new List<string>(4);
+                if (!string.IsNullOrWhiteSpace(item.CodeMasterName)) segments.Add(System.Net.WebUtility.HtmlEncode(item.CodeMasterName));
+                if (!string.IsNullOrWhiteSpace(item.CategoryName)) segments.Add(System.Net.WebUtility.HtmlEncode(item.CategoryName));
+                if (!string.IsNullOrWhiteSpace(item.SubCategoryName)) segments.Add(System.Net.WebUtility.HtmlEncode(item.SubCategoryName));
+                if (!string.IsNullOrWhiteSpace(item.ActivityName)) segments.Add(System.Net.WebUtility.HtmlEncode(item.ActivityName));
+
+                var label = segments.Count > 0 ? string.Join(" &raquo; ", segments) : $"Item #{item.Id}";
+                sb.Append("<li>").Append(label).Append("</li>");
+            }
+            return sb.ToString();
+        }
+
         private VendorRegistrationStep? ComputeNextStep(VendorRegistrationStep? current)
         {
             if (current == null) return VendorRegistrationStep.Profile;
@@ -401,6 +663,9 @@ namespace BusinessLogic.Services
 
         public async Task<VendorRegistrationStep?> SaveCategoriesAsync(int vendorId, VendorCategoryRequest request)
         {
+            var vendorFull = await _vendorRepository.GetVendorFullDetailsAsync(vendorId);
+            BusinessLogic.Validators.VendorCategoryLimitValidator.EnsureLimits(request, vendorFull);
+
             var categories = new List<VendorCategory>();
             var categoriesCertificate = new List<VendorCategoryCertificate>();
 
@@ -502,6 +767,16 @@ namespace BusinessLogic.Services
             return await _vendorRepository.GetVendorListAsync();
         }
 
+        public async Task<bool> SoftDeleteVendorAsync(int vendorId)
+        {
+            return await _vendorRepository.SoftDeleteVendorAsync(vendorId);
+        }
+
+        public async Task<DateTime?> UpdateLastLoginAsync(int vendorId)
+        {
+            return await _vendorRepository.UpdateLastLoginAsync(vendorId);
+        }
+
         public async Task<VendorDashboardDto> GetVendorDashboardAsync()
         {
             return await _vendorRepository.GetVendorDashboardAsync();
@@ -536,7 +811,8 @@ namespace BusinessLogic.Services
         {
             var result = new CategoryChangeValidationResult
             {
-                MaxCategoriesAllowed = MaxCategoriesAllowed,
+                MaxCategoriesAllowed = MaxCategoriesPerCodeMaster,
+                MaxCategoriesPerCodeMaster = MaxCategoriesPerCodeMaster,
                 MaxSubCategoriesPerCategory = MaxSubCategoriesPerCategory
             };
 
@@ -603,6 +879,11 @@ namespace BusinessLogic.Services
                     .Select(c => c.CategoryId)
                     .Distinct()
                     .Count();
+
+                result.CategoryCountByCodeMaster = vendorFull.VendorCategories
+                    .Where(c => c.CategoryId.HasValue)
+                    .GroupBy(c => c.CodeMasterId)
+                    .ToDictionary(g => g.Key, g => g.Select(c => c.CategoryId!.Value).Distinct().Count());
             }
 
             result.IsEligible = true;

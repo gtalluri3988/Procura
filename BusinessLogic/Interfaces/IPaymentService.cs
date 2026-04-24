@@ -21,6 +21,8 @@ namespace BusinessLogic.Interfaces
         Task<PaymentRequestDTO> GetPaymentByOrderIdAsync(string orderId);
 
         Task SaveVendorPaymentAsync(PaymentResponseDTO dto, int vendorId);
+
+        Task SaveVendorPaymentMockAsync(int vendorId);
         //Task SaveResidentFacilityPaymentAsync(PaymentResponseDTO dto, int facilityId);
         //Task SaveResidentMaintanencePaymentAsync(PaymentResponseDTO dto, int residentId);
         Task<PaymentResponseDTO> getPaymentDetailsByTransactionIdAsync(string transactionId);

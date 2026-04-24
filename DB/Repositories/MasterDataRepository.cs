@@ -700,6 +700,39 @@ namespace DB.Repositories
             await _context.SaveChangesAsync();
         }
 
+        // BULK / SINGLE SAVE (accepts one or many)
+        public async Task SaveMaterialBudgetsAsync(IEnumerable<MaterialBudgetDto> models)
+        {
+            if (models == null)
+                throw new ArgumentNullException(nameof(models));
+
+            var items = models.ToList();
+            if (items.Count == 0)
+                return;
+
+            var entities = items.Select(model => new MaterialBudget
+            {
+                JobCategoryId = model.JobCategoryId,
+                ServiceCode = model.ServiceCode,
+                ShortText = model.ShortText,
+                MaterialGroup = model.MaterialGroup,
+                MaterialGroupDescription = model.MaterialGroupDescription,
+                Unit = model.Unit,
+                POActAssign = model.POActAssign,
+                GLAccount = model.GLAccount,
+                GLDescription = model.GLDescription,
+                RujukanType = model.RujukanType,
+                RujukanValue = model.RujukanValue,
+                Amount = model.Amount,
+                IsActive = true,
+                CreatedDate = DateTime.UtcNow,
+                CreatedBy = model.CreatedBy
+            }).ToList();
+
+            await _context.MaterialBudgets.AddRangeAsync(entities);
+            await _context.SaveChangesAsync();
+        }
+
         // UPDATE
         public async Task UpdateMaterilBudgetAsync(MaterialBudgetDto model)
         {
@@ -837,7 +870,16 @@ namespace DB.Repositories
         {
             var existing = await _context.VendorManagementSettings.FirstOrDefaultAsync();
 
-            if (!string.IsNullOrEmpty(model.CertificateBackgroundImagePath))
+            // Only treat the incoming CertificateBackgroundImagePath as a new upload when it
+            // looks like base64 payload (contains a data URI prefix OR is not the same
+            // relative path already saved). Otherwise assume the frontend round-tripped the
+            // stored path and keep the existing file on disk untouched.
+            var isNewUpload = !string.IsNullOrEmpty(model.CertificateBackgroundImagePath)
+                && (model.CertificateBackgroundImagePath.StartsWith("data:", StringComparison.OrdinalIgnoreCase)
+                    || existing == null
+                    || model.CertificateBackgroundImagePath != existing.CertificateBackgroundImagePath);
+
+            if (isNewUpload)
             {
                 var uploadRoot = _configuration["FileSettings:UploadPath"];
 
@@ -884,6 +926,16 @@ namespace DB.Repositories
                 existing.LateRenewalFee = model.LateRenewalFee;
                 existing.UpdatedDate = DateTime.UtcNow;
                 existing.PurchaseFee= model.PurchaseFee;
+                existing.RegistrationValidityYears=model.RegistrationValidityYears;
+                existing.FileName = model.FileName;
+
+                // Only overwrite FileName when a new file was uploaded, or when the caller
+                // explicitly supplied one; otherwise retain the existing value so editing
+                // non-file fields doesn't wipe the stored file name.
+                if (isNewUpload || !string.IsNullOrEmpty(model.FileName))
+                {
+                    existing.FileName = model.FileName;
+                }
             }
 
             await _context.SaveChangesAsync();

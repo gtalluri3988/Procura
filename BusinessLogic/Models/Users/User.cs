@@ -13,7 +13,7 @@ namespace BusinessLogic.Models.Users
         {
             _user = userObject;
             _userService = userService;
-            _Role = new Lazy<string>(() => _userService.RoleForUser(Id));
+            _Role = new Lazy<string>(() => _userService.GetRoleNameByRoleId(_user.RoleId));
 
         }
         private readonly Lazy<string> _Role;

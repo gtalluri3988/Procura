@@ -16,19 +16,22 @@ namespace BusinessLogic.Services
         private readonly ICategoryCodeApprovalRepository _approvalRepository;
         private readonly IVendorRepository _vendorRepository;
         private readonly IMasterDataRepository _masterDataRepository;
+        private readonly IVendorService _vendorService;
 
-        private const int MaxCategoriesAllowed = 2;
-        private const int MaxSubCategoriesPerCategory = 3;
+        private const int MaxCategoriesPerCodeMaster = BusinessLogic.Validators.VendorCategoryLimitValidator.MaxCategoriesPerCodeMaster;
+        private const int MaxSubCategoriesPerCategory = BusinessLogic.Validators.VendorCategoryLimitValidator.MaxSubCategoriesPerCategory;
         private const int MaxChangesAllowed = 2;
 
         public CategoryCodeApprovalService(
             ICategoryCodeApprovalRepository approvalRepository,
             IVendorRepository vendorRepository,
-            IMasterDataRepository masterDataRepository)
+            IMasterDataRepository masterDataRepository,
+            IVendorService vendorService)
         {
             _approvalRepository = approvalRepository;
             _vendorRepository = vendorRepository;
             _masterDataRepository = masterDataRepository;
+            _vendorService = vendorService;
         }
 
         public async Task<int> SubmitCategoryChangeRequestAsync(int vendorId, VendorCategoryRequest request)
@@ -133,6 +136,9 @@ namespace BusinessLogic.Services
                 throw new Exception("Vendor is no longer eligible for category changes: " + string.Join(" ", eligibility.Errors));
 
             await _approvalRepository.ApproveRequestAsync(requestId);
+
+            // Fire-and-forget notification — email failures must not affect the approval outcome
+            await _vendorService.SendCategoryCodeApprovalEmailAsync(approval.VendorId, requestId);
         }
 
         public async Task RejectCategoryChangeAsync(int requestId, string reason)
@@ -147,7 +153,8 @@ namespace BusinessLogic.Services
         {
             var result = new CategoryChangeValidationResult
             {
-                MaxCategoriesAllowed = MaxCategoriesAllowed,
+                MaxCategoriesAllowed = MaxCategoriesPerCodeMaster,
+                MaxCategoriesPerCodeMaster = MaxCategoriesPerCodeMaster,
                 MaxSubCategoriesPerCategory = MaxSubCategoriesPerCategory
             };
 
@@ -213,6 +220,11 @@ namespace BusinessLogic.Services
                     .Select(c => c.CategoryId)
                     .Distinct()
                     .Count();
+
+                result.CategoryCountByCodeMaster = vendorFull.VendorCategories
+                    .Where(c => c.CategoryId.HasValue)
+                    .GroupBy(c => c.CodeMasterId)
+                    .ToDictionary(g => g.Key, g => g.Select(c => c.CategoryId!.Value).Distinct().Count());
             }
 
             result.IsEligible = true;
@@ -226,55 +238,7 @@ namespace BusinessLogic.Services
 
         private void ValidateCategoryLimits(Vendor? vendorFull, VendorCategoryRequest request)
         {
-            if (request.VendorCategoryDto == null || request.VendorCategoryDto.Count == 0)
-                return;
-
-            // Count distinct categories being requested
-            var requestedCategories = request.VendorCategoryDto
-                .Where(c => c.CategoryId.HasValue)
-                .Select(c => c.CategoryId!.Value)
-                .Distinct()
-                .ToList();
-
-            // Count existing categories
-            var existingCategories = vendorFull?.VendorCategories?
-                .Where(c => c.CategoryId.HasValue)
-                .Select(c => c.CategoryId!.Value)
-                .Distinct()
-                .ToList() ?? new List<int>();
-
-            // New categories = requested that don't exist yet
-            var newCategories = requestedCategories.Except(existingCategories).ToList();
-            var totalCategories = existingCategories.Count + newCategories.Count;
-
-            if (totalCategories > MaxCategoriesAllowed)
-                throw new Exception($"Maximum {MaxCategoriesAllowed} categories allowed per vendor. Current: {existingCategories.Count}, New: {newCategories.Count}.");
-
-            // Validate subcategory limits per category
-            var requestedGrouped = request.VendorCategoryDto
-                .Where(c => c.CategoryId.HasValue)
-                .GroupBy(c => c.CategoryId!.Value);
-
-            foreach (var group in requestedGrouped)
-            {
-                var existingSubsForCategory = vendorFull?.VendorCategories?
-                    .Where(c => c.CategoryId == group.Key && c.SubCategoryId.HasValue)
-                    .Select(c => c.SubCategoryId!.Value)
-                    .Distinct()
-                    .ToList() ?? new List<int>();
-
-                var requestedSubs = group
-                    .Where(c => c.SubCategoryId.HasValue)
-                    .Select(c => c.SubCategoryId!.Value)
-                    .Distinct()
-                    .ToList();
-
-                var newSubs = requestedSubs.Except(existingSubsForCategory).ToList();
-                var totalSubs = existingSubsForCategory.Count + newSubs.Count;
-
-                if (totalSubs > MaxSubCategoriesPerCategory)
-                    throw new Exception($"Maximum {MaxSubCategoriesPerCategory} subcategories allowed per category. Category {group.Key} would have {totalSubs}.");
-            }
+            BusinessLogic.Validators.VendorCategoryLimitValidator.EnsureLimits(request, vendorFull);
         }
     }
 }

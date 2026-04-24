@@ -243,6 +243,27 @@ namespace DB.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> SoftDeleteVendorAsync(int vendorId)
+        {
+            var vendor = await _context.Vendors.FindAsync(vendorId);
+            if (vendor == null) return false;
+
+            vendor.IsActive = false;
+
+            // Best-effort cascade: if a User row exists for this vendor (RoleId 4 = Vendor,
+            // matched by ROC number as username), deactivate it so User-level auth is also blocked.
+            const int vendorRoleId = 4;
+            var linkedUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.RoleId == vendorRoleId && u.UserName == vendor.RocNumber);
+            if (linkedUser != null)
+            {
+                linkedUser.IsActive = false;
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         #endregion
 
         #region GET FULL DETAILS
@@ -734,20 +755,20 @@ namespace DB.Repositories
             categories ??= new List<VendorCategory>();
             vendorCategoryCertificates ??= new List<VendorCategoryCertificate>();
 
-            if (categories.Count > 2)
-                throw new Exception("Maximum 2 main category codes allowed.");
+            //if (categories.Count > 2)
+            //    throw new Exception("Maximum 2 main category codes allowed.");
 
-            var subCategoryValidation = categories
-                                .GroupBy(x => x.CategoryId)
-                                .Where(g => g.Select(x => x.SubCategoryId)
-                                .Distinct()
-                                .Count() > 3)
-                                .ToList();
+            //var subCategoryValidation = categories
+            //                    .GroupBy(x => x.CategoryId)
+            //                    .Where(g => g.Select(x => x.SubCategoryId)
+            //                    .Distinct()
+            //                    .Count() > 3)
+            //                    .ToList();
 
-            if (subCategoryValidation.Any())
-            {
-                throw new Exception("Maximum three (3) SubCategoryId allowed per CategoryId.");
-            }
+            //if (subCategoryValidation.Any())
+            //{
+            //    throw new Exception("Maximum three (3) SubCategoryId allowed per CategoryId.");
+            //}
 
             using var tx = await _context.Database.BeginTransactionAsync();
             try
@@ -1224,7 +1245,10 @@ namespace DB.Repositories
 
         public async Task<IEnumerable<VendorProfileDto>> GetVendorListAsync()
         {
-            var companyTypes = await _context.Vendors.Include(x => x.CompanyEntityType).ToListAsync();
+            var companyTypes = await _context.Vendors
+                .Where(v => v.IsActive)
+                .Include(x => x.CompanyEntityType)
+                .ToListAsync();
             return _mapper.Map<IEnumerable<VendorProfileDto>>(companyTypes);
 
         }
@@ -1269,14 +1293,27 @@ namespace DB.Repositories
 
         public VendorProfileDto GetVendorByROCandPasswordAsync(string roc, string password)
         {
-            var vendor = _context.Vendors.Where(x => x.RocNumber == roc && x.PasswordHash == password).FirstOrDefault();
+            var vendor = _context.Vendors.Where(x => x.RocNumber == roc && x.PasswordHash == password && x.IsActive).FirstOrDefault();
             return _mapper.Map<VendorProfileDto>(vendor);
 
+        }
+
+        public async Task<DateTime?> UpdateLastLoginAsync(int vendorId)
+        {
+            var vendor = await _context.Vendors.FirstOrDefaultAsync(v => v.Id == vendorId);
+            if (vendor == null)
+                return null;
+
+            var previous = vendor.LastLogin;
+            vendor.LastLogin = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return previous;
         }
 
         public async Task<VendorDashboardDto> GetVendorDashboardAsync()
         {
             var vendors = await _context.Vendors
+                .Where(v => v.IsActive)
                 .Include(x => x.CompanyEntityType)
                 .ToListAsync();
 
@@ -1300,6 +1337,7 @@ namespace DB.Repositories
         public async Task<IEnumerable<VendorProfileDto>> GetVendorListAsync(VendorSearchRequest? request)
         {
             var query = _context.Vendors
+                .Where(v => v.IsActive)
                 .Include(x => x.CompanyEntityType)
                 .AsQueryable();
 
@@ -1342,6 +1380,81 @@ namespace DB.Repositories
                 await tx.RollbackAsync();
                 throw;
             }
+        }
+
+        public async Task<List<Vendor>> GetVendorsWithExpiryOnAsync(DateTime targetDateUtc)
+        {
+            var targetDate = targetDateUtc.Date;
+            var approvedDisplay = VendorStatus.Approved.GetDisplayName();
+
+            return await _context.Vendors
+                .Where(v => v.IsActive
+                            && v.VendorCodeStatus == approvedDisplay
+                            && v.RegistrationExpiryDate.HasValue
+                            && v.RegistrationExpiryDate.Value.Date == targetDate)
+                .ToListAsync();
+        }
+
+        public async Task<bool> HasRenewalReminderBeenSentAsync(int vendorId, int thresholdDays, DateTime expiryDate)
+        {
+            var expiry = expiryDate.Date;
+            return await _context.VendorReminderLogs
+                .AnyAsync(l => l.VendorId == vendorId
+                            && l.ThresholdDays == thresholdDays
+                            && l.ExpiryDate == expiry);
+        }
+
+        public async Task RecordRenewalReminderSentAsync(int vendorId, int thresholdDays, DateTime expiryDate)
+        {
+            _context.VendorReminderLogs.Add(new VendorReminderLog
+            {
+                VendorId = vendorId,
+                ThresholdDays = thresholdDays,
+                ExpiryDate = expiryDate.Date,
+                SentAt = DateTime.UtcNow
+            });
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Vendor?> RenewRegistrationAsync(int vendorId, DateTime renewalUtc, DateTime newExpiryUtc)
+        {
+            var vendor = await _context.Vendors.FirstOrDefaultAsync(v => v.Id == vendorId);
+            if (vendor == null) return null;
+
+            vendor.RegistrationExpiryDate = newExpiryUtc;
+            vendor.LastRenewedOn = renewalUtc;
+
+            // If status had flipped to Expired, restore to Approved on successful renewal
+            if (vendor.VendorCodeStatus == VendorStatus.Expired.GetDisplayName())
+            {
+                vendor.VendorCodeStatus = VendorStatus.Approved.GetDisplayName();
+            }
+
+            await _context.SaveChangesAsync();
+            return vendor;
+        }
+
+        public async Task<bool> MarkVendorApprovedAsync(int vendorId, string vendorCode, DateTime approvalUtc)
+        {
+            var vendor = await _context.Vendors.FirstOrDefaultAsync(v => v.Id == vendorId);
+            if (vendor == null) return false;
+
+            var approvedDisplay = VendorStatus.Approved.GetDisplayName();
+
+            // Idempotent: if vendor is already marked Approved with the same code, do nothing
+            if (vendor.VendorCodeStatus == approvedDisplay
+                && !string.IsNullOrWhiteSpace(vendor.VendorCode)
+                && vendor.VendorCode == vendorCode)
+            {
+                return false;
+            }
+
+            vendor.VendorCode = vendorCode;
+            vendor.VendorCodeStatus = approvedDisplay;
+            vendor.ApprovalDatetime = approvalUtc;
+            vendor.RegistrationExpiryDate = approvalUtc.AddYears(3);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<IndustryTypeDto>> BindIndustryTypeListAsync()

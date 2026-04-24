@@ -16,7 +16,7 @@ namespace DB.EFModel
         public string Organization { get; set; }
         public decimal ProjectValue { get; set; }
         public string Status { get; set; } // Completed / OnGoing
-        public int CompletionYear { get; set; }
+        public int? CompletionYear { get; set; }
 
         public string AttachmentPath { get; set; }
         public string? FileName { get; set; }

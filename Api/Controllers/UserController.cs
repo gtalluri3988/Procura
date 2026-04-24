@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Interfaces;
+﻿using Api.Models;
+using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
 using DB.Entity;
 using Microsoft.AspNetCore.Authorization;
@@ -87,5 +88,30 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUserById(int userId)
     {
         return Ok(await _userService.GetUserByIdAsync(userId));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<CSAResponseModel<string>>> ChangePassword([FromBody] ChangePasswordDto dto)
+    {
+        try
+        {
+            if (dto == null)
+                return BadRequest(new CSAResponseModel<string>(true, "Request payload is required."));
+
+            var userIdClaim = HttpContext.User.FindFirst("userid")?.Value;
+            if (!int.TryParse(userIdClaim, out var userId) || userId <= 0)
+                return Unauthorized(new CSAResponseModel<string>(true, "Invalid or missing user identity."));
+
+            await _userService.ChangePasswordAsync(userId, dto);
+            return Ok(new CSAResponseModel<string>("Password changed successfully."));
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new CSAResponseModel<string>(true, ex.Message));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new CSAResponseModel<string>(true, ex.Message));
+        }
     }
 }

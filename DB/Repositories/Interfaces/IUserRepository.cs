@@ -11,6 +11,8 @@ namespace DB.Repositories.Interfaces
         Task<UserDTO> GetByIdAsync(int id);
         Task<bool> CheckPassword(string userName,string Password,int roleId);
         int? RoleForUser(int userId);
+        string? GetRoleNameForUser(int userId);
+        string? GetRoleNameByRoleId(int roleId);
         Task<IEnumerable<UserDTO>> GetUserListAsync();
 
         Task<IEnumerable<UserDTO>> GetBidderUserListAsync(int roleId);
@@ -29,6 +31,10 @@ namespace DB.Repositories.Interfaces
 
         Task<bool> IsPasswordReusedAsync(int userId, string newHash, int historyCount);
         Task SaveHistoryAsync(int userId, string passwordHash, int historyCount);
+
+        Task ChangePasswordAsync(int userId, ChangePasswordDto dto);
+
+        Task<DateTime?> UpdateLastLoginAsync(int userId);
 
     }
     

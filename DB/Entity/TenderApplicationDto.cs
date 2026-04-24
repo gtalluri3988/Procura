@@ -24,6 +24,7 @@ namespace DB.Entity
         public decimal? EstimatedPrices { get; set; }
         public int? MinCapitalPercent { get; set; }
         public decimal? MinCapitalAmount { get; set; }
+        public bool IsAdvertised { get; set; }
 
         public int TenderCreatedBy { get; set; }
         public ICollection<TenderJobScope>? JobScopes { get; set; }

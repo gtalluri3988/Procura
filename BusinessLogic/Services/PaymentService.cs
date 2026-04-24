@@ -13,11 +13,12 @@ namespace BusinessLogic.Services
     public class PaymentService : IPaymentService
     {
         private readonly IPaymentRepository _paymentRepository;
+        private readonly IVendorService _vendorService;
 
-        public PaymentService(IPaymentRepository paymentRepository)
+        public PaymentService(IPaymentRepository paymentRepository, IVendorService vendorService)
         {
             _paymentRepository = paymentRepository;
-
+            _vendorService = vendorService;
         }
         //public async Task<PaymentDTO> CreatePaymentAsync(PaymentDTO dto)
         //{
@@ -60,6 +61,13 @@ namespace BusinessLogic.Services
         public async Task SaveVendorPaymentAsync(PaymentResponseDTO dto, int vendorId)
         {
             await _paymentRepository.SaveVendorPaymentAsync(dto, vendorId);
+            await _vendorService.SendRegistrationConfirmationAsync(vendorId);
+        }
+
+        public async Task SaveVendorPaymentMockAsync(int vendorId)
+        {
+            await _paymentRepository.SaveVendorPaymentMockAsync(vendorId);
+            await _vendorService.SendRegistrationConfirmationAsync(vendorId);
         }
 
         //public async Task SaveResidentFacilityPaymentAsync(PaymentResponseDTO dto, int facilityId)

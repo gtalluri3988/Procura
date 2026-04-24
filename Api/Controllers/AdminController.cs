@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Interfaces;
+﻿using Api.Models;
+using BusinessLogic.Interfaces;
 using BusinessLogic.Models.Users;
 using BusinessLogic.Services;
 using DB.Entity;
@@ -19,12 +20,14 @@ namespace Api.Controllers
         private readonly IRoleService _roleService;
         private readonly IMenuService _menuService;
         private readonly IRoleMenuPermissionService _roleMenuPermissionervice;
+        private readonly IEmailService _emailService;
 
         public AdminController(
             IPasswordPolicyService passwordPolicyService,IRoleService roleService,
             ICurrentUserService currentUserService,
             IUserService userService,IMenuService menuService,
             IRoleMenuPermissionService roleMenuPermissionService,
+            IEmailService emailService,
             ILogger<AdminController> logger)
             : base(userService, logger)
         {
@@ -33,6 +36,7 @@ namespace Api.Controllers
             _roleService = roleService;
             _roleMenuPermissionervice = roleMenuPermissionService;
             _menuService = menuService;
+            _emailService = emailService;
         }
 
 
@@ -71,6 +75,35 @@ namespace Api.Controllers
         {
             await _roleService.UpdateRoleAsync(roleId,role);
             return Ok(true);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CSAResponseModel<bool>>> DeleteRole(int roleId)
+        {
+            try
+            {
+                if (roleId <= 0)
+                {
+                    return BadRequest(new CSAResponseModel<bool>(true, "A valid role id is required."));
+                }
+
+                var deleted = await _roleService.DeleteRoleAsync(roleId);
+                if (!deleted)
+                {
+                    return NotFound(new CSAResponseModel<bool>(true, "Role not found."));
+                }
+
+                return Ok(new CSAResponseModel<bool>(true));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new CSAResponseModel<bool>(true, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting role {RoleId}", roleId);
+                return BadRequest(new CSAResponseModel<bool>(true, "Unable to delete role."));
+            }
         }
 
 
@@ -117,6 +150,31 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult<CSAResponseModel<bool>>> DeleteRoleMenuPermission(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new CSAResponseModel<bool>(true, "A valid permission id is required."));
+                }
+
+                var deleted = await _roleMenuPermissionervice.DeleteMenuRoleAsync(id);
+                if (!deleted)
+                {
+                    return NotFound(new CSAResponseModel<bool>(true, "Role permission not found."));
+                }
+
+                return Ok(new CSAResponseModel<bool>(true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting role permission {PermissionId}", id);
+                return BadRequest(new CSAResponseModel<bool>(true, ex.Message));
+            }
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAllMenu()
@@ -135,6 +193,26 @@ namespace Api.Controllers
         public async Task<IActionResult> GetAllMenusByRole(int roleId)
         {
             return Ok(await _roleMenuPermissionervice.GetAllMenusByRolesAsync(roleId));
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult<CSAResponseModel<int>>> ProcessEmailQueue(int batchSize = 50)
+        {
+            try
+            {
+                if (batchSize <= 0) batchSize = 50;
+                if (batchSize > 500) batchSize = 500;
+
+                var processed = await _emailService.ProcessQueueAsync(batchSize);
+                _logger.LogInformation("ProcessEmailQueue manual trigger: processed {Count} messages.", processed);
+                return Ok(new CSAResponseModel<int>(processed));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ProcessEmailQueue manual trigger failed.");
+                return BadRequest(new CSAResponseModel<int>(true, ex.Message));
+            }
         }
 
     }

@@ -52,7 +52,8 @@ namespace DB.Repositories
                     Status = c.IsActive == true ? "Active" : "InActive",
                     IsOpeningCommittee = c.IsOpeningCommittee,
                     IsEvaluationCommittee = c.IsEvaluationCommittee,
-                    IsNegotiationCommittee = c.IsNegotiationCommittee
+                    IsNegotiationCommittee = c.IsNegotiationCommittee,
+                    IsFirstTimeLogin=c.IsFirstTimeLogin
                 })
                 .FirstOrDefaultAsync();
         }
@@ -93,6 +94,7 @@ namespace DB.Repositories
                 UserName = u.UserName,
                 //CommunityId=u.CommunityId,
                 RoleId =u.RoleId,
+                IsFirstTimeLogin=u.IsFirstTimeLogin
 
             });
         }
@@ -132,7 +134,7 @@ namespace DB.Repositories
             }
             else
             {
-                var user = await _context.Vendors.Where(x => x.PasswordHash == Password && x.RocNumber == userName).FirstOrDefaultAsync();
+                var user = await _context.Vendors.Where(x => x.PasswordHash == Password && x.RocNumber == userName && x.IsActive).FirstOrDefaultAsync();
                 if (user == null)
                 {
                     throw new Exception("Wrong username or password");
@@ -187,6 +189,34 @@ namespace DB.Repositories
         public int? RoleForUser(int userId)
         {
             return _context.Users.Include(x=>x.Role).Where(x => x.Id == userId).Select(x => x.RoleId).FirstOrDefault();
+        }
+
+        public string? GetRoleNameForUser(int userId)
+        {
+            return _context.Users
+                .Where(x => x.Id == userId)
+                .Select(x => x.Role != null ? x.Role.Name : null)
+                .FirstOrDefault();
+        }
+
+        public string? GetRoleNameByRoleId(int roleId)
+        {
+            return _context.Roles
+                .Where(r => r.Id == roleId)
+                .Select(r => r.Name)
+                .FirstOrDefault();
+        }
+
+        public async Task<DateTime?> UpdateLastLoginAsync(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+                return null;
+
+            var previous = user.LastLogin;
+            user.LastLogin = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return previous;
         }
 
         //public async Task<RoleDTO?> GetRoleAsync(int userId) // Nullable return type
@@ -283,11 +313,13 @@ namespace DB.Repositories
             var userDetails = _context.Users.Where(x => x.Id == entity.Id).FirstOrDefault();
             if (userDetails != null)
             {
+                userDetails.IsFirstTimeLogin = true;
+                await _context.SaveChangesAsync();
                 await SendWelcomeEmailAsync(
                             toEmail: user.Email ?? "",
                             residentFullName: user.Name ?? "",
                             tempPassword: password,
-                            residentPageUrl: "http://103.27.86.226/Procura",
+                            residentPageUrl: "http://103.185.75.209:5173/",
                             userDetails.FullName,
                             userDetails.StaffId
                         );
@@ -326,7 +358,7 @@ namespace DB.Repositories
             using var mailMessage = new MailMessage
             {
                 From = new MailAddress(fromEmail, fromDisplayName),
-                Subject = "Welcome to Procura - Your Account Has Been Created",
+                Subject = "Welcome to FPMSB Procura - Your Account Has Been Created",
                 Body = EmailHelper.GetWelcomeEmailBody(residentFullName, userName, tempPassword, residentPageUrl, community),
                 IsBodyHtml = true
             };
@@ -482,6 +514,51 @@ namespace DB.Repositories
             await _context.SaveChangesAsync();
         }
 
+
+        public async Task ChangePasswordAsync(int userId, ChangePasswordDto dto)
+        {
+            if (dto == null)
+                throw new ArgumentException("Request payload is required.");
+
+            if (string.IsNullOrWhiteSpace(dto.CurrentPassword))
+                throw new ArgumentException("Current Password is required.");
+
+            if (string.IsNullOrWhiteSpace(dto.NewPassword))
+                throw new ArgumentException("New Password is required.");
+
+            if (!string.Equals(dto.NewPassword, dto.ConfirmPassword, StringComparison.Ordinal))
+                throw new ArgumentException("New Password and Retype New Password do not match.");
+
+            if (string.Equals(dto.CurrentPassword, dto.NewPassword, StringComparison.Ordinal))
+                throw new ArgumentException("New Password must be different from Current Password.");
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+                throw new Exception("User not found.");
+
+            if (!string.Equals(user.Password, dto.CurrentPassword, StringComparison.Ordinal))
+                throw new Exception("Current Password is incorrect.");
+
+            ValidatePassword(dto.NewPassword);
+
+            var historyCountValue = _context.passwordPolicies
+                .Where(x => x.Code == "PWD_HISTORY")
+                .Select(x => x.Value)
+                .FirstOrDefault();
+            int historyCount = 0;
+            int.TryParse(historyCountValue, out historyCount);
+
+            if (historyCount > 0 && await IsPasswordReusedAsync(userId, dto.NewPassword, historyCount))
+                throw new Exception($"New Password cannot match any of the last {historyCount} passwords.");
+            user.IsFirstTimeLogin= false;
+            user.Password = dto.NewPassword;
+            await _context.SaveChangesAsync();
+
+            if (historyCount > 0)
+            {
+                await SaveHistoryAsync(userId, dto.NewPassword, historyCount);
+            }
+        }
 
         private void ValidatePassword(string password)
         {

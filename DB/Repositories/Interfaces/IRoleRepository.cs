@@ -15,5 +15,7 @@ namespace DB.Repositories.Interfaces
         Task UpdateAsync(int id, RoleDTO dto);
         Task DeleteAsync(int id);
         Task UpdateRoleAsync(int roleId, RoleDTO role);
+        Task<bool> IsRoleAssignedToAnyUserAsync(int roleId);
+        Task<bool> DeleteRoleAsync(int roleId);
     }
 }

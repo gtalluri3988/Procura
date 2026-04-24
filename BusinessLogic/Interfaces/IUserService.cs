@@ -23,6 +23,7 @@ namespace BusinessLogic.Interfaces
         string GetUserName();
         List<string> GetUserRoles();
         string RoleForUser(int userId);
+        string GetRoleNameByRoleId(int roleId);
         Task<IEnumerable<UserDTO>> GetUserListAsync(); 
         Task<IEnumerable<UserDTO>> GetBiddingUsersList();
         Task<UserDTO> CreateUserAsync(UserDTO dto);
@@ -34,6 +35,10 @@ namespace BusinessLogic.Interfaces
 
         Task<IEnumerable<UserDTO>> GetUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status);
         Task<IEnumerable<UserDTO>> GetBidderUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status);
+
+        Task ChangePasswordAsync(int userId, ChangePasswordDto dto);
+
+        Task<DateTime?> UpdateLastLoginAsync(int userId);
     }
     public enum AuthenticationErrorReason
     {

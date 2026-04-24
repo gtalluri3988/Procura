@@ -171,6 +171,12 @@ namespace DB.Model
         // Bank Key Master
         public DbSet<BankKey> BankKeys { get; set; }
 
+        // Email Outbox
+        public DbSet<EmailNotificationQueue> EmailNotificationQueue { get; set; }
+
+        // Renewal reminder idempotency log
+        public DbSet<VendorReminderLog> VendorReminderLogs { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -267,6 +273,18 @@ namespace DB.Model
                 .WithMany(t => t.TenderCategoryCodes)
                 .HasForeignKey(c => c.TenderId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Renewal reminder idempotency — one row per (vendor, threshold, expiry cycle)
+            modelBuilder.Entity<VendorReminderLog>()
+                .HasOne(l => l.Vendor)
+                .WithMany()
+                .HasForeignKey(l => l.VendorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<VendorReminderLog>()
+                .HasIndex(l => new { l.VendorId, l.ThresholdDays, l.ExpiryDate })
+                .IsUnique()
+                .HasDatabaseName("UX_VendorReminderLogs_Vendor_Threshold_Expiry");
 
         }
     }

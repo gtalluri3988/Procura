@@ -13,6 +13,8 @@ namespace BusinessLogic.Models
         public DateTime? ValidityEndDate { get; set; }
         public int CurrentCategoryCount { get; set; }
         public int MaxCategoriesAllowed { get; set; } = 2;
+        public int MaxCategoriesPerCodeMaster { get; set; } = 2;
+        public Dictionary<int, int> CategoryCountByCodeMaster { get; set; } = new();
         public int MaxSubCategoriesPerCategory { get; set; } = 3;
         public List<string> Errors { get; set; } = new();
     }

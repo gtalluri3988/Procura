@@ -481,5 +481,49 @@ namespace Procura.Controllers
             return Ok(answers);
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult<CSAResponseModel<bool>>> RenewRegistration(int vendorId)
+        {
+            try
+            {
+                if (vendorId <= 0)
+                {
+                    return BadRequest(new CSAResponseModel<bool>(true, "A valid vendor id is required."));
+                }
+
+                await _vendorService.RenewRegistrationAsync(vendorId);
+                return Ok(new CSAResponseModel<bool>(true));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new CSAResponseModel<bool>(true, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error renewing registration for vendor {VendorId}", vendorId);
+                return BadRequest(new CSAResponseModel<bool>(true, "Unable to renew registration."));
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{vendorId:int}")]
+        public async Task<ActionResult<CSAResponseModel<bool>>> DeleteVendor(int vendorId)
+        {
+            try
+            {
+                var deleted = await _vendorService.SoftDeleteVendorAsync(vendorId);
+                if (!deleted)
+                {
+                    return NotFound(new CSAResponseModel<bool>(true, "Vendor not found."));
+                }
+                return Ok(new CSAResponseModel<bool>(true));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new CSAResponseModel<bool>(true, ex.Message));
+            }
+        }
+
     }
 }

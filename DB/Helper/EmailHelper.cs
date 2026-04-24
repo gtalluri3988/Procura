@@ -254,6 +254,716 @@ namespace DB.Migrations.Helpers
             return new string(Enumerable.Repeat(chars, length)
                                         .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+
+        public static string GetRenewalSuccessEmailBody(string companyName, string vendorCode, string renewedOn, string newExpiryDate, string loginUrl)
+        {
+            string htmlTemplate = @"
+                                <!DOCTYPE html>
+                                <html lang='en'>
+                                <head>
+                                  <meta charset='UTF-8' />
+                                  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+                                  <title>FPMSB PROCURA - Renewal Successful</title>
+                                  <style>
+                                    body {{
+                                      font-family: Arial, Helvetica, sans-serif;
+                                      background-color: #eef1f7;
+                                      margin: 0;
+                                      padding: 0;
+                                      color: #2b2b2b;
+                                    }}
+                                    .email-container {{
+                                      max-width: 640px;
+                                      margin: 0 auto;
+                                      background-color: #eef1f7;
+                                      border-radius: 6px;
+                                      overflow: hidden;
+                                    }}
+                                    .header {{
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 28px 20px;
+                                      text-align: center;
+                                    }}
+                                    .header .title {{
+                                      font-size: 22px;
+                                      font-weight: bold;
+                                      margin-bottom: 10px;
+                                    }}
+                                    .header .subtitle {{
+                                      font-size: 18px;
+                                      font-weight: 600;
+                                    }}
+                                    .content {{
+                                      padding: 28px 32px;
+                                      background-color: #eef1f7;
+                                    }}
+                                    .content p {{
+                                      line-height: 1.5;
+                                      margin: 10px 0;
+                                    }}
+                                    .credentials {{
+                                      margin: 20px 0;
+                                    }}
+                                    .credentials table {{
+                                      border-collapse: collapse;
+                                    }}
+                                    .credentials td {{
+                                      padding: 4px 10px 4px 0;
+                                      vertical-align: top;
+                                    }}
+                                    .credentials .label {{
+                                      font-weight: bold;
+                                    }}
+                                    .confirm-box {{
+                                      background-color: #f0f7ef;
+                                      border-left: 4px solid #2E7D32;
+                                      padding: 14px 18px;
+                                      margin: 18px 0;
+                                      border-radius: 4px;
+                                      font-weight: 600;
+                                      color: #1e4620;
+                                    }}
+                                    .button-container {{
+                                      text-align: center;
+                                      margin: 28px 0;
+                                    }}
+                                    .button {{
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 14px 28px;
+                                      text-decoration: none;
+                                      border-radius: 4px;
+                                      font-weight: bold;
+                                      display: inline-block;
+                                    }}
+                                    .footer {{
+                                      background-color: #e4e7ed;
+                                      text-align: center;
+                                      padding: 18px 20px;
+                                      font-size: 13px;
+                                      color: #6b6b6b;
+                                    }}
+                                    .footer p {{
+                                      margin: 4px 0;
+                                    }}
+                                  </style>
+                                </head>
+                                <body>
+                                  <div class='email-container'>
+                                    <div class='header'>
+                                      <div class='title'>FPMSB PROCURA</div>
+                                      <div class='subtitle'>Felda Plantation Management Sdn. Bhd.</div>
+                                    </div>
+                                    <div class='content'>
+                                      <p><strong>Dear {0},</strong></p>
+                                      <div class='confirm-box'>Your vendor registration has been successfully renewed.</div>
+                                      <p>Thank you for renewing your FPMSB PROCURA vendor registration. Your account remains active and you can continue participating in tenders without interruption.</p>
+                                      <div class='credentials'>
+                                        <table>
+                                          <tr>
+                                            <td class='label'>Vendor Code</td>
+                                            <td>:</td>
+                                            <td>{1}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>Renewed On</td>
+                                            <td>:</td>
+                                            <td>{2}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>New Expiry Date</td>
+                                            <td>:</td>
+                                            <td>{3}</td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                      <div class='button-container'>
+                                        <a href='{4}' class='button' style='color:#ffffff;'>Go to Vendor Portal</a>
+                                      </div>
+                                    </div>
+                                    <div class='footer'>
+                                      <p>&copy; 2026 FPMSB. All rights reserved.</p>
+                                      <p>This is an automated system message. Please do not reply directly to this email.</p>
+                                      <p>Technical Support: support@fpmsb.com.my</p>
+                                    </div>
+                                  </div>
+                                </body>
+                                </html>";
+
+            return string.Format(htmlTemplate,
+                                 companyName ?? string.Empty,
+                                 string.IsNullOrWhiteSpace(vendorCode) ? "—" : vendorCode,
+                                 renewedOn ?? string.Empty,
+                                 newExpiryDate ?? string.Empty,
+                                 loginUrl ?? string.Empty);
+        }
+
+        public static string GetRenewalReminderEmailBody(string companyName, string vendorCode, string expiryDate, int daysRemaining, string renewalUrl)
+        {
+            var urgency = daysRemaining <= 7 ? "#C0392B" : "#B84521";
+            var headline = daysRemaining == 1
+                ? "Your vendor registration expires tomorrow"
+                : $"Your vendor registration expires in {daysRemaining} day{(daysRemaining == 1 ? string.Empty : "s")}";
+
+            string htmlTemplate = @"
+                                <!DOCTYPE html>
+                                <html lang='en'>
+                                <head>
+                                  <meta charset='UTF-8' />
+                                  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+                                  <title>FPMSB PROCURA - Renewal Reminder</title>
+                                  <style>
+                                    body {{
+                                      font-family: Arial, Helvetica, sans-serif;
+                                      background-color: #eef1f7;
+                                      margin: 0;
+                                      padding: 0;
+                                      color: #2b2b2b;
+                                    }}
+                                    .email-container {{
+                                      max-width: 640px;
+                                      margin: 0 auto;
+                                      background-color: #eef1f7;
+                                      border-radius: 6px;
+                                      overflow: hidden;
+                                    }}
+                                    .header {{
+                                      background-color: {5};
+                                      color: #ffffff;
+                                      padding: 28px 20px;
+                                      text-align: center;
+                                    }}
+                                    .header .title {{
+                                      font-size: 22px;
+                                      font-weight: bold;
+                                      margin-bottom: 10px;
+                                    }}
+                                    .header .subtitle {{
+                                      font-size: 18px;
+                                      font-weight: 600;
+                                    }}
+                                    .content {{
+                                      padding: 28px 32px;
+                                      background-color: #eef1f7;
+                                    }}
+                                    .content p {{
+                                      line-height: 1.5;
+                                      margin: 10px 0;
+                                    }}
+                                    .credentials {{
+                                      margin: 20px 0;
+                                    }}
+                                    .credentials table {{
+                                      border-collapse: collapse;
+                                    }}
+                                    .credentials td {{
+                                      padding: 4px 10px 4px 0;
+                                      vertical-align: top;
+                                    }}
+                                    .credentials .label {{
+                                      font-weight: bold;
+                                    }}
+                                    .alert {{
+                                      background-color: #fff5f1;
+                                      border-left: 4px solid {5};
+                                      padding: 14px 18px;
+                                      margin: 18px 0;
+                                      border-radius: 4px;
+                                      font-weight: 600;
+                                    }}
+                                    .button-container {{
+                                      text-align: center;
+                                      margin: 28px 0;
+                                    }}
+                                    .button {{
+                                      background-color: {5};
+                                      color: #ffffff;
+                                      padding: 14px 28px;
+                                      text-decoration: none;
+                                      border-radius: 4px;
+                                      font-weight: bold;
+                                      display: inline-block;
+                                    }}
+                                    .footer {{
+                                      background-color: #e4e7ed;
+                                      text-align: center;
+                                      padding: 18px 20px;
+                                      font-size: 13px;
+                                      color: #6b6b6b;
+                                    }}
+                                    .footer p {{
+                                      margin: 4px 0;
+                                    }}
+                                  </style>
+                                </head>
+                                <body>
+                                  <div class='email-container'>
+                                    <div class='header'>
+                                      <div class='title'>FPMSB PROCURA</div>
+                                      <div class='subtitle'>Felda Plantation Management Sdn. Bhd.</div>
+                                    </div>
+                                    <div class='content'>
+                                      <p><strong>Dear {0},</strong></p>
+                                      <div class='alert'>{6}</div>
+                                      <p>Your vendor registration with FPMSB PROCURA is approaching its expiry date. Renew now to continue participating in tenders without interruption.</p>
+                                      <div class='credentials'>
+                                        <table>
+                                          <tr>
+                                            <td class='label'>Vendor Code</td>
+                                            <td>:</td>
+                                            <td>{1}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>Expiry Date</td>
+                                            <td>:</td>
+                                            <td>{2}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>Days Remaining</td>
+                                            <td>:</td>
+                                            <td>{3}</td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                      <div class='button-container'>
+                                        <a href='{4}' class='button' style='color:#ffffff;'>Renew Registration Now</a>
+                                      </div>
+                                      <p>If you do not renew before the expiry date, your account status will change to <strong>Expired</strong> and you will not be able to submit new bids until renewal is completed.</p>
+                                    </div>
+                                    <div class='footer'>
+                                      <p>&copy; 2026 FPMSB. All rights reserved.</p>
+                                      <p>This is an automated system message. Please do not reply directly to this email.</p>
+                                      <p>Technical Support: support@fpmsb.com.my</p>
+                                    </div>
+                                  </div>
+                                </body>
+                                </html>";
+
+            return string.Format(htmlTemplate,
+                                 companyName ?? string.Empty,
+                                 string.IsNullOrWhiteSpace(vendorCode) ? "—" : vendorCode,
+                                 expiryDate ?? string.Empty,
+                                 daysRemaining,
+                                 renewalUrl ?? string.Empty,
+                                 urgency,
+                                 headline);
+        }
+
+        public static string GetCategoryCodeApprovalEmailBody(string companyName, string vendorCode, string approvedDate, string categoryListHtml, string loginUrl)
+        {
+            string htmlTemplate = @"
+                                <!DOCTYPE html>
+                                <html lang='en'>
+                                <head>
+                                  <meta charset='UTF-8' />
+                                  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+                                  <title>FPMSB PROCURA - Category Code Updated</title>
+                                  <style>
+                                    body {{
+                                      font-family: Arial, Helvetica, sans-serif;
+                                      background-color: #eef1f7;
+                                      margin: 0;
+                                      padding: 0;
+                                      color: #2b2b2b;
+                                    }}
+                                    .email-container {{
+                                      max-width: 640px;
+                                      margin: 0 auto;
+                                      background-color: #eef1f7;
+                                      border-radius: 6px;
+                                      overflow: hidden;
+                                    }}
+                                    .header {{
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 28px 20px;
+                                      text-align: center;
+                                    }}
+                                    .header .title {{
+                                      font-size: 22px;
+                                      font-weight: bold;
+                                      margin-bottom: 10px;
+                                    }}
+                                    .header .subtitle {{
+                                      font-size: 18px;
+                                      font-weight: 600;
+                                    }}
+                                    .content {{
+                                      padding: 28px 32px;
+                                      background-color: #eef1f7;
+                                    }}
+                                    .content p {{
+                                      line-height: 1.5;
+                                      margin: 10px 0;
+                                    }}
+                                    .credentials {{
+                                      margin: 20px 0;
+                                    }}
+                                    .credentials table {{
+                                      border-collapse: collapse;
+                                    }}
+                                    .credentials td {{
+                                      padding: 4px 10px 4px 0;
+                                      vertical-align: top;
+                                    }}
+                                    .credentials .label {{
+                                      font-weight: bold;
+                                    }}
+                                    .category-box {{
+                                      background-color: #ffffff;
+                                      border: 1px solid #d9dde5;
+                                      border-radius: 6px;
+                                      padding: 16px 20px;
+                                      margin: 16px 0;
+                                    }}
+                                    .category-box ul {{
+                                      margin: 8px 0 0 0;
+                                      padding-left: 20px;
+                                    }}
+                                    .category-box li {{
+                                      margin-bottom: 6px;
+                                      line-height: 1.5;
+                                    }}
+                                    .button-container {{
+                                      text-align: center;
+                                      margin: 28px 0;
+                                    }}
+                                    .button {{
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 14px 28px;
+                                      text-decoration: none;
+                                      border-radius: 4px;
+                                      font-weight: bold;
+                                      display: inline-block;
+                                    }}
+                                    .footer {{
+                                      background-color: #e4e7ed;
+                                      text-align: center;
+                                      padding: 18px 20px;
+                                      font-size: 13px;
+                                      color: #6b6b6b;
+                                    }}
+                                    .footer p {{
+                                      margin: 4px 0;
+                                    }}
+                                  </style>
+                                </head>
+                                <body>
+                                  <div class='email-container'>
+                                    <div class='header'>
+                                      <div class='title'>FPMSB PROCURA</div>
+                                      <div class='subtitle'>Felda Plantation Management Sdn. Bhd.</div>
+                                    </div>
+                                    <div class='content'>
+                                      <p><strong>Dear {0},</strong></p>
+                                      <p>Your category code change request has been <strong>approved</strong>. The updated categories are now linked to your vendor profile and can be used when applying for tenders.</p>
+                                      <div class='credentials'>
+                                        <table>
+                                          <tr>
+                                            <td class='label'>Vendor Code</td>
+                                            <td>:</td>
+                                            <td>{1}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>Approved On</td>
+                                            <td>:</td>
+                                            <td>{2}</td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                      <div class='category-box'>
+                                        <strong>Approved categories:</strong>
+                                        <ul>
+                                          {3}
+                                        </ul>
+                                      </div>
+                                      <div class='button-container'>
+                                        <a href='{4}' class='button' style='color:#ffffff;'>View My Vendor Profile</a>
+                                      </div>
+                                    </div>
+                                    <div class='footer'>
+                                      <p>&copy; 2026 FPMSB. All rights reserved.</p>
+                                      <p>This is an automated system message. Please do not reply directly to this email.</p>
+                                      <p>Technical Support: support@fpmsb.com.my</p>
+                                    </div>
+                                  </div>
+                                </body>
+                                </html>";
+
+            return string.Format(htmlTemplate,
+                                 companyName ?? string.Empty,
+                                 string.IsNullOrWhiteSpace(vendorCode) ? "—" : vendorCode,
+                                 approvedDate ?? string.Empty,
+                                 string.IsNullOrWhiteSpace(categoryListHtml) ? "<li>(no items)</li>" : categoryListHtml,
+                                 loginUrl ?? string.Empty);
+        }
+
+        public static string GetVendorApprovalEmailBody(string companyName, string vendorCode, string approvedDate, string expiryDate, string loginUrl)
+        {
+            string htmlTemplate = @"
+                                <!DOCTYPE html>
+                                <html lang='en'>
+                                <head>
+                                  <meta charset='UTF-8' />
+                                  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+                                  <title>FPMSB PROCURA - Registration Approved</title>
+                                  <style>
+                                    body {{
+                                      font-family: Arial, Helvetica, sans-serif;
+                                      background-color: #eef1f7;
+                                      margin: 0;
+                                      padding: 0;
+                                      color: #2b2b2b;
+                                    }}
+                                    .email-container {{
+                                      max-width: 640px;
+                                      margin: 0 auto;
+                                      background-color: #eef1f7;
+                                      border-radius: 6px;
+                                      overflow: hidden;
+                                    }}
+                                    .header {{
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 28px 20px;
+                                      text-align: center;
+                                    }}
+                                    .header .title {{
+                                      font-size: 22px;
+                                      font-weight: bold;
+                                      margin-bottom: 10px;
+                                    }}
+                                    .header .subtitle {{
+                                      font-size: 18px;
+                                      font-weight: 600;
+                                    }}
+                                    .content {{
+                                      padding: 28px 32px;
+                                      background-color: #eef1f7;
+                                    }}
+                                    .content p {{
+                                      line-height: 1.5;
+                                      margin: 10px 0;
+                                    }}
+                                    .credentials {{
+                                      margin: 20px 0;
+                                    }}
+                                    .credentials table {{
+                                      border-collapse: collapse;
+                                    }}
+                                    .credentials td {{
+                                      padding: 4px 10px 4px 0;
+                                      vertical-align: top;
+                                    }}
+                                    .credentials .label {{
+                                      font-weight: bold;
+                                    }}
+                                    .button-container {{
+                                      text-align: center;
+                                      margin: 28px 0;
+                                    }}
+                                    .button {{
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 14px 28px;
+                                      text-decoration: none;
+                                      border-radius: 4px;
+                                      font-weight: bold;
+                                      display: inline-block;
+                                    }}
+                                    .footer {{
+                                      background-color: #e4e7ed;
+                                      text-align: center;
+                                      padding: 18px 20px;
+                                      font-size: 13px;
+                                      color: #6b6b6b;
+                                    }}
+                                    .footer p {{
+                                      margin: 4px 0;
+                                    }}
+                                  </style>
+                                </head>
+                                <body>
+                                  <div class='email-container'>
+                                    <div class='header'>
+                                      <div class='title'>FPMSB PROCURA</div>
+                                      <div class='subtitle'>Felda Plantation Management Sdn. Bhd.</div>
+                                    </div>
+                                    <div class='content'>
+                                      <p><strong>Dear {0},</strong></p>
+                                      <p>We are pleased to inform you that your vendor registration for FPMSB PROCURA has been <strong>approved</strong>. Your Vendor Code has been issued and your account is now active.</p>
+                                      <div class='credentials'>
+                                        <table>
+                                          <tr>
+                                            <td class='label'>Vendor Code</td>
+                                            <td>:</td>
+                                            <td>{1}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>Approved On</td>
+                                            <td>:</td>
+                                            <td>{2}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>Registration Valid Until</td>
+                                            <td>:</td>
+                                            <td>{3}</td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                      <p>You can now participate in tenders and manage your vendor profile through the portal. Please note that your registration is valid for 3 years from the approval date; renewal reminders will be sent as the expiry date approaches.</p>
+                                      <div class='button-container'>
+                                        <a href='{4}' class='button' style='color:#ffffff;'>Go to Vendor Portal</a>
+                                      </div>
+                                    </div>
+                                    <div class='footer'>
+                                      <p>&copy; 2026 FPMSB. All rights reserved.</p>
+                                      <p>This is an automated system message. Please do not reply directly to this email.</p>
+                                      <p>Technical Support: support@fpmsb.com.my</p>
+                                    </div>
+                                  </div>
+                                </body>
+                                </html>";
+
+            return string.Format(htmlTemplate,
+                                 companyName ?? string.Empty,
+                                 vendorCode ?? string.Empty,
+                                 approvedDate ?? string.Empty,
+                                 expiryDate ?? string.Empty,
+                                 loginUrl ?? string.Empty);
+        }
+
+        public static string GetVendorRegistrationEmailBody(string companyName, string rocNumber, string loginUrl)
+        {
+            string htmlTemplate = @"
+                                <!DOCTYPE html>
+                                <html lang='en'>
+                                <head>
+                                  <meta charset='UTF-8' />
+                                  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+                                  <title>FPMSB PROCURA - Registration Received</title>
+                                  <style>
+                                    body {{
+                                      font-family: Arial, Helvetica, sans-serif;
+                                      background-color: #eef1f7;
+                                      margin: 0;
+                                      padding: 0;
+                                      color: #2b2b2b;
+                                    }}
+                                    .email-container {{
+                                      max-width: 640px;
+                                      margin: 0 auto;
+                                      background-color: #eef1f7;
+                                      border-radius: 6px;
+                                      overflow: hidden;
+                                    }}
+                                    .header {{
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 28px 20px;
+                                      text-align: center;
+                                    }}
+                                    .header .title {{
+                                      font-size: 22px;
+                                      font-weight: bold;
+                                      margin-bottom: 10px;
+                                    }}
+                                    .header .subtitle {{
+                                      font-size: 18px;
+                                      font-weight: 600;
+                                    }}
+                                    .content {{
+                                      padding: 28px 32px;
+                                      background-color: #eef1f7;
+                                    }}
+                                    .content p {{
+                                      line-height: 1.5;
+                                      margin: 10px 0;
+                                    }}
+                                    .credentials {{
+                                      margin: 20px 0;
+                                    }}
+                                    .credentials table {{
+                                      border-collapse: collapse;
+                                    }}
+                                    .credentials td {{
+                                      padding: 4px 10px 4px 0;
+                                      vertical-align: top;
+                                    }}
+                                    .credentials .label {{
+                                      font-weight: bold;
+                                    }}
+                                    .button-container {{
+                                      text-align: center;
+                                      margin: 28px 0;
+                                    }}
+                                    .button {{
+                                      background-color: #B84521;
+                                      color: #ffffff;
+                                      padding: 14px 28px;
+                                      text-decoration: none;
+                                      border-radius: 4px;
+                                      font-weight: bold;
+                                      display: inline-block;
+                                    }}
+                                    .footer {{
+                                      background-color: #e4e7ed;
+                                      text-align: center;
+                                      padding: 18px 20px;
+                                      font-size: 13px;
+                                      color: #6b6b6b;
+                                    }}
+                                    .footer p {{
+                                      margin: 4px 0;
+                                    }}
+                                  </style>
+                                </head>
+                                <body>
+                                  <div class='email-container'>
+                                    <div class='header'>
+                                      <div class='title'>FPMSB PROCURA</div>
+                                      <div class='subtitle'>Felda Plantation Management Sdn. Bhd.</div>
+                                    </div>
+                                    <div class='content'>
+                                      <p><strong>Dear {0},</strong></p>
+                                      <p>Thank you for registering as a vendor in FPMSB PROCURA. Your registration has been received and is now under review.</p>
+                                      <div class='credentials'>
+                                        <table>
+                                          <tr>
+                                            <td class='label'>Company Registration No.</td>
+                                            <td>:</td>
+                                            <td>{1}</td>
+                                          </tr>
+                                          <tr>
+                                            <td class='label'>Submitted On</td>
+                                            <td>:</td>
+                                            <td>{2}</td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                      <p>You will receive a follow-up email once your registration has been approved and your Vendor Code has been issued.</p>
+                                      <div class='button-container'>
+                                        <a href='{3}' class='button' style='color:#ffffff;'>Login to Track Status</a>
+                                      </div>
+                                    </div>
+                                    <div class='footer'>
+                                      <p>&copy; 2026 FPMSB. All rights reserved.</p>
+                                      <p>This is an automated system message. Please do not reply directly to this email.</p>
+                                      <p>Technical Support: support@fpmsb.com.my</p>
+                                    </div>
+                                  </div>
+                                </body>
+                                </html>";
+
+            return string.Format(htmlTemplate,
+                                 companyName ?? string.Empty,
+                                 rocNumber ?? string.Empty,
+                                 DateTime.UtcNow.ToString("dd MMM yyyy"),
+                                 loginUrl ?? string.Empty);
+        }
+
         public static string GetResetPasswordEmailBody(string residentFullName, string residentEmail, string randomPassword, string residentPageUrl, string community)
         {
             //return $@"

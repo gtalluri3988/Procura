@@ -27,11 +27,13 @@ namespace Procura.Controllers
             _announcementService = announcementService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllAnnouncements(AnnouncementType type)
         {
             return Ok(await _announcementService.GetAnnouncementsAsync(type));
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAnnouncementById(int id)
         {

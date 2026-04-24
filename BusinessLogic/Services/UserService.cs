@@ -63,6 +63,7 @@ namespace BusinessLogic.Services
                     userObject.FirstName = useObj1?.FullName?.Trim() ?? "";
                     userObject.LastName = useObj1?.FullName?.Trim() ?? "";
                     userObject.RoleId = useObj1.RoleId == null ? 0 : useObj1.RoleId;
+                    userObject.IsFirstTimeLogin = useObj1.IsFirstTimeLogin;
                 }
                 var user = new User(userObject, this);
                 return (user, AuthenticationError.Other("Wrong username or password"));
@@ -79,7 +80,7 @@ namespace BusinessLogic.Services
                     userObject.FirstName = useObj1?.CompanyName?.Trim() ?? "";
                     userObject.LastName = useObj1?.CompanyName?.Trim() ?? "";
                     userObject.RoleId = useObj1.RoleId;
-                   // userObject.IsFirstTimeLogin = useObj1.IsFirstTimeLogin;
+                    
                 }
                 var user = new User(userObject, this);
                 return (user, AuthenticationError.Other("Wrong username or password"));
@@ -121,7 +122,22 @@ namespace BusinessLogic.Services
                 return GetEnumDisplayName(roleEnum);
             }
 
-            return string.Empty;
+            // Custom role ids not covered by the Roles enum — fall back to Role.Name from DB
+            var dbRoleName = _userRepository.GetRoleNameForUser(userId);
+            return string.IsNullOrWhiteSpace(dbRoleName) ? string.Empty : dbRoleName!;
+        }
+
+        public string GetRoleNameByRoleId(int roleId)
+        {
+            if (roleId <= 0) return string.Empty;
+
+            if (Enum.IsDefined(typeof(Roles), roleId))
+            {
+                return GetEnumDisplayName((Roles)roleId);
+            }
+
+            var dbRoleName = _userRepository.GetRoleNameByRoleId(roleId);
+            return string.IsNullOrWhiteSpace(dbRoleName) ? string.Empty : dbRoleName!;
         }
         public static string GetEnumDisplayName(Enum value)
         {
@@ -194,6 +210,16 @@ namespace BusinessLogic.Services
         public async Task<IEnumerable<UserDTO>> GetBidderUserListAsync(int? siteLevelId, int? siteOfficeId, bool? status)
         {
             return await _userRepository.GetBidderUserListAsync(siteLevelId, siteOfficeId, status);
+        }
+
+        public async Task ChangePasswordAsync(int userId, ChangePasswordDto dto)
+        {
+            await _userRepository.ChangePasswordAsync(userId, dto);
+        }
+
+        public async Task<DateTime?> UpdateLastLoginAsync(int userId)
+        {
+            return await _userRepository.UpdateLastLoginAsync(userId);
         }
 
         //public async Task<string> CheckResidentUserByEmail(string userName)

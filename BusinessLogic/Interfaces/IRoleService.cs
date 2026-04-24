@@ -16,6 +16,8 @@ namespace BusinessLogic.Interfaces
         Task<RoleDTO> GetRoleByIdAsync(int id);
 
         Task<IEnumerable<RoleDTO>> GetAllRolesAsync();
+
+        Task<bool> DeleteRoleAsync(int roleId);
     }
        
 }

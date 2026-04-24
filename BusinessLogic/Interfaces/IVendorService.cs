@@ -19,6 +19,17 @@ namespace BusinessLogic.Interfaces
 
         Task<VendorProfileDto> RegisterVendor(CreateVendorRequest request);
 
+        Task SendRegistrationConfirmationAsync(int vendorId);
+
+        Task SendApprovalConfirmationAsync(int vendorId);
+
+        Task SendCategoryCodeApprovalEmailAsync(int vendorId, int approvalRequestId);
+
+        Task SendRenewalReminderAsync(int vendorId, int daysRemaining);
+
+        Task RenewRegistrationAsync(int vendorId);
+        Task SendRenewalSuccessAsync(int vendorId);
+
         Task SaveStepRawAsync(int vendorId, VendorRegistrationStep step, JsonElement data);
 
 
@@ -48,5 +59,9 @@ namespace BusinessLogic.Interfaces
         Task<List<QuestionAnswerDto>> GetQuestionAnswersByQuestionnaireId(int questionnaireId, int vendorId);
 
         Task<CategoryChangeValidationResult> ValidateCategoryChangeAsync(int vendorId);
+
+        Task<bool> SoftDeleteVendorAsync(int vendorId);
+
+        Task<DateTime?> UpdateLastLoginAsync(int vendorId);
     }
 }

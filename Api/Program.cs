@@ -1,5 +1,6 @@
 using Api.Helpers;
 using Api.Models;
+using Api.Workers;
 using BusinessLogic;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
@@ -89,6 +90,9 @@ builder.Services.AddScoped<IBiddingService, BiddingService>();
 builder.Services.AddScoped<IBiddingRepository, BiddingRepository>();
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 builder.Services.AddScoped<ICategoryCodeApprovalService, CategoryCodeApprovalService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddHostedService<EmailOutboxWorker>();
+builder.Services.AddHostedService<VendorReminderWorker>();
 
 
 bool useSimulator = true;

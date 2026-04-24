@@ -54,9 +54,10 @@ public class AuthController : AuthorizedCSABaseAPIController
             }
 
             var Role = _userService.RoleForUser(user.Id);
-            string tokenString = GenerateJwtToken(user, clientIp);
+            var previousLastLogin = await _userService.UpdateLastLoginAsync(user.Id);
+            string tokenString = GenerateJwtToken(user, clientIp, previousLastLogin);
 
-            var authResponse = new AuthenticationResponse { Token = tokenString, RedirectTo = "/dashboard" };
+            var authResponse = new AuthenticationResponse { Token = tokenString, FirstTimeLogin=user?.Details?.IsFirstTimeLogin, RedirectTo = "/dashboard", RoleName = user?.Role ?? string.Empty };
             return new CSAResponseModel<AuthenticationResponse>(authResponse);
         }
         catch (Exception ex)
@@ -66,9 +67,9 @@ public class AuthController : AuthorizedCSABaseAPIController
         }
     }
 
-    private string GenerateJwtToken(IUser user, string ip)
+    private string GenerateJwtToken(IUser user, string ip, DateTime? lastLogin = null)
     {
-        List<Claim> claims = CreateClaims(ip, user);
+        List<Claim> claims = CreateClaims(ip, user, lastLogin);
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Secret"]));
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -86,7 +87,7 @@ public class AuthController : AuthorizedCSABaseAPIController
     }
 
 
-    private List<Claim> CreateClaims(string ip, IUser user)
+    private List<Claim> CreateClaims(string ip, IUser user, DateTime? lastLogin = null)
     {
         if (user.Details == null)
         {
@@ -96,13 +97,15 @@ public class AuthController : AuthorizedCSABaseAPIController
         {
             new("userid",user.Id.ToString()),
             new("roleid",user.Details.RoleId.ToString()),
+            new("roleName", user.Role ?? string.Empty),
             new(ClaimTypes.Name,user.Details.UserName),
             //new("CommunityId",user.Details.CommunityId.ToString()),
             new("FirstName",user.Details.FirstName),
             new("LastName",user.Details.LastName),
             new("CName", user?.Details?.CommunityName ?? string.Empty),
             new(ClaimTypes.Role,user.Role),
-           
+            new("LastLogin", lastLogin.HasValue ? lastLogin.Value.ToString("o") : string.Empty),
+
         };
         return claims;
     }
@@ -130,16 +133,25 @@ public class AuthController : AuthorizedCSABaseAPIController
             //var Role = _userService.RoleForUser(user.Id)==""?model.RoleId.ToString(): _userService.RoleForUser(user.Id);
             var existingRole = _userService.RoleForUser(user.Id);
             var Role = string.IsNullOrWhiteSpace(existingRole) ? model.RoleId.ToString() : existingRole;
-            string tokenString = GenerateJwtToken(user, clientIp);
+
+            var vendorDetails = await _vendorService.GetVendorFullDetailsAsync(user.Id);
+            if (vendorDetails != null && !vendorDetails.IsActive)
+            {
+                _userService.LogAuthAttempt(model.Username, clientIp, "Vendor deactivated", null, false);
+                return Unauthorized(new ErrorMessage { message = "Login failed" });
+            }
+
+            var previousLastLogin = await _vendorService.UpdateLastLoginAsync(user.Id);
+            string tokenString = GenerateJwtToken(user, clientIp, previousLastLogin);
 
             var redirectUrl = user.Details.IsFirstTimeLogin == true ? "/update-password" : "/dashboard";
-            var vendorDetails = await _vendorService.GetVendorFullDetailsAsync(user.Id);
             var authResponse = new AuthenticationResponse
             {
                 Token = tokenString,
                 NextStep = ComputeNextStep(vendorDetails?.CurrentStep).ToString()??"dashboard",
                 FirstTimeLogin=user.Details.IsFirstTimeLogin,
                 IsRegistrationComplete= vendorDetails?.IsRegistrationComplete ?? false,
+                RoleName = user.Role ?? string.Empty,
 
             };
             return new CSAResponseModel<AuthenticationResponse>(authResponse);

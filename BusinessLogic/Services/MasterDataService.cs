@@ -107,6 +107,11 @@ namespace BusinessLogic.Services
             await _masterDataRepository.AddMaterilBudgetAsync(model);
         }
 
+        public async Task SaveMaterialBudgetsAsync(IEnumerable<MaterialBudgetDto> models)
+        {
+            await _masterDataRepository.SaveMaterialBudgetsAsync(models);
+        }
+
         public async Task UpdateMaterilBudgetAsync(MaterialBudgetDto model)
         {
             await _masterDataRepository.UpdateMaterilBudgetAsync(model);

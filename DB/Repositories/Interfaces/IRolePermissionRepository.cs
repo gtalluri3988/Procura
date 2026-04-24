@@ -18,6 +18,7 @@ namespace DB.Repositories.Interfaces
         Task<RoleMenuPermissionDTO> SaveMenuRolePermission(RoleMenuPermissionDTO roleMenuPermission);
         Task UpdateRolePermissionAsync(int PermissionId, RoleMenuPermissionDTO rolePermission);
         Task<RoleMenuPermissionDTO> GeteRolePermissionAsync(int PermissionId);
+        Task<bool> DeleteRolePermissionAsync(int permissionId);
         //Task<IEnumerable<RoleMenuPermissionDTO>> GetAllMenuRolesAsync();
         //Task<RoleMenuPermissionDTO> GetMenuRoleByIdAsync(int id);
         //Task<RoleMenuPermissionDTO> CreateMenuRoleAsync(RoleMenuPermissionDTO dto);

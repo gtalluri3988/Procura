@@ -271,6 +271,16 @@ namespace Api.Controllers
 
 
         [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> WebhookMock(int vendorId)
+        {
+            await _paymentService.SaveVendorPaymentMockAsync(vendorId);
+
+            return Ok();
+        }
+
+
+        [AllowAnonymous]
         // POST api/payments/request
         [HttpPost]
         public async Task<IActionResult> RequestTransaction(PaymentRequestDTO req)

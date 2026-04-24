@@ -58,6 +58,10 @@ namespace DB.EFModel
 
         public bool IsActive { get; set; } = true;
 
+        public bool IsFirstTimeLogin { get; set; } = false;
+
+        public DateTime? LastLogin { get; set; }
+
         public Role? Role { get; set; }
         public State? State { get; set; }
         public SiteLevel? SiteLevel { get; set; }

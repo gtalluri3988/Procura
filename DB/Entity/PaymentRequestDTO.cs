@@ -18,7 +18,9 @@ namespace DB.Entity
             public string txChannel { get; set; } // "CC", "EW", "DD"
             public string orderId { get; set; }
             public string orderRef { get; set; }
-            public string? custName { get; set; }
+
+        public string? productName { get; set; }
+        public string? custName { get; set; }
             public string? custEmail { get; set; }
             public string? custContact { get; set; }
             public int? VendorId { get; set; }

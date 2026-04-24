@@ -14,6 +14,7 @@ namespace DB.Repositories.Interfaces
         Task<int> CreateVendorAsync(Vendor vendor);
         Task<VendorRegistrationStep?> UpdateVendorAsync(Vendor vendor);
         Task DeleteVendorAsync(int vendorId);
+        Task<bool> SoftDeleteVendorAsync(int vendorId);
 
         Task<Vendor?> GetVendorByIdAsync(int vendorId);
         Task<Vendor?> GetVendorFullDetailsAsync(int vendorId);
@@ -60,5 +61,15 @@ namespace DB.Repositories.Interfaces
 
         Task<int> GetCategoryChangeCountAsync(int vendorId, DateTime from, DateTime to);
         Task LogCategoryChangeAsync(int vendorId, string description);
+
+        Task<DateTime?> UpdateLastLoginAsync(int vendorId);
+
+        Task<bool> MarkVendorApprovedAsync(int vendorId, string vendorCode, DateTime approvalUtc);
+
+        Task<List<Vendor>> GetVendorsWithExpiryOnAsync(DateTime targetDateUtc);
+        Task<bool> HasRenewalReminderBeenSentAsync(int vendorId, int thresholdDays, DateTime expiryDate);
+        Task RecordRenewalReminderSentAsync(int vendorId, int thresholdDays, DateTime expiryDate);
+
+        Task<Vendor?> RenewRegistrationAsync(int vendorId, DateTime renewalUtc, DateTime newExpiryUtc);
     }
 }

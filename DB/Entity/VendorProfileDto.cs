@@ -36,6 +36,7 @@ namespace DB.Entity
         public string? VendorCode { get; set; }
         public bool? IsRegistrationComplete { get; set; }
         public bool Status { get; set; }
+        public bool IsActive { get; set; }
         public DateTime? RequestDatetime { get; set; }
         public DateTime? ApprovalDatetime { get; set; }
         public string? Form24AttachmentPath { get; set; }
@@ -45,6 +46,8 @@ namespace DB.Entity
 
         // NEW: suggested next step for the UI to navigate to (null when no next step)
         public VendorRegistrationStep? NextStep { get; set; }
-        
+
+        public DateTime? LastLogin { get; set; }
+
     }
 }

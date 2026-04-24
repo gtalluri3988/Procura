@@ -1,4 +1,5 @@
 ﻿using Api.Controllers;
+using Api.Models;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
 using DB.Entity;
@@ -156,6 +157,36 @@ namespace Procura.Controllers
             return Ok("Saved Successfully");
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SaveMaterialBudgets([FromBody] List<MaterialBudgetDto> request)
+        {
+            try
+            {
+                if (request == null || request.Count == 0)
+                    return BadRequest(new CSAResponseModel<string>(true, "At least one material budget item is required."));
+
+                var errors = new List<string>();
+                for (int i = 0; i < request.Count; i++)
+                {
+                    var itemError = ValidateRujukan(request[i]);
+                    if (itemError != null)
+                        errors.Add($"Item {i + 1}: {itemError}");
+                }
+
+                if (errors.Count > 0)
+                    return BadRequest(new CSAResponseModel<string>(true, errors.ToArray()));
+
+                await _masterDataService.SaveMaterialBudgetsAsync(request);
+                return Ok(new CSAResponseModel<string>($"{request.Count} material budget(s) saved successfully."));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error saving material budgets");
+                return StatusCode(500, new CSAResponseModel<string>(true, "An error occurred while saving material budgets."));
+            }
+        }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> UpdateMaterialBudget(MaterialBudgetDto request)
@@ -188,8 +219,7 @@ namespace Procura.Controllers
 
 
 
-        [AllowAnonymous]
-        [HttpDelete("{id}")]
+        [HttpPost]
         public async Task<IActionResult> DeleteMaterialBudget(int id)
         {
             var materialBudget = await _masterDataService.DeleteMaterilBudgetAsync(id);

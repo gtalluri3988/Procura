@@ -158,5 +158,25 @@ namespace BusinessLogic.Services
         {
             await _tenderRepository.ChangeWorkflowApproverAsync(tenderId, stage, level, newUserId, changeRemarks);
         }
+
+        public async Task InitializeIssuanceWorkflowAsync(int tenderId, int siteLevelId, int siteOfficeId)
+        {
+            await _tenderRepository.InitializeIssuanceWorkflowAsync(tenderId, siteLevelId, siteOfficeId);
+        }
+
+        public async Task<List<TenderEvaluationSpecificationDto>> GetMasterEvaluationCriteriaAsync(int jobCategoryId)
+        {
+            return await _tenderRepository.GetMasterEvaluationCriteriaAsync(jobCategoryId);
+        }
+
+        public async Task<List<AdvertisedTenderDto>> GetAdvertisedTendersAsync()
+        {
+            return await _tenderRepository.GetAdvertisedTendersAsync();
+        }
+
+        public async Task AdvertiseTenderAsync(int tenderId)
+        {
+            await _tenderRepository.AdvertiseTenderAsync(tenderId);
+        }
     }
 }

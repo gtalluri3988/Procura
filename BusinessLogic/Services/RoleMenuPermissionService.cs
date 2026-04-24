@@ -51,6 +51,11 @@ namespace BusinessLogic.Services
             return await _roleMenuPermissionRepository.GeteRolePermissionAsync(permissionId);
         }
 
+        public async Task<bool> DeleteMenuRoleAsync(int permissionId)
+        {
+            return await _roleMenuPermissionRepository.DeleteRolePermissionAsync(permissionId);
+        }
+
 
 
     }

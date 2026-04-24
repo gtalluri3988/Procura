@@ -9,6 +9,7 @@ namespace Api.Models
         public bool? FirstTimeLogin { get; set; }
         public bool IsRegistrationComplete { get;  set; }
         public string NextStep { get; set; }
+        public string RoleName { get; set; }
     }
     public class AuthenticationModel
     {

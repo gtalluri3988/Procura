@@ -26,6 +26,7 @@ namespace DB.EFModel
 
         // Certificate
         public string? CertificateBackgroundImagePath { get; set; }
+        public string? FileName { get; set; }
 
         // Blacklist Rule
         public int BlacklistDenyDurationMonths { get; set; }

@@ -123,6 +123,30 @@ namespace Procura.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetMasterEvaluationCriteria(int jobCategoryId)
+        {
+            var criteria = await _tenderService.GetMasterEvaluationCriteriaAsync(jobCategoryId);
+            return Ok(criteria);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAdvertisedTenders()
+        {
+            var result = await _tenderService.GetAdvertisedTendersAsync();
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> AdvertiseTender(int tenderId)
+        {
+            await _tenderService.AdvertiseTenderAsync(tenderId);
+            return Ok("Tender advertised successfully");
+        }
+
         // ── Tender Opening — List (Page 1) ─────────────────────────────────────────
         [AllowAnonymous]
         [HttpGet]
@@ -307,6 +331,14 @@ namespace Procura.Controllers
             await _tenderService.ChangeWorkflowApproverAsync(
                 request.TenderId, request.Stage, request.Level, request.NewUserId, request.ChangeRemarks);
             return Ok("Approver changed");
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> InitializeIssuanceWorkflow(int tenderId, int siteLevelId, int siteOfficeId)
+        {
+            await _tenderService.InitializeIssuanceWorkflowAsync(tenderId, siteLevelId, siteOfficeId);
+            return Ok("Issuance workflow initialized");
         }
     }
 }

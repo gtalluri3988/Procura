@@ -102,8 +102,7 @@ namespace DB.Repositories
                 await _context.Set<TenderApplication>().AddAsync(entity);
                 await _context.SaveChangesAsync(); // generates entity.Id
 
-                // Auto-generate TenderCode: {yyyy}/T{Id padded to 4}
-                entity.TenderCode = $"{entity.CreatedDate.Year}/T{entity.Id.ToString("D4")}";
+                entity.TenderCode = await GenerateTenderCodeAsync(entity.JobCategoryId, entity.CreatedDate);
                 _context.Set<TenderApplication>().Update(entity);
                 await _context.SaveChangesAsync();
 
@@ -832,7 +831,7 @@ namespace DB.Repositories
         }
         public async Task<IEnumerable<UserDTO>> SearchCommitteeUsersAsync(string name, string committeeType)
         {
-            var query = _context.Users.Where(u => u.IsActive);
+            var query = _context.Users.Where(u => u.IsActive == true);
 
             if (committeeType.Equals("opening", StringComparison.OrdinalIgnoreCase))
                 query = query.Where(u => u.IsOpeningCommittee);
@@ -842,8 +841,26 @@ namespace DB.Repositories
             if (!string.IsNullOrWhiteSpace(name))
                 query = query.Where(u => u.FullName.Contains(name));
 
-            var users = await query.ToListAsync();
-            return _mapper.Map<IEnumerable<UserDTO>>(users);
+            return await query
+                .Include(u => u.SiteLevel)
+                .Include(u => u.Designation)
+                .Include(u => u.State)
+                .Select(c => new UserDTO
+                {
+                    Id = c.Id,
+                    FullName = c.FullName,
+                    StaffId = c.StaffId,
+                    Email = c.EmailAddress,
+                    Mobile = c.MobileNo,
+                    UserName = c.UserName,
+                    SiteLevelId = c.SiteLevelId,
+                    SiteOfficeId = c.SiteOffice,
+                    DesignationId = c.DesignationId,
+                    SiteLevelName = c.SiteLevel == null ? "" : c.SiteLevel.Name,
+                    SiteOfficeName = c.State == null ? "" : c.State.Name,
+                    DesignationName = c.Designation == null ? "" : c.Designation.Name,
+                })
+                .ToListAsync();
         }
 
         // ── Tender Opening — Search List ─────────────────────────────────────────
@@ -1281,7 +1298,7 @@ namespace DB.Repositories
 
             var vendors = await _context.Set<Vendor>()
                 .Include(v => v.VendorFinancial)
-                .Where(v => vendorCategories.Contains(v.Id))
+                .Where(v => vendorCategories.Contains(v.Id) && v.IsActive)
                 .ToListAsync();
 
             // Registration expiry: latest active certificate per vendor matching tender codes
@@ -1717,6 +1734,7 @@ namespace DB.Repositories
             ["REVIEWER"]  = ((int)TenderApplicationStatusEnum.ReviewApproved,   (int)TenderApplicationStatusEnum.ReviewReject),
             ["WILAYAH"]   = ((int)TenderApplicationStatusEnum.WilayahApproved,  (int)TenderApplicationStatusEnum.WilayahReject),
             ["HQ"]        = ((int)TenderApplicationStatusEnum.HQApproved,       (int)TenderApplicationStatusEnum.HQReject),
+            ["ISSUANCE"]  = ((int)TenderApplicationStatusEnum.IssuanceApproved, (int)TenderApplicationStatusEnum.IssuanceReject),
         };
 
         public async Task InitializeWorkflowAsync(int tenderId, decimal? estimatedPrices, int siteLevelId, int siteOfficeId)
@@ -1833,7 +1851,9 @@ namespace DB.Repositories
             if (status == "Rejected")
             {
                 // Any rejection → update tender status
-                tender.Status = $"{stage} - Rejected";
+                tender.Status = stage == "ISSUANCE" ? "Issuance - Rejected"
+                    : stage == "HQ" ? "HQ Approval - Rejected"
+                    : $"{stage} - Rejected";
                 // Set FK only if the status row exists
                 var rejStatusExists = await _context.TenderApplicationStatus.AnyAsync(s => s.Id == stageStatus.RejectedStatusId);
                 if (rejStatusExists) tender.TenderApplicationStatusId = stageStatus.RejectedStatusId;
@@ -1844,24 +1864,28 @@ namespace DB.Repositories
             // Check if ALL slots in this stage are approved
             if (stageSlots.All(s => s.Status == "Approved"))
             {
-                tender.Status = $"{stage} - Approved";
+                tender.Status = stage == "ISSUANCE" ? "Issuance - Approved"
+                    : stage == "HQ" ? "HQ Approval - Approved"
+                    : $"{stage} - Approved";
                 var appStatusExists = await _context.TenderApplicationStatus.AnyAsync(s => s.Id == stageStatus.ApprovedStatusId);
                 if (appStatusExists) tender.TenderApplicationStatusId = stageStatus.ApprovedStatusId;
                 await _context.SaveChangesAsync();
 
                 // Activate the NEXT stage (set all its slots to "Pending")
-                var nextStageOrder = WorkflowConfig[stage].Order + 1;
-
-                // If HQ was skipped, jump to next
-                var nextSlots = await _context.TenderApprovalWorkflows
-                    .Where(w => w.TenderApplicationId == tenderId && w.StageOrder == nextStageOrder)
-                    .ToListAsync();
-
-                foreach (var ns in nextSlots)
+                // ISSUANCE has no next stage — skip
+                if (WorkflowConfig.ContainsKey(stage))
                 {
-                    if (ns.Status == null) ns.Status = "Pending";
+                    var nextStageOrder = WorkflowConfig[stage].Order + 1;
+                    var nextSlots = await _context.TenderApprovalWorkflows
+                        .Where(w => w.TenderApplicationId == tenderId && w.StageOrder == nextStageOrder)
+                        .ToListAsync();
+
+                    foreach (var ns in nextSlots)
+                    {
+                        if (ns.Status == null) ns.Status = "Pending";
+                    }
+                    await _context.SaveChangesAsync();
                 }
-                await _context.SaveChangesAsync();
             }
         }
 
@@ -1920,6 +1944,100 @@ namespace DB.Repositories
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<TenderEvaluationSpecificationDto>> GetMasterEvaluationCriteriaAsync(int jobCategoryId)
+        {
+            return await _context.EvaluationCriteria
+                .Where(ec => ec.JobCategoryId == jobCategoryId && ec.IsActive)
+                .Select(ec => new TenderEvaluationSpecificationDto
+                {
+                    Specification = ec.Specification,
+                    Weightage = ec.WeightagePercent
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<AdvertisedTenderDto>> GetAdvertisedTendersAsync()
+        {
+            var tenders = await _context.TenderApplications
+                .Where(t => t.IsAdvertised == true)
+                .Include(t => t.TenderCategory)
+                .OrderByDescending(t => t.CreatedDate)
+                .ToListAsync();
+
+            var tenderIds = tenders.Select(t => t.Id).ToList();
+            var adSettings = await _context.TenderAdvertisementSettings
+                .Where(a => tenderIds.Contains(a.TenderId))
+                .ToListAsync();
+
+            return tenders.Select(t =>
+            {
+                var ad = adSettings.FirstOrDefault(a => a.TenderId == t.Id);
+                return new AdvertisedTenderDto
+                {
+                    Id = t.Id,
+                    TenderCode = t.TenderCode,
+                    ProjectName = t.ProjectName,
+                    TenderCategoryName = t.TenderCategory != null ? t.TenderCategory.Name : "",
+                    AdvertisementStartDate = ad?.AdvertisementStartDate,
+                    AdvertisementEndDate = ad?.AdvertisementEndDate,
+                    EndTime = ad?.EndTime,
+                };
+            }).ToList();
+        }
+
+        public async Task AdvertiseTenderAsync(int tenderId)
+        {
+            var tender = await _context.TenderApplications.FindAsync(tenderId);
+            if (tender == null) throw new InvalidOperationException("Tender not found.");
+
+            tender.IsAdvertised = true;
+            tender.Status = "Advertised";
+            tender.TenderApplicationStatusId = (int)TenderApplicationStatusEnum.Advertised;
+            tender.UpdatedDate = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
+
+        private static readonly Dictionary<string, string> JobCategoryPrefixMap =
+            new(StringComparer.OrdinalIgnoreCase)
+            {
+                { "Kontrak Kejuruteraan", "KEJ" },
+                { "Kontrak Bekalan",      "BEK" },
+                { "Pertanian",            "PERT" },
+                { "Tapak Semaian",        "SEM" },
+                { "Pentadbiran",          "PTD" },
+                { "Bidaan Aset",          "AST" }
+            };
+
+        private async Task<string> GenerateTenderCodeAsync(int jobCategoryId, DateTime createdDate)
+        {
+            var jobCategory = await _context.Set<JobCategory>().FindAsync(jobCategoryId);
+            var name = jobCategory?.Name?.Trim() ?? string.Empty;
+            if (!JobCategoryPrefixMap.TryGetValue(name, out var prefix))
+            {
+                throw new InvalidOperationException(
+                    $"Cannot generate tender code: job category '{name}' has no configured prefix.");
+            }
+
+            var yyMM = createdDate.ToString("yyMM");
+            var codePrefix = $"{prefix}/{yyMM}/";
+
+            var existing = await _context.Set<TenderApplication>()
+                .Where(t => t.TenderCode != null && t.TenderCode.StartsWith(codePrefix))
+                .Select(t => t.TenderCode!)
+                .ToListAsync();
+
+            var maxRunning = 0;
+            foreach (var code in existing)
+            {
+                var tail = code.Substring(codePrefix.Length);
+                if (int.TryParse(tail, out var n) && n > maxRunning)
+                    maxRunning = n;
+            }
+
+            return $"{codePrefix}{(maxRunning + 1).ToString("D3")}";
         }
     }
 

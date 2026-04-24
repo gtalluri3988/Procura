@@ -58,5 +58,9 @@ namespace BusinessLogic.Interfaces
         Task InitializeWorkflowAsync(int tenderId, decimal? estimatedPrices, int siteLevelId, int siteOfficeId);
         Task ApproveRejectWorkflowAsync(int tenderId, string stage, int level, string status, string? remarks, int userId);
         Task ChangeWorkflowApproverAsync(int tenderId, string stage, int level, int newUserId, string? changeRemarks);
+        Task InitializeIssuanceWorkflowAsync(int tenderId, int siteLevelId, int siteOfficeId);
+        Task<List<TenderEvaluationSpecificationDto>> GetMasterEvaluationCriteriaAsync(int jobCategoryId);
+        Task<List<AdvertisedTenderDto>> GetAdvertisedTendersAsync();
+        Task AdvertiseTenderAsync(int tenderId);
     }
 }

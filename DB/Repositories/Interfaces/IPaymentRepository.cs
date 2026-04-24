@@ -20,12 +20,13 @@ namespace DB.Repositories.Interfaces
         //Task<PaymentDTO> GetPaymentByIdAsync(int id);
         //Task<PaymentDTO> AddPaymentAsync(PaymentDTO dto);
         //Task<double> GetMaintanenceFeeTotalByPaymentType(int communityId, int paymentTypeId, bool includeCommunityId=false);
-        Task<PaymentRequestDTO> SavePaymentRequestAsync(PaymentRequestDTO dto);
+        Task<PaymentRequestDTO> SavePaymentRequestAsync(PaymentRequestDTO dto); 
         Task SaveWebhookResponseAsync(string response);
 
         Task<PaymentRequestDTO> GetPaymentByOrderIdAsync(string orderId);
 
         Task SaveVendorPaymentAsync(PaymentResponseDTO dto, int visitorId);
+        Task SaveVendorPaymentMockAsync(int visitorId);
         //Task SaveResidentFacilityPaymentAsync(PaymentResponseDTO dto, int facilityId);
         //Task SaveResidentMaintanencePaymentAsync(PaymentResponseDTO dto, int residentId);
 

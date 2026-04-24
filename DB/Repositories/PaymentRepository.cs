@@ -258,6 +258,18 @@ namespace DB.Repositories
             }
         }
 
+        public async Task SaveVendorPaymentMockAsync(int vendorId)
+        {
+           
+            var vendor = await _context.Vendors.FindAsync(vendorId);
+            if (vendor != null)
+            {
+                vendor.IsRegistrationComplete = true;
+                vendor.VendorCodeStatus = VendorStatus.PendingRequest.GetDisplayName();
+                await _context.SaveChangesAsync();
+            }
+        }
+
         //public async Task SaveResidentFacilityPaymentAsync(PaymentResponseDTO dto, int facilityId)
         //{
         //    var entity = new FacilityPaymentStatus

@@ -655,6 +655,72 @@ namespace DB.Migrations
                     b.ToTable("Designations");
                 });
 
+            modelBuilder.Entity("DB.EFModel.EmailNotificationQueue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ErrorMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsHtml")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastAttemptAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MaxRetries")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RecipientEmail")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("RetryCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailNotificationQueue");
+                });
+
             modelBuilder.Entity("DB.EFModel.EvaluationCriteria", b =>
                 {
                     b.Property<int>("Id")
@@ -1674,6 +1740,9 @@ namespace DB.Migrations
 
                     b.Property<decimal?>("EstimatedPrices")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsAdvertised")
+                        .HasColumnType("bit");
 
                     b.Property<int>("JobCategoryId")
                         .HasColumnType("int");
@@ -2778,11 +2847,17 @@ namespace DB.Migrations
                     b.Property<bool>("IsEvaluationCommittee")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFirstTimeLogin")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsNegotiationCommittee")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsOpeningCommittee")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastLogin")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("MobileNo")
                         .IsRequired()
@@ -2916,8 +2991,17 @@ namespace DB.Migrations
                     b.Property<int?>("IndustryTypeId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("IsRegistrationComplete")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastRenewedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("OfficePhoneNo")
                         .HasColumnType("nvarchar(max)");
@@ -2937,6 +3021,9 @@ namespace DB.Migrations
 
                     b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RegistrationExpiryDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("RequestDatetime")
                         .HasColumnType("datetime2");
@@ -3296,7 +3383,7 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CompletionYear")
+                    b.Property<int?>("CompletionYear")
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
@@ -3420,6 +3507,9 @@ namespace DB.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("LateRenewalFee")
                         .HasColumnType("decimal(18,2)");
@@ -3722,6 +3812,47 @@ namespace DB.Migrations
                     b.HasIndex("VendorPerformanceId");
 
                     b.ToTable("VendorPerformanceScores");
+                });
+
+            modelBuilder.Entity("DB.EFModel.VendorReminderLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ThresholdDays")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VendorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorId", "ThresholdDays", "ExpiryDate")
+                        .IsUnique()
+                        .HasDatabaseName("UX_VendorReminderLogs_Vendor_Threshold_Expiry");
+
+                    b.ToTable("VendorReminderLogs");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorShareholder", b =>
@@ -5077,6 +5208,17 @@ namespace DB.Migrations
                         .IsRequired();
 
                     b.Navigation("VendorPerformance");
+                });
+
+            modelBuilder.Entity("DB.EFModel.VendorReminderLog", b =>
+                {
+                    b.HasOne("DB.EFModel.Vendor", "Vendor")
+                        .WithMany()
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vendor");
                 });
 
             modelBuilder.Entity("DB.EFModel.VendorShareholder", b =>

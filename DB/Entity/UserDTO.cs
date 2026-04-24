@@ -34,6 +34,8 @@ namespace DB.Entity
         public Nullable<int> BadLoginAttempt { get; set; }
         public string? SiteLevelName { get; set; }
         public string? SiteOfficeName { get; set; }
+
+        public bool? IsFirstTimeLogin { get; set; }
         public string? DesignationName { get; set; }
         [JsonIgnore]
         public SiteLevel? SiteLevel { get; set; }   // e.g. Ibu Pejabat (HQ)

@@ -33,5 +33,20 @@ namespace DB.Repositories
             catch (Exception ex)
             { }
         }
+
+        public async Task<bool> IsRoleAssignedToAnyUserAsync(int roleId)
+        {
+            return await _context.Users.AnyAsync(u => u.RoleId == roleId);
+        }
+
+        public async Task<bool> DeleteRoleAsync(int roleId)
+        {
+            var entity = await _context.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
+            if (entity == null) return false;
+
+            _context.Roles.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

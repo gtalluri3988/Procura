@@ -40,6 +40,7 @@ namespace DB.Repositories.Interfaces
 
 
         Task AddMaterilBudgetAsync(MaterialBudgetDto model);
+        Task SaveMaterialBudgetsAsync(IEnumerable<MaterialBudgetDto> models);
         Task UpdateMaterilBudgetAsync(MaterialBudgetDto model);
         Task<bool> DeleteMaterilBudgetAsync(int id);
 

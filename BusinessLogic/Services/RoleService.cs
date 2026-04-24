@@ -34,5 +34,15 @@ namespace BusinessLogic.Services
         {
             return await _roleRepository.GetAllAsync();
         }
+
+        public async Task<bool> DeleteRoleAsync(int roleId)
+        {
+            if (await _roleRepository.IsRoleAssignedToAnyUserAsync(roleId))
+            {
+                throw new InvalidOperationException("Role is already assigned to one or more users. Please reassign those users before deleting the role.");
+            }
+
+            return await _roleRepository.DeleteRoleAsync(roleId);
+        }
     }
 }

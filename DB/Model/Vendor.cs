@@ -48,11 +48,16 @@ namespace DB.EFModel
         public int? RoleId { get; set; }
         public DateTime? RequestDatetime { get; set; }
         public DateTime? ApprovalDatetime { get; set; }
+        public DateTime? RegistrationExpiryDate { get; set; }
+        public DateTime? LastRenewedOn { get; set; }
         public bool Status { get; set; }
+        public bool IsActive { get; set; } = true;
         public VendorRegistrationStep? CurrentStep { get; set; }
         = VendorRegistrationStep.CreateAccount;
 
         public DateTime CreatedDate { get; set; }
+
+        public DateTime? LastLogin { get; set; }
 
 
         
